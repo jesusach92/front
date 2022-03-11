@@ -12,8 +12,8 @@ const App = () => {
   <div className="flex">
   <SideBar /> 
     <Routes>
-      <Route path={"/Proveedores"} element={<ViewContent brand="Busqueda de Proveedores" />} />
-      <Route path={"/Productos"} element={<ViewContent brand="Busqueda de Producto" />} />
+      <Route path={"/Proveedores"} element={<ViewContent brand="Busqueda de Proveedores" id={1} />} />
+      <Route path={"/Productos"} element={<ViewContent brand="Busqueda de Producto"  />} />
       <Route path={"/Agregar/Proveedor"} element={<ViewContent brand="Agregar Proveedor" />} />
       <Route path={"/Agregar/Producto"} element={<ViewContent brand="Agregar Producto" />} />
       <Route path={"/Configuracion"} element={<ViewContent brand="Configuracion" />} />

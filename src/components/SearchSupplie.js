@@ -1,5 +1,5 @@
-import {Form, Row, Col} from 'react-bootstrap'
-const Content =()=>{
+import {Form, Row, Col, Button} from 'react-bootstrap'
+const SearchSupplie =()=>{
     return (
         <div className="container px-3 pt-3">
                <Form className="searchbox p-3">
@@ -23,11 +23,12 @@ const Content =()=>{
                     <Col sm="3"><Form.Control></Form.Control></Col>
                     <Form.Label column sm="auto">Tipo de Negocio: </Form.Label>
                     <Col sm="2"><Form.Control></Form.Control></Col>
-                    
+                    <Col><Button variant="primary" size="small">Limpiar</Button></Col>
+                    <Col><Button variant="secondary" size="small">Buscar</Button></Col>
                 </Form.Group>
                </Form>
              </div>
     )
     
 }
-export default Content;
+export default SearchSupplie;
