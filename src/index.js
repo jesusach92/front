@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import 'normalize.css'
 import './index.css';
 import SideBar from './components/SideBar'
-import ViewContent from './components/ViewContent'
+import SearchSupplie from './components/SearchSupplie'
+import SearchProduct from './components/SearchProduct'
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 
 const App = () => {
@@ -12,11 +13,11 @@ const App = () => {
   <div className="flex">
   <SideBar /> 
     <Routes>
-      <Route path={"/Proveedores"} element={<ViewContent brand="Busqueda de Proveedores" id={1} />} />
-      <Route path={"/Productos"} element={<ViewContent brand="Busqueda de Producto"  />} />
-      <Route path={"/Agregar/Proveedor"} element={<ViewContent brand="Agregar Proveedor" />} />
-      <Route path={"/Agregar/Producto"} element={<ViewContent brand="Agregar Producto" />} />
-      <Route path={"/Configuracion"} element={<ViewContent brand="Configuracion" />} />
+      <Route path={"/Proveedores"} element={<SearchSupplie brand="Busqueda de Proveedores" />} />
+      <Route path={"/Productos"} element={<SearchProduct brand="Busqueda de Productos" />} />
+      <Route path={"/Agregar/Proveedor"} element={<SearchSupplie brand="Agregar Proveedor" />} />
+      <Route path={"/Agregar/Producto"} element={<SearchSupplie brand="Agregar Producto" />} />
+      <Route path={"/Configuracion"} element={<SearchSupplie brand="Configuracion" />} />
     </Routes>
     </div>
   </BrowserRouter>
