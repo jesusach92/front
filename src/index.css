@@ -6,6 +6,7 @@
 *
 {
   margin: 0;
+  padding: 0;
 }
 .sidebar
 {
@@ -43,9 +44,9 @@
 {
   display: flex;
 }
-.container
+.container-side
 {
-  width: calc(100vw - 260px);
+  width: calc(100vw - 260px) ;
 }
 .navbar {
   width: 100%;

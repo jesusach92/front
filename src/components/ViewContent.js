@@ -5,7 +5,7 @@ import SearchProduct from "./SearchProduct";
 const ViewContent =(props)=>
 {   
  return(
-     <div className="container p-0">
+     <div className="container-side p-0">
          <NavBar brand={props.brand}/>
          <SearchProduct/>
             
