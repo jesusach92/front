@@ -8,6 +8,8 @@ const URI="http://localhost:3001/Productos"
 const SearchProduct =(props)=>{
     
     const [products, setProducts] = useState([]);
+    const [tablaProducts, setTablaProducts] =useState([]);
+    const [busqueda, setBusqueda] = useState("");
     useEffect(()=>{
         getProducts()
     },[])
@@ -15,6 +17,7 @@ const SearchProduct =(props)=>{
     const getProducts = async ()=>{
         const result = await axios.get(URI);
         setProducts(result.data);
+        setTablaProducts(result.data);
 
     }
 
@@ -46,7 +49,7 @@ const SearchProduct =(props)=>{
                                        <td>{product.description_product}</td>
                                        <td>{product.nameTechnology}</td>
                                        <td>
-                                           <Link to={`/Productos/${product.id_product}/Proveddores`} className = "btn btn-primary">Ver Proveedores</Link>
+                                           <Link to={`/Productos/${product.id_product}/Provedores`} className = "btn btn-primary">Ver Proveedores</Link>
                                        </td>
                                    </tr>
                                ))}

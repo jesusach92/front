@@ -81,7 +81,7 @@ const SearchSupplie =(props) => {
                         </thead>
                         <tbody>
                             {supplies.map((supplie) => (
-                                <tr key={supplie.id}>
+                                <tr key={supplie.id_supplie}>
                                     <td>{supplie.supplie_name}</td>
                                     <td>{supplie.nameBusiness}</td>
                                     <td>{supplie.adress_country}</td>

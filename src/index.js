@@ -6,6 +6,7 @@ import SideBar from './components/SideBar'
 import SearchSupplie from './components/SearchSupplie'
 import SearchProduct from './components/SearchProduct'
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import ShowAdressContact from './components/ShowAdressContact';
 
 const App = () => {
   return(
@@ -18,6 +19,7 @@ const App = () => {
       <Route path={"/Agregar/Proveedor"} element={<SearchSupplie brand="Agregar Proveedor" />} />
       <Route path={"/Agregar/Producto"} element={<SearchSupplie brand="Agregar Producto" />} />
       <Route path={"/Configuracion"} element={<SearchSupplie brand="Configuracion" />} />
+      <Route path={"/Domicilios/Proveedor/:id"} element={<ShowAdressContact brand="Domicilios Proveedor"/>} />
     </Routes>
     </div>
   </BrowserRouter>
