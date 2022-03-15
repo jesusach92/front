@@ -9,7 +9,7 @@ const ShowAdressContact = (props) => {
     const URI =`http://localhost:3001/proveedores/${id}`
     const [adress, setAdress] = useState([])
     const [supplie, setSupplie] = useState([])
-    let Namesupplie='';
+  
     useEffect (()=>{
         getAdress()
     },[])
