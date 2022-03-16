@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {Table} from 'react-bootstrap'
+import {Table,Form,Row, Col} from 'react-bootstrap'
 import NavBar from "./NavBar";
 
 const ShowAdressContact = (props) => {
     const {id}= useParams()
-    const URI =`http://localhost:3001/proveedores/${id}`
+    const URI =`http://192.168.1.97:3001/proveedores/${id}`
     const [adress, setAdress] = useState([])
     const [supplie, setSupplie] = useState([])
   
@@ -16,39 +16,94 @@ const ShowAdressContact = (props) => {
 
     const getAdress = async ()=>
     {
-        const result= await axios.get(URI);
-        setAdress(result.data);
+        const result= await axios.get(URI)
+        setAdress(result.data)
         setSupplie(result.data[0])
 
     }
-
-
-
+//Componente para Renderizado condicional
     return (
         <div className="container-side p-0">
             <NavBar brand={props.brand}></NavBar>
-            <div className="container px-3 pt-3"> 
-            <div class="mb-3 row">
-            <label for="staticEmail" className="col-sm-2 col-form-label">Proveedor: </label>
-            <div class="col-sm-10">
-            <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value={supplie.supplie_name}/>
-            </div>
-        </div>
-    <div class="mb-3 row">
-        <label for="inputPassword" className="col-sm-2 col-form-label">Password</label>
-        <div class="col-sm-10">
-        <input type="text" readOnly className="form-control-plaintext" id="inputPassword" value={supplie.id_adress}/>
-        </div>
-        </div>
-
+            <div className="container px-3 pt-3 "> 
+            <Form>
+                <Form.Group as={Row} className="mb-3 " >
+                <Form.Label column sm={2}>
+                    Nombre de Proveedor:
+                </Form.Label>
+                <Col sm={3}>
+                    <Form.Control type="text" plaintext readOnly value={supplie.supplie_name ||  ''}  />
+                </Col>
+                <Form.Label column sm={2}>
+                    Tipo de Proveedor:
+                </Form.Label>
+                <Col sm={4}>
+                    <Form.Control type="text" plaintext readOnly value={supplie.nameBusiness ||  ''}  />
+                </Col>
+                <Form.Label column sm={2}>
+                    Descripcion de Negocio:
+                </Form.Label>
+                <Col sm={9}>
+                    <Form.Control type="text" plaintext readOnly value={supplie.descriptionBusiness ||  ''}  />
+                </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="mb-3 " >
+                <Form.Label column sm={2}>
+                    Domicilio Principal:
+                </Form.Label>
+                <Col sm={9}>
+                    <Form.Control type="text" plaintext readOnly value={supplie.adress_description ||  ''}  />
+                </Col>
+                <Form.Label column sm={2}>
+                    País:
+                </Form.Label>
+                <Col sm={9}>
+                    <Form.Control type="text" plaintext readOnly value={supplie.adress_country ||  ''}  />
+                </Col>
+                <Form.Label column sm={2}>
+                    Contacto Principal:
+                </Form.Label>
+                <Col sm={3}>
+                    <Form.Control type="text" plaintext readOnly value={supplie.name_contact ||  ''}  />
+                </Col> 
+                <Form.Label column sm={1}>
+                    Puesto:
+                </Form.Label>
+                <Col sm={5}>
+                    <Form.Control type="text" plaintext readOnly value={supplie.workposition ||  ''}  />
+                </Col>
+                <Form.Label column sm={2}>
+                    Numero de Oficina:
+                </Form.Label>
+                <Col sm={3}>
+                    <Form.Control type="text" plaintext readOnly value={supplie.office_number ||  ''}  />
+                </Col> 
+                <Form.Label column sm={2}>
+                    Numero Celular:
+                </Form.Label>
+                <Col sm={4}>
+                    <Form.Control type="text" plaintext readOnly value={supplie.cellphone_number ||  ''}  />
+                </Col> 
+                <Form.Label column sm={2}>
+                    Correo Electronico:
+                </Form.Label>
+                <Col sm={3}>
+                    <Form.Control type="text" plaintext readOnly value={supplie.contact_email ||  ''}  />
+                </Col>       
+                </Form.Group >
+                <Form.Group>
+                <Link to= {`/Agregar/Domicilio/${supplie.id_supplie}`} className="btn btn-primary ">Agregar Domicilio</Link>
+                <Link to= {`/Proveedor/Productos/${supplie.id_supplie}`} className="btn btn-success mx-3">Mostrar Productos</Link>
+                </Form.Group>
+            </Form>
             <Table responsive hover>
                 <thead>
                     <tr>
                         <th>
-                            
+                            Tipo de Domilicio
                         </th>
                         <th>
-                            id
+                            Direccion
                         </th>
                         <th>
                             País
@@ -59,10 +114,9 @@ const ShowAdressContact = (props) => {
                 <tbody>
                     {adress.map((adres)=>(
                         <tr key={adres.id_adress}>
-                            <td>{adres.supplie_name}</td>
+                            <td>{adres.adress_principal.data == 1 ?"Domicilio Principal":"Surcursal"}</td>
                             <td>{adres.adress_description}</td>
                             <td>{adres.adress_country}</td>
-                            <td>{adres.adress_principal.data == 1 ?"Domicilio Principal":"Surcursal"}</td>
                             <td>
                                 <Link to={`/Contactos/Proveedor/${adres.id_adress}`} className="btn btn-outline-primary">Ver</Link>
                             </td>

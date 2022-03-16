@@ -5,13 +5,40 @@ import {Link} from 'react-router-dom'
 import axios from 'axios'
 
 
-const URI = "http://localhost:3001/Proveedores"
-
 
 
 const SearchSupplie =(props) => {
+
+    const URI = "http://192.168.1.97:3001/proveedores"
+
+    const filtrar =(props)=>
+    {
+        let resultSearching=tabSupplies.filter((element)=>{
+            if(element.supplie_name.toString().toLowerCase().includes(props.toLowerCase())||
+            element.nameBusiness.toString().toLowerCase().includes(props.toLowerCase())||
+            element.adress_country.toString().toLowerCase().includes(props.toLowerCase())||
+            element.name_contact.toString().toLowerCase().includes(props.toLowerCase())||
+            element.contact_email.toString().toLowerCase().includes(props.toLowerCase())){
+                return element;
+            }
+
+        })
+        setSupplies(resultSearching)
+    }
+
+    const HandleChange =e=>{
+        setSearch(e.target.value)
+        filtrar(e.target.value)
+    }
+
+    const resetSearch =()=>{
+        setSearch("")
+        setSupplies(tabSupplies)
+    }
     
     const [supplies, setSupplies] = useState([])
+    const [tabSupplies, setTabSupplies] =useState([])
+    const [search, setSearch] =useState("")
         useEffect (() =>{
             getSupplies()
         },[])
@@ -19,6 +46,7 @@ const SearchSupplie =(props) => {
         const getSupplies = async () => {
             const result = await axios.get(URI);
             setSupplies(result.data);
+            setTabSupplies(result.data);
         }
     
 
@@ -26,44 +54,20 @@ const SearchSupplie =(props) => {
         <div className="container-side p-0">
         <NavBar brand={props.brand}></NavBar>
         <div className="container px-3 pt-3">
-               <Form className="searchbox p-3">
-                <Form.Label>Busqueda por:</Form.Label>
-                <div className="flex">
-                <Form.Group column className="mx-2">
-                     <Form.Label as={Row} className="my-2">Nombre de Proveedor: </Form.Label>
-                     <Form.Label as={Row}className="my-2">País: </Form.Label>
-                     <Form.Label as={Row}className="my-2">Producto: </Form.Label>
-                </Form.Group>
-                <Form.Group className="mx-2">
-                    <Form.Control className="my-2"></Form.Control>
-                    <Form.Control className="my-2"></Form.Control>
-                    <Form.Control className="my-2"></Form.Control>
-                </Form.Group>
-                <Form.Group className="mx-2">
-                    <Form.Label as={Row} className="my-2">Nombre de Contacto: </Form.Label>
-                    <Form.Label as={Row} className="my-2">Correo: </Form.Label>
-                    <Form.Label as={Row} className="my-2">Tipo de Negocio: </Form.Label>
-                </Form.Group>
-                <Form.Group className="mx-2">
-                    <Form.Control className="my-2"></Form.Control>
-                    <Form.Control className="my-2"></Form.Control>
-                    <Form.Control className="my-2"></Form.Control>
-                </Form.Group>
-                <Form.Group className="mx-2">
-                <Form.Label as={Row} className="my-2">Palabras Clave: </Form.Label>
-                </Form.Group>
-                <Form.Group className="mx-2">
-                    <Form.Control className="my-2"></Form.Control>
-                    <Form.Group className="pt-4 my-2">
-                    <Button className="btn btn-primary sm-btn mx-2">Limpiar</Button>
-                    <Button className="btn btn-secondary sm-btn mx-2">Buscar</Button>
-                    </Form.Group>
-                </Form.Group>
-                </div>
+            <Form >
+               <Form.Group as={Row} className="">
+                <Form.Label column='true' sm={3} className="mt-3">Busqueda de Proveedor :</Form.Label>
+                <Col className="pt-3">
+                <Form.Control sm={4} value={search || ''} placeholder="Busqueda por Palabras clave" onChange={HandleChange}></Form.Control>
+                </Col>
+                <Col>
+                <Button className="btn btn-success mt-3" sm={1} onClick={resetSearch}>Limpiar</Button>
+                </Col>
+               </Form.Group>
                </Form>
              </div>
              <div className="Results container pt-3">
-                Mostrando Resultados
+                Mostrando {supplies.length} Resultados
                 <div className="container">
                     <Table responsive hover>
                         <thead>

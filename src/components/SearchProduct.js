@@ -4,12 +4,38 @@ import { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 
-const URI="http://localhost:3001/Productos"
+
 const SearchProduct =(props)=>{
-    
+    const URI="http://192.168.1.97:3001/productos"
+
     const [products, setProducts] = useState([]);
-    const [tablaProducts, setTablaProducts] =useState([]);
-    const [busqueda, setBusqueda] = useState("");
+    const [originProducts, setoriginProducts] =useState([]);
+    const [search, setSearch] = useState("");
+    
+    const filtrar =(props)=>
+    {
+        let resultSearching=originProducts.filter((element)=>{
+            if(element.productName.toString().toLowerCase().includes(props.toLowerCase())||
+            element.description_product.toString().toLowerCase().includes(props.toLowerCase())||
+            element.nameTechnology.toString().toLowerCase().includes(props.toLowerCase())){
+                return element;
+            }
+
+        })
+        setProducts(resultSearching)
+    }
+
+    const HandleChange =e=>{
+        setSearch(e.target.value)
+        filtrar(e.target.value)
+    }
+
+    const resetSearch =()=>{
+        setSearch("")
+        setProducts(originProducts)
+    }
+
+
     useEffect(()=>{
         getProducts()
     },[])
@@ -17,21 +43,28 @@ const SearchProduct =(props)=>{
     const getProducts = async ()=>{
         const result = await axios.get(URI);
         setProducts(result.data);
-        setTablaProducts(result.data);
+        setoriginProducts(result.data);
+        console.log(result.data)
 
     }
-
-
-    
+//Retorno de Componente condicionado    
     return (
         <div className="container-side p-0">    
         <NavBar brand={props.brand}/>
         <div className="container px-3 pt-3">
                <Form>
-
+               <Form.Group as={Row} className="">
+                <Form.Label column='true' sm={3} className="mt-3">Busqueda de Producto :</Form.Label>
+                <Col className="pt-3">
+                <Form.Control sm={4} value={search || ''} placeholder="Busqueda por Palabras clave" onChange={HandleChange}></Form.Control>
+                </Col>
+                <Col>
+                <Button className="btn btn-success mt-3" sm={1} onClick={resetSearch}>Limpiar</Button>
+                </Col>
+               </Form.Group>
                </Form>
                <div className="container pt-3">
-                   Mostrando Resultados
+                   Mostrando {products.length} Resultados
                    <div className="container">
                        <Table responsive hover>
                            <thead>
@@ -49,7 +82,7 @@ const SearchProduct =(props)=>{
                                        <td>{product.description_product}</td>
                                        <td>{product.nameTechnology}</td>
                                        <td>
-                                           <Link to={`/Productos/${product.id_product}/Provedores`} className = "btn btn-primary">Ver Proveedores</Link>
+                                           <Link to={`/productos/proveedores/${product.id_product}`} className = "btn btn-primary">Ver Proveedores</Link>
                                        </td>
                                    </tr>
                                ))}

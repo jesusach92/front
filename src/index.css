@@ -59,3 +59,10 @@
   border-radius: 5px;
   background: var(--backgroundbox);
 }
+.form-label{
+  font-weight: bold;
+}
+.form-control-plaintext
+{
+  font-size: 18px;
+}
