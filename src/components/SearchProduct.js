@@ -20,7 +20,6 @@ const SearchProduct =(props)=>{
             element.nameTechnology.toString().toLowerCase().includes(props.toLowerCase())){
                 return element;
             }
-
         })
         setProducts(resultSearching)
     }
@@ -44,8 +43,6 @@ const SearchProduct =(props)=>{
         const result = await axios.get(URI);
         setProducts(result.data);
         setoriginProducts(result.data);
-        console.log(result.data)
-
     }
 //Retorno de Componente condicionado    
     return (

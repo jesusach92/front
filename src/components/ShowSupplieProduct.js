@@ -1,27 +1,41 @@
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {Table,Form,Row, Col} from 'react-bootstrap'
+import {Table,Form,Row, Col, Button} from 'react-bootstrap'
 import NavBar from "./NavBar";
 
 const ShowSupplieProduct = (props) => {
     const {id}= useParams()
     const URI =`http://192.168.1.97:3001/productos/proveedores/${id}`
-    console.log(URI)
-    const [adress, setAdress] = useState([])
-    const [supplie, setSupplie] = useState([])
+    const SUP ='http://192.168.1.97:3001/proveedores'
+    const [product, setProduct] = useState([])
+    const [supplies, setSupplies] = useState([])
+    const [Asing, setAsing] =useState([])
+
+    const HandleClick = ()=>{
+        alert("Funcion en Desarrollo")
+    }
   
     useEffect (()=>{
         getAdress()
+       
     },[])
 
+    useEffect (()=>
+    {
+        getAsing()
+    },[])
+
+    const getAsing = async ()=>
+    {
+        const supAsing = await axios.get(SUP)
+        setAsing(supAsing.data)
+    }
     const getAdress = async ()=>
     {
         const result= await axios.get(URI)
-        setAdress(result.data)
-        setSupplie(result.data[0])
-        console.log(result.data)
-
+        setSupplies(result.data)
+        setProduct(result.data[0])
     }
 //Componente para Renderizado condicional
     return (
@@ -31,100 +45,69 @@ const ShowSupplieProduct = (props) => {
             <Form>
                 <Form.Group as={Row} className="mb-3 " >
                 <Form.Label column sm={2}>
-                    Nombre de Proveedor:
+                    Nombre del Producto:
                 </Form.Label>
                 <Col sm={3}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.supplie_name ||  ''}  />
+                    <Form.Control type="text" plaintext readOnly value={product.productName ||  ''}  />
                 </Col>
                 <Form.Label column sm={2}>
-                    Tipo de Proveedor:
+                    Descripcion del Producto:
                 </Form.Label>
                 <Col sm={4}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.nameBusiness ||  ''}  />
+                    <Form.Control as="textarea" rows={2} plaintext readOnly value={product.description_product ||  ''}  />
                 </Col>
                 <Form.Label column sm={2}>
-                    Descripcion de Negocio:
+                    Tecnologia:
                 </Form.Label>
                 <Col sm={9}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.descriptionBusiness ||  ''}  />
+                    <Form.Control  plaintext readOnly value={product.nameTechnology ||  ''}  />
                 </Col>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3 " >
-                <Form.Label column sm={2}>
-                    Domicilio Principal:
-                </Form.Label>
-                <Col sm={9}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.adress_description ||  ''}  />
+                    <Col sm={2}>
+                {/* <Link to= {`/Producto/Agregar/Proveedor/${product.id_product}`} className="btn btn-primary ">Asignar Proveedor</Link> */}
+                
+                {/*Funcion por Asignar */} <Button onClick={HandleClick}>Editar Producto</Button>
                 </Col>
-                <Form.Label column sm={2}>
-                    País:
-                </Form.Label>
-                <Col sm={9}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.adress_country ||  ''}  />
+                <Col>
+                <Form.Select>
+                    <option>Selecciona un Proveedor para Asignar</option>
+                    {Asing.map((asing)=>(
+                        <option>{asing.supplie_name}</option>
+                    ))
+                    }
+                </Form.Select>
                 </Col>
-                <Form.Label column sm={2}>
-                    Contacto Principal:
-                </Form.Label>
-                <Col sm={3}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.name_contact ||  ''}  />
-                </Col> 
-                <Form.Label column sm={1}>
-                    Puesto:
-                </Form.Label>
-                <Col sm={5}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.workposition ||  ''}  />
+                <Col>
+                {/* <Link to= {'/Agregar/Producto/'} className="btn btn-success mx-3">Agregar Producto</Link> */}
+                 {/*Funcion por Asignar */} <Button className="btn btn-success" onClick={HandleClick}>Asignar Proveedor</Button>
+               
                 </Col>
-                <Form.Label column sm={2}>
-                    Numero de Oficina:
-                </Form.Label>
-                <Col sm={3}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.office_number ||  ''}  />
-                </Col> 
-                <Form.Label column sm={2}>
-                    Numero Celular:
-                </Form.Label>
-                <Col sm={4}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.cellphone_number ||  ''}  />
-                </Col> 
-                <Form.Label column sm={2}>
-                    Correo Electronico:
-                </Form.Label>
-                <Col sm={3}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.contact_email ||  ''}  />
-                </Col>       
-                </Form.Group >
-                <Form.Group>
-                <Link to= {`/Agregar/Domicilio/${supplie.id_supplie}`} className="btn btn-primary ">Agregar Domicilio</Link>
-                <Link to= {`/Proveedor/Productos/${supplie.id_supplie}`} className="btn btn-success mx-3">Mostrar Productos</Link>
                 </Form.Group>
             </Form>
             <Table responsive hover>
                 <thead>
                     <tr>
-                        <th>
-                            Tipo de Domilicio
-                        </th>
-                        <th>
-                            Direccion
-                        </th>
-                        <th>
-                            País
-                        </th>
-                        <th>Contactos</th>
+                        <th>Proveedor</th>
+                        <th>Tiempo de Entrega</th>
+                        <th>Linea de Producto</th>
+                        <th>Precio</th>
+                        <th>Datos de Contactos</th>
                     </tr>
                 </thead>
-                {/* <tbody>
-                    {adress.map((adres)=>(
-                        <tr key={adres.id_adress}>
-                            <td>{adres.adress_principal.data == 1 ?"Domicilio Principal":"Surcursal"}</td>
-                            <td>{adres.adress_description}</td>
-                            <td>{adres.adress_country}</td>
+                {<tbody>
+                    {supplies.map((supplie)=>(
+                        <tr key={supplie.idsupply}>
+                            <td>{supplie.supplie_name}</td>
+                            <td>{supplie.delivery_time}</td>
+                            <td>{supplie.product_line}</td>
+                            <td>{supplie.price}</td>
                             <td>
-                                <Link to={`/Contactos/Proveedor/${adres.id_adress}`} className="btn btn-outline-primary">Ver</Link>
+                                <Link to={`/Domicilios/Proveedor/${supplie.id_supplie}`} className="btn btn-outline-primary">Ver</Link>
                             </td>
                         </tr>
                     ))}
-                </tbody> */}
+                </tbody>}
 
             </Table>
             </div>

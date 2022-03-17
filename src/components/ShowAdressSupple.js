@@ -1,15 +1,19 @@
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {Table,Form,Row, Col} from 'react-bootstrap'
+import {Table,Form,Row, Col, Button} from 'react-bootstrap'
 import NavBar from "./NavBar";
 
-const ShowAdressContact = (props) => {
+const ShowAdressSupplie = (props) => {
     const {id}= useParams()
     const URI =`http://192.168.1.97:3001/proveedores/${id}`
     const [adress, setAdress] = useState([])
     const [supplie, setSupplie] = useState([])
-  
+
+    const HandleClick = ()=>{
+        alert("Funcion en Desarrollo")
+    }
+
     useEffect (()=>{
         getAdress()
     },[])
@@ -32,7 +36,7 @@ const ShowAdressContact = (props) => {
                     Nombre de Proveedor:
                 </Form.Label>
                 <Col sm={3}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.supplie_name ||  ''}  />
+                    <Form.Control as="textarea" rows={2} plaintext readOnly value={supplie.supplie_name ||  ''}  />
                 </Col>
                 <Form.Label column sm={2}>
                     Tipo de Proveedor:
@@ -52,7 +56,7 @@ const ShowAdressContact = (props) => {
                     Domicilio Principal:
                 </Form.Label>
                 <Col sm={9}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.adress_description ||  ''}  />
+                    <Form.Control as="textarea" rows={2} plaintext readOnly value={supplie.adress_description ||  ''}  />
                 </Col>
                 <Form.Label column sm={2}>
                     País:
@@ -92,8 +96,9 @@ const ShowAdressContact = (props) => {
                 </Col>       
                 </Form.Group >
                 <Form.Group>
-                <Link to= {`/Agregar/Domicilio/${supplie.id_supplie}`} className="btn btn-primary ">Agregar Domicilio</Link>
-                <Link to= {`/Proveedor/Productos/${supplie.id_supplie}`} className="btn btn-success mx-3">Mostrar Productos</Link>
+                {/* <Link to= {`/Agregar/Domicilio/${supplie.id_supplie}`} className="btn btn-primary ">Agregar Domicilio</Link> */}
+                <Button onClick={HandleClick} className="btn btn-warning">Agregar Domicilio</Button>
+                <Link to= {`/Proveedores/Productos/${supplie.id_supplie}`} className="btn btn-success mx-3">Mostrar Productos</Link>
                 </Form.Group>
             </Form>
             <Table responsive hover>
@@ -118,7 +123,8 @@ const ShowAdressContact = (props) => {
                             <td>{adres.adress_description}</td>
                             <td>{adres.adress_country}</td>
                             <td>
-                                <Link to={`/Contactos/Proveedor/${adres.id_adress}`} className="btn btn-outline-primary">Ver</Link>
+                            <Button onClick={HandleClick} className="btn btn-warning">Mostrar</Button>
+                                {/* <Link to={`/Contactos/Proveedor/${adres.id_adress}`} className="btn btn-outline-primary">Ver</Link> */}
                             </td>
                         </tr>
                     ))}
@@ -129,4 +135,4 @@ const ShowAdressContact = (props) => {
         </div>
         )
 }
-export default ShowAdressContact;
+export default ShowAdressSupplie;

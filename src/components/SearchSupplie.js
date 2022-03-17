@@ -79,7 +79,6 @@ const SearchSupplie =(props) => {
                                 <th>Telefono</th>
                                 <th>Correo</th>
                                 <th>Domicilios</th>
-                                <th>Contactos</th>
                                 <th>Productos</th>
                             </tr>
                         </thead>
@@ -95,11 +94,9 @@ const SearchSupplie =(props) => {
                                     <td>
                                         <Link to={`/Domicilios/Proveedor/${supplie.id_supplie}`} className="btn btn-primary center">Consultar</Link>
                                     </td>
+
                                     <td>
-                                    <Link to={`/Domicilios/Proveedor/${supplie.id_supplie}`} className="btn btn-success">Consultar</Link>
-                                    </td>
-                                    <td>
-                                    <Link to={`/Domicilios/Proveedor/${supplie.id_supplie}`} className="btn btn-info">Consultar</Link>
+                                    <Link to={`/Proveedores/Productos/${supplie.id_supplie}`} className="btn btn-info">Consultar</Link>
                                     </td>
                                 </tr>
     ))}
