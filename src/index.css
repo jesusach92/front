@@ -29,6 +29,7 @@
   font-family: sans-serif;
   color: #7C82AF;
   font-weight: bold;
+  padding-right: 20px;
 }
 .links > a:hover
 {
@@ -69,4 +70,20 @@
 textarea {
   resize: none;
   
+}
+.icon
+{
+  padding-right: 20px;
+}
+.btn-primary
+{
+  background-color: var(--blue);
+  border: 0;
+  color: #ffff;
+}
+.btn-info
+{
+  background-color: var(--orange);
+  border: 0;
+  color: #ffff;
 }

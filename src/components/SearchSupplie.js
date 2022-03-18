@@ -92,11 +92,11 @@ const SearchSupplie =(props) => {
                                     <td>{supplie.cellphone_number}</td>
                                     <td>{supplie.contact_email}</td>
                                     <td>
-                                        <Link to={`/Domicilios/Proveedor/${supplie.id_supplie}`} className="btn btn-primary center">Consultar</Link>
+                                        <Link to={`/Domicilios/Proveedor/${supplie.id_supplie}`} className="btn btn-primary center">Domicilios</Link>
                                     </td>
 
                                     <td>
-                                    <Link to={`/Proveedores/Productos/${supplie.id_supplie}`} className="btn btn-info">Consultar</Link>
+                                    <Link to={`/Proveedores/Productos/${supplie.id_supplie}`} className="btn btn-info">Productos</Link>
                                     </td>
                                 </tr>
     ))}
