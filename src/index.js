@@ -24,7 +24,7 @@ const App = () => {
       <Route path={"/Configuracion"} element={<SearchSupplie brand="Configuracion" />} />
       <Route path={"/Domicilios/Proveedor/:id"} element={<ShowAdressSupplie brand="Domicilios Proveedor"/>} />
       <Route path={"/productos/proveedores/:id"} element={<ShowSupplieProduct brand="Proveedores que cuentan con el producto"/>}/>
-      <Route path={"/Proveedores/Productos/:id"} element={<ShowProductsSupplie brand="Proveedores que cuentan con el producto"/>}/>
+      <Route path={"/Proveedores/Productos/:id"} element={<ShowProductsSupplie brand="Productos que tiene un Proveedor"/>}/>
       <Route path={'/'} element={<Home></Home>}/>
       <Route path={'/Inicio'} element={<Home></Home>}/>
     </Routes>

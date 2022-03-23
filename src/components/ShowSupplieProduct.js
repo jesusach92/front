@@ -73,7 +73,7 @@ const ShowSupplieProduct = (props) => {
                 <Form.Select>
                     <option>Selecciona un Proveedor para Asignar</option>
                     {Asing.map((asing)=>(
-                        <option>{asing.supplie_name}</option>
+                        <option key={asing.id_supplie}>{asing.supplie_name}</option>
                     ))
                     }
                 </Form.Select>
