@@ -14,13 +14,12 @@ const SearchSupplie =(props) => {
     const filtrar =(props)=>
     {
         let resultSearching=tabSupplies.filter((element)=>{
-            if(element.supplie_name.toString().toLowerCase().includes(props.toLowerCase())||
-            element.nameBusiness.toString().toLowerCase().includes(props.toLowerCase())||
-            element.adress_country.toString().toLowerCase().includes(props.toLowerCase())||
-            element.name_contact.toString().toLowerCase().includes(props.toLowerCase())||
-            element.contact_email.toString().toLowerCase().includes(props.toLowerCase())){
+            if(element.nameSupplie.toString().toLowerCase().includes(props.toLowerCase())||
+            element.bName.toString().toLowerCase().includes(props.toLowerCase())||
+            element.clasificationName.toString().toLowerCase().includes(props.toLowerCase())){
                 return element;
             }
+            else return null
 
         })
         setSupplies(resultSearching)
@@ -48,14 +47,20 @@ const SearchSupplie =(props) => {
             setSupplies(result.data);
             setTabSupplies(result.data);
         }
-    
 
+    supplies.forEach(element => {
+        let DateInital = element.sDateInitial.split('T')
+        let DateUpdate = element.sDateUpdate.split('T')
+        element.sDateInitial=DateInital[0]
+        element.sDateUpdate=DateUpdate[0]
+    });
+    
     return (
         <div className="container-side p-0">
         <NavBar brand={props.brand}></NavBar>
         <div className="container px-3 pt-3">
             <Form >
-               <Form.Group as={Row} className="">
+               <Form.Group as={Row}>
                 <Form.Label column='true' sm={3} className="mt-3">Busqueda de Proveedor :</Form.Label>
                 <Col className="pt-3">
                 <Form.Control sm={4} value={search || ''} placeholder="Busqueda por Palabras clave" onChange={HandleChange}></Form.Control>
@@ -74,29 +79,27 @@ const SearchSupplie =(props) => {
                             <tr>
                                 <th>Nombre de Proveedor</th>
                                 <th>Tipo de Negocio</th>
-                                <th>Pais</th>
-                                <th>Contacto Principal</th>
-                                <th>Telefono</th>
-                                <th>Correo</th>
+                                <th>Clasificacion</th>
+                                <th>Fecha de Alta</th>
+                                <th>Fecha de Ultima Actualizacion</th>
                                 <th>Domicilios</th>
                                 <th>Productos</th>
                             </tr>
                         </thead>
                         <tbody>
                             {supplies.map((supplie) => (
-                                <tr key={supplie.id_supplie}>
-                                    <td>{supplie.supplie_name}</td>
-                                    <td>{supplie.nameBusiness}</td>
-                                    <td>{supplie.adress_country}</td>
-                                    <td>{supplie.name_contact}</td>
-                                    <td>{supplie.cellphone_number}</td>
-                                    <td>{supplie.contact_email}</td>
+                                <tr key={supplie.idSupplie}>
+                                    <td>{supplie.nameSupplie}</td>
+                                    <td>{supplie.bName}</td>
+                                    <td>{supplie.clasificationName}</td>
+                                    <td>{supplie.sDateInitial}</td>
+                                    <td>{supplie.sDateUpdate}</td>
                                     <td>
-                                        <Link to={`/Domicilios/Proveedor/${supplie.id_supplie}`} className="btn btn-primary center">Domicilios</Link>
+                                        <Link to={`/Domicilios/Proveedor/${supplie.idSupplie}`} className="btn btn-primary center">Domicilios</Link>
                                     </td>
 
                                     <td>
-                                    <Link to={`/Proveedores/Productos/${supplie.id_supplie}`} className="btn btn-info">Productos</Link>
+                                    <Link to={`/Proveedores/Productos/${supplie.idSupplie}`} className="btn btn-info">Productos</Link>
                                     </td>
                                 </tr>
     ))}
