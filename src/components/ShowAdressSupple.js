@@ -1,30 +1,60 @@
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {Table,Form,Row, Col, Button} from 'react-bootstrap'
+import {Table,Form,Row, Col, Button, Modal} from 'react-bootstrap'
 import NavBar from "./NavBar";
+import AddAdress from "./Contact/AddAdress";
 
 const ShowAdressSupplie = (props) => {
     const {id}= useParams()
-    const URI =`http://192.168.1.97:3001/proveedores/${id}`
-    const [adress, setAdress] = useState([])
+    const URI =`http://192.168.1.97:3001/proveedor/${id}`
+    const DOM =`http://192.168.1.97:3001/proveedor/domicilios/${id}`
+    const CON =`http://192.168.1.97:3001/proveedor/domicilio/contactos`
     const [supplie, setSupplie] = useState([])
+    const [adress, setAdress] = useState([])
+    const [contacts, setContacts] = useState([])
+    const [show, setShow] = useState(false)
+    const handleShow = (e,idAdress) => {
+        setShow(true)
+        getContacts(idAdress)
+    }
+    const [ModalAdress, setModalAdress] = useState(false)
+
+    const showAdd = ()=>setModalAdress(true) 
+    const HideAdd = ()=>setModalAdress(false)
+
+
 
     const HandleClick = ()=>{
         alert("Funcion en Desarrollo")
     }
 
+    
     useEffect (()=>{
-        getAdress()
+        getData()
     },[])
 
-    const getAdress = async ()=>
+    const getData = async ()=>
     {
-        const result= await axios.get(URI)
-        setAdress(result.data)
-        setSupplie(result.data[0])
-
+        try{
+        const tresult= await axios.get(URI)
+        const tadress=await axios.get(DOM)
+        let [dateinital]= tresult.data[0].sDateInitial.split('T')
+        let [dateUpdate] = tresult.data[0].sDateUpdate.split('T')
+        tresult.data[0].sDateInitial=dateinital
+        tresult.data[0].sDateUpdate=dateUpdate
+        setSupplie(tresult.data[0])
+        setAdress(tadress.data)
     }
+        catch (e){
+            console.log(e)
+        }
+    }
+    const getContacts= async (idAdress)=>{
+        const result = await axios.get(`${CON}/${idAdress}`)
+        setContacts(result.data)
+    }
+
 //Componente para Renderizado condicional
     return (
         <div className="container-side p-0">
@@ -36,101 +66,127 @@ const ShowAdressSupplie = (props) => {
                     Nombre de Proveedor:
                 </Form.Label>
                 <Col sm={3}>
-                    <Form.Control as="textarea" rows={2} plaintext readOnly value={supplie.supplie_name ||  ''}  />
+                    <Form.Control as="textarea" rows={2} plaintext readOnly value={supplie.nameSupplie ||  ''}  />
                 </Col>
                 <Form.Label column sm={2}>
                     Tipo de Proveedor:
                 </Form.Label>
                 <Col sm={4}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.nameBusiness ||  ''}  />
+                    <Form.Control type="text" plaintext readOnly value={supplie.bName ||  ''}  />
                 </Col>
                 <Form.Label column sm={2}>
                     Descripcion de Negocio:
                 </Form.Label>
-                <Col sm={9}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.descriptionBusiness ||  ''}  />
-                </Col>
-                </Form.Group>
-                <Form.Group as={Row} className="mb-3 " >
-                <Form.Label column sm={2}>
-                    Domicilio Principal:
-                </Form.Label>
-                <Col sm={9}>
-                    <Form.Control as="textarea" rows={2} plaintext readOnly value={supplie.adress_description ||  ''}  />
-                </Col>
-                <Form.Label column sm={2}>
-                    País:
-                </Form.Label>
-                <Col sm={9}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.adress_country ||  ''}  />
-                </Col>
-                <Form.Label column sm={2}>
-                    Contacto Principal:
-                </Form.Label>
                 <Col sm={3}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.name_contact ||  ''}  />
-                </Col> 
-                <Form.Label column sm={1}>
-                    Puesto:
-                </Form.Label>
-                <Col sm={5}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.workposition ||  ''}  />
+                    <Form.Control as="textarea" rows={2} plaintext readOnly value={supplie.bDescription ||  ''}  />
                 </Col>
                 <Form.Label column sm={2}>
-                    Numero de Oficina:
-                </Form.Label>
-                <Col sm={3}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.office_number ||  ''}  />
-                </Col> 
-                <Form.Label column sm={2}>
-                    Numero Celular:
+                    Clasificacion:
                 </Form.Label>
                 <Col sm={4}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.cellphone_number ||  ''}  />
-                </Col> 
+                    <Form.Control plaintext readOnly value={supplie.clasificationName ||  ''}  />
+                </Col>
                 <Form.Label column sm={2}>
-                    Correo Electronico:
+                    Fecha de Registro:
                 </Form.Label>
                 <Col sm={3}>
-                    <Form.Control type="text" plaintext readOnly value={supplie.contact_email ||  ''}  />
-                </Col>       
-                </Form.Group >
+                    <Form.Control plaintext readOnly value={supplie.sDateInitial ||  ''}  />
+                </Col>
+                <Form.Label column sm={2}>
+                    Fecha de Ultima actualizacion:
+                </Form.Label>
+                <Col sm={3}>
+                    <Form.Control plaintext readOnly value={supplie.sDateUpdate ||  ''}  />
+                </Col>
+
+                </Form.Group>
                 <Form.Group>
-                {/* <Link to= {`/Agregar/Domicilio/${supplie.id_supplie}`} className="btn btn-primary ">Agregar Domicilio</Link> */}
-                <Button onClick={HandleClick} className="btn btn-warning">Agregar Domicilio</Button>
-                <Link to= {`/Proveedores/Productos/${supplie.id_supplie}`} className="btn btn-success mx-3">Mostrar Productos</Link>
+                <AddAdress show={ModalAdress} handleClose={HideAdd} idSupplie={supplie.idSupplie}  />
+                <Button onClick={showAdd} className="btn btn-warning">Agregar Domicilio</Button>
+                <Link to= {`/Proveedores/Productos/${supplie.idSupplie}`} className="btn btn-success mx-3">Mostrar Productos</Link>
                 </Form.Group>
             </Form>
             <Table responsive hover>
                 <thead>
                     <tr>
-                        <th>
-                            Tipo de Domilicio
-                        </th>
-                        <th>
-                            Direccion
-                        </th>
-                        <th>
-                            País
-                        </th>
+                        <th>Domicilio de contacto</th>
+                        <th>Tipo de Domicilio</th>
+                        <th>País</th>
+                        <th>Estado</th>
+                        <th>Direccion</th>
+                        <th>Comentarios</th>
                         <th>Contactos</th>
+                        <th>Agregar contacto</th>
                     </tr>
                 </thead>
                 <tbody>
                     {adress.map((adres)=>(
-                        <tr key={adres.id_adress}>
-                            <td>{adres.adress_principal.data == 1 ?"Domicilio Principal":"Surcursal"}</td>
-                            <td>{adres.adress_description}</td>
-                            <td>{adres.adress_country}</td>
+                        <tr key={adres.idAdress}>
+                            <td>{adres.adressPrincipal.data[0]===1?"Domicilio de principal contacto":"Domicilio Secundario"}</td>
+                            <td>{adres.aType}</td>
+                            <td>{adres.adressCountry}</td>
+                            <td>{adres.adressState}</td>
+                            <td>{adres.adressDescription}</td>
+                            <td>{adres.aComments}</td>
                             <td>
-                            <Button onClick={HandleClick} className="btn btn-warning">Mostrar</Button>
+                            <Button onClick={(e)=>handleShow(e,adres.idAdress)} className="btn btn-warning">Mostrar</Button>
+
+                            
                                 {/* <Link to={`/Contactos/Proveedor/${adres.id_adress}`} className="btn btn-outline-primary">Ver</Link> */}
                             </td>
+                            <td><Button className="btn btn-warning">Agregar</Button></td>
                         </tr>
                     ))}
                 </tbody>
 
             </Table>
+            <Modal show={show} size="lg" onHide={()=>setShow(false)}>
+                <Modal.Header closeButton>
+            <Modal.Title>Contactos</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            {contacts.length===0?(
+              <Form>
+                  <Form.Label>El domicilio no tiene contactos registrados</Form.Label>
+              </Form>
+            ):<Table responsive hover>
+                <thead>
+                    <tr>
+                        <th>Nombre del Contacto:</th>
+                        <th>Estado de Contacto</th>
+                        <th>Puesto</th>
+                        <th>Numero de Oficina</th>
+                        <th>Numero Celular</th>
+                        <th>Comentarios</th>
+                        <th>Editar contacto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {contacts.map((contact)=>(
+                        <tr key={contact.idContact}>
+                            <td>{contact.nameContact}</td>
+                            <td>{contact.contactPrincipal.data[0]===1?"Contacto Principal":"Contacto Secundario"}</td>
+                            <td>{contact.workposition}</td>
+                            <td>{contact.officeNumber}</td>
+                            <td>{contact.cellphoneNumber}</td>
+                            <td>{contact.comments}</td>
+                            <td>
+                            <Button className="btn btn-warning">Editar</Button>
+                                {/* <Link to={`/Contactos/Proveedor/${adres.id_adress}`} className="btn btn-outline-primary">Ver</Link> */}
+                            </td>
+                        </tr>
+                    
+                    ))
+                }
+                </tbody>
+            </Table>}    
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={()=>setShow(false)}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>  
             </div>
         </div>
         )

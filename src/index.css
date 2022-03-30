@@ -69,8 +69,21 @@
 }
 textarea {
   resize: none;
+  overflow: auto;
+  scrollbar-color: #09C transparent;
   
 }
+textarea::-webkit-scrollbar-track {
+  background-color: transparent; /*color de la barra de fondo*/
+}
+textarea::-webkit-scrollbar-thumb {
+  background-color: transparent; /*color del manejador*/
+}
+textarea::-webkit-scrollbar {
+  width: 8px; /*ancho del scroll vertical*/
+  height: 8px; /*alto del scroll horizontal*/
+}
+
 .icon
 {
   padding-right: 20px;
