@@ -10,6 +10,7 @@ const ShowAdressSupplie = (props) => {
     const URI =`http://192.168.1.97:3001/proveedor/${id}`
     const DOM =`http://192.168.1.97:3001/proveedor/domicilios/${id}`
     const CON =`http://192.168.1.97:3001/proveedor/domicilio/contactos`
+    const DEL ='http://192.168.1.97:3001/Borrar/Domicilio/'
     const [supplie, setSupplie] = useState([])
     const [adress, setAdress] = useState([])
     const [contacts, setContacts] = useState([])
@@ -21,7 +22,9 @@ const ShowAdressSupplie = (props) => {
     const [ModalAdress, setModalAdress] = useState(false)
 
     const showAdd = ()=>setModalAdress(true) 
-    const HideAdd = ()=>setModalAdress(false)
+    const HideAdd = ()=>{setModalAdress(false)
+    getData()
+    }
 
 
 
@@ -55,6 +58,11 @@ const ShowAdressSupplie = (props) => {
         setContacts(result.data)
     }
 
+    const deleteAd= async(e,idad)=>
+    {
+        const result=await axios.delete(`${DEL}${idad}`)
+        console.log(result)
+    }
 //Componente para Renderizado condicional
     return (
         <div className="container-side p-0">
@@ -101,7 +109,7 @@ const ShowAdressSupplie = (props) => {
 
                 </Form.Group>
                 <Form.Group>
-                <AddAdress show={ModalAdress} handleClose={HideAdd} idSupplie={supplie.idSupplie}  />
+                <AddAdress show={ModalAdress} handleClose={HideAdd} idSupplie={id}  />
                 <Button onClick={showAdd} className="btn btn-warning">Agregar Domicilio</Button>
                 <Link to= {`/Proveedores/Productos/${supplie.idSupplie}`} className="btn btn-success mx-3">Mostrar Productos</Link>
                 </Form.Group>
@@ -117,6 +125,7 @@ const ShowAdressSupplie = (props) => {
                         <th>Comentarios</th>
                         <th>Contactos</th>
                         <th>Agregar contacto</th>
+                        <th>Borrar Domicilio</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -134,7 +143,8 @@ const ShowAdressSupplie = (props) => {
                             
                                 {/* <Link to={`/Contactos/Proveedor/${adres.id_adress}`} className="btn btn-outline-primary">Ver</Link> */}
                             </td>
-                            <td><Button className="btn btn-warning">Agregar</Button></td>
+                            <td><Button variant="warning">Agregar</Button></td>
+                            <td><Button variant="danger" onClick={(e)=>{deleteAd(e,adres.idAdress);getData()}}>Borrar</Button></td>
                         </tr>
                     ))}
                 </tbody>

@@ -15,14 +15,9 @@ const ShowSupplieProduct = (props) => {
     const HandleClick = ()=>{
         alert("Funcion en Desarrollo")
     }
-  
-    useEffect (()=>{
-        getAdress()
-       
-    },[])
-
     useEffect (()=>
     {
+        getAdress()
         getAsing()
     },[])
 
