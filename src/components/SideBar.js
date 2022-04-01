@@ -16,12 +16,6 @@ const SideBar =()=>{
       <Link to="/Productos" >Productos</Link>
       </li>
       <li className="links">
-      <Link to="/Agregar/Proveedor" >Agregar Proveedor</Link>
-      </li>
-      <li className="links">
-      <Link to="/Agregar/Producto" >Agregar Producto</Link>
-      </li>
-      <li className="links">
       <Link to="/Configuracion" >Configuracion</Link>
       </li>
     </ul>

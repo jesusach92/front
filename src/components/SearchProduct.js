@@ -3,6 +3,7 @@ import NavBar from './NavBar'
 import { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
+import AddProduct from './AddProduct'
 
 
 const SearchProduct =(props)=>{
@@ -11,12 +12,16 @@ const SearchProduct =(props)=>{
     const [products, setProducts] = useState([]);
     const [originProducts, setoriginProducts] =useState([]);
     const [search, setSearch] = useState("");
+    const [showAddP, setAddP] = useState(false)
+    const handleClose = ()=>{setAddP(false)
+         getProducts()}
+    const handleShow = ()=>setAddP(true)
     
     const filtrar =(props)=>
     {
         let resultSearching=originProducts.filter((element)=>{
             if(element.productName.toString().toLowerCase().includes(props.toLowerCase())||
-            element.description_product.toString().toLowerCase().includes(props.toLowerCase())||
+            element.descriptionProduct.toString().toLowerCase().includes(props.toLowerCase())||
             element.nameTechnology.toString().toLowerCase().includes(props.toLowerCase())){
                 return element;
             }
@@ -55,8 +60,12 @@ const SearchProduct =(props)=>{
                 <Col className="pt-3">
                 <Form.Control sm={4} value={search || ''} placeholder="Busqueda por Palabras clave" onChange={HandleChange}></Form.Control>
                 </Col>
-                <Col>
+                <Col sm={1}>
                 <Button className="btn btn-success mt-3" sm={1} onClick={resetSearch}>Limpiar</Button>
+                </Col>
+                <Col>
+                <AddProduct show={showAddP} handleCloseP={handleClose}/>
+                <Button variant="success" className="mt-3" sm={2} onClick={handleShow} >Agregar Producto</Button>
                 </Col>
                </Form.Group>
                </Form>
@@ -74,12 +83,12 @@ const SearchProduct =(props)=>{
                            </thead>
                            <tbody>
                                {products.map((product) => (
-                                   <tr key={product.id_product}>
+                                   <tr key={product.idProduct}>
                                        <td>{product.productName}</td>
-                                       <td>{product.description_product}</td>
+                                       <td>{product.descriptionProduct}</td>
                                        <td>{product.nameTechnology}</td>
                                        <td>
-                                           <Link to={`/productos/proveedores/${product.id_product}`} className = "btn btn-primary">Ver Proveedores</Link>
+                                           <Link to={`/productos/proveedores/${product.idProduct}`} className = "btn btn-primary">Ver Proveedores</Link>
                                        </td>
                                    </tr>
                                ))}

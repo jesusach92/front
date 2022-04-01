@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {Table,Form,Row, Col, Button, Modal} from 'react-bootstrap'
 import NavBar from "./NavBar";
-import AddAdress from "./Contact/AddAdress";
+import AddAdress from "./Supplies/AddAdress";
 
 const ShowAdressSupplie = (props) => {
     const {id}= useParams()
@@ -114,7 +114,12 @@ const ShowAdressSupplie = (props) => {
                 <Link to= {`/Proveedores/Productos/${supplie.idSupplie}`} className="btn btn-success mx-3">Mostrar Productos</Link>
                 </Form.Group>
             </Form>
-            <Table responsive hover>
+            {adress.length === 0?(
+                 <Form className="mt-5">
+                 <Form.Label>El Proveedor no cuenta con domicilios registrados
+                 </Form.Label>
+             </Form>
+            ):(           <Table responsive hover>
                 <thead>
                     <tr>
                         <th>Domicilio de contacto</th>
@@ -149,7 +154,8 @@ const ShowAdressSupplie = (props) => {
                     ))}
                 </tbody>
 
-            </Table>
+            </Table>)}
+ 
             <Modal show={show} size="lg" onHide={()=>setShow(false)}>
                 <Modal.Header closeButton>
             <Modal.Title>Contactos</Modal.Title>
@@ -196,7 +202,7 @@ const ShowAdressSupplie = (props) => {
             Cerrar
           </Button>
         </Modal.Footer>
-      </Modal>  
+			</Modal>  
             </div>
         </div>
         )

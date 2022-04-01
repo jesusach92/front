@@ -10,8 +10,12 @@ import ShowSupplieProduct from './components/ShowSupplieProduct'
 import ShowAdressSupplie from './components/ShowAdressSupple';
 import ShowProductsSupplie from './components/ShowProductsSupplie';
 import Home from './components/Home';
+import AddProduct from './components/AddProduct';
 
 const App = () => {
+
+
+
   return(
   <BrowserRouter>
   <div className="flex">
@@ -19,8 +23,6 @@ const App = () => {
     <Routes>
       <Route path={"/Proveedores"} element={<SearchSupplie brand="Busqueda de Proveedores" />} />
       <Route path={"/Productos"} element={<SearchProduct brand="Busqueda de Productos" />} />
-      <Route path={"/Agregar/Proveedor"} element={<SearchSupplie brand="Agregar Proveedor" />} />
-      <Route path={"/Agregar/Producto"} element={<SearchSupplie brand="Agregar Producto" />} />
       <Route path={"/Configuracion"} element={<SearchSupplie brand="Configuracion" />} />
       <Route path={"/Domicilios/Proveedor/:id"} element={<ShowAdressSupplie brand="Domicilios Proveedor"/>} />
       <Route path={"/productos/proveedores/:id"} element={<ShowSupplieProduct brand="Proveedores que cuentan con el producto"/>}/>

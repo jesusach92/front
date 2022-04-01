@@ -6,8 +6,9 @@ import NavBar from "./NavBar";
 
 const ShowSupplieProduct = (props) => {
     const {id}= useParams()
-    const URI =`http://192.168.1.97:3001/productos/proveedores/${id}`
+    const URI =`http://192.168.1.97:3001/Producto/Proveedores/${id}`
     const SUP ='http://192.168.1.97:3001/proveedores'
+    const PRO =`http://192.168.1.97:3001/producto/${id}`
     const [product, setProduct] = useState([])
     const [supplies, setSupplies] = useState([])
     const [Asing, setAsing] =useState([])
@@ -17,21 +18,36 @@ const ShowSupplieProduct = (props) => {
     }
     useEffect (()=>
     {
-        getAdress()
+        getData()
         getAsing()
     },[])
+
+useEffect(()=>
+{
+    if(supplies)
+    {
+        supplies.forEach(element => {
+            let DateInital = element.pDateInitial.split('T')
+            let DateUpdate = element.pDateUpdate.split('T')
+            element.pDateInitial=DateInital[0]
+            element.pDateUpdate=DateUpdate[0]
+        })
+    }
+},[supplies])
 
     const getAsing = async ()=>
     {
         const supAsing = await axios.get(SUP)
         setAsing(supAsing.data)
     }
-    const getAdress = async ()=>
+    const getData = async ()=>
     {
         const result= await axios.get(URI)
+        const product=await axios.get(PRO)
         setSupplies(result.data)
-        setProduct(result.data[0])
+        setProduct(product.data[0])
     }
+
 //Componente para Renderizado condicional
     return (
         <div className="container-side p-0">
@@ -49,7 +65,7 @@ const ShowSupplieProduct = (props) => {
                     Descripcion del Producto:
                 </Form.Label>
                 <Col sm={4}>
-                    <Form.Control as="textarea" rows={2} plaintext readOnly value={product.description_product ||  ''}  />
+                    <Form.Control as="textarea" rows={2} plaintext readOnly value={product.descriptionProduct ||  ''}  />
                 </Col>
                 <Form.Label column sm={2}>
                     Tecnologia:
@@ -68,7 +84,7 @@ const ShowSupplieProduct = (props) => {
                 <Form.Select>
                     <option>Selecciona un Proveedor para Asignar</option>
                     {Asing.map((asing)=>(
-                        <option key={asing.id_supplie}>{asing.supplie_name}</option>
+                        <option key={asing.idSupplie} value={asing.idSupplie}>{asing.nameSupplie}</option>
                     ))
                     }
                 </Form.Select>
@@ -86,19 +102,27 @@ const ShowSupplieProduct = (props) => {
                         <th>Proveedor</th>
                         <th>Tiempo de Entrega</th>
                         <th>Linea de Producto</th>
+                        <th>Comentarios</th>
                         <th>Precio</th>
-                        <th>Datos de Contactos</th>
+                        <th>Fecha de Registro</th>
+                        <th>Fecha de Actualizacion</th>
+                        <th>Muestra Fisica</th>
+                        <th>contactos</th>
                     </tr>
                 </thead>
                 {<tbody>
                     {supplies.map((supplie)=>(
-                        <tr key={supplie.idsupply}>
-                            <td>{supplie.supplie_name}</td>
-                            <td>{supplie.delivery_time}</td>
-                            <td>{supplie.product_line}</td>
+                        <tr key={supplie.idSupply}>
+                            <td>{supplie.nameSupplie}</td>
+                            <td>{supplie.deliveryTime}</td>
+                            <td>{supplie.productLine}</td>
+                            <td>{supplie.comments}</td>
                             <td>{supplie.price}</td>
+                            <td>{supplie.pDateInitial}</td>
+                            <td>{supplie.pDateUpdate}</td>
+                            <td>{supplie.pSampleLocation}</td>
                             <td>
-                                <Link to={`/Domicilios/Proveedor/${supplie.id_supplie}`} className="btn btn-outline-primary">Ver</Link>
+                                <Link to={`/Domicilios/Proveedor/${supplie.idSupplie}`} className="btn btn-outline-primary">Ver</Link>
                             </td>
                         </tr>
                     ))}
