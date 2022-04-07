@@ -118,8 +118,8 @@ useEffect(()=>
                             <td>{supplie.productLine}</td>
                             <td>{supplie.comments}</td>
                             <td>{supplie.price}</td>
-                            <td>{supplie.pDateInitial}</td>
-                            <td>{supplie.pDateUpdate}</td>
+                            <td><div className="size">{supplie.pDateInitial}</div></td>
+                            <td><div className="size">{supplie.pDateUpdate}</div></td>
                             <td>{supplie.pSampleLocation}</td>
                             <td>
                                 <Link to={`/Domicilios/Proveedor/${supplie.idSupplie}`} className="btn btn-outline-primary">Ver</Link>

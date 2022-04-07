@@ -11,3 +11,6 @@ export const ABT= `${DIR}/Agregar/Negocio`
 export const AAT= `${DIR}/Agregar/TipoDomicilio`
 export const ATH= `${DIR}/Agregar/Tecnologia`
 export const ACS= `${DIR}/Agregar/Clasificacion`
+export const PBS= `${DIR}/proveedor/productos/`
+export const SBI= `${DIR}/proveedor/`
+export const ADS= `${DIR}/Agregar/proveedor`

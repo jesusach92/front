@@ -17,8 +17,8 @@ const AddProduct = ({show,handleCloseP})=>
     const getTech = async () =>{
         try
         {
-         const result = await axios.get(TEC)
-         setTech(result.data)
+         const {data} = await axios.get(TEC)
+         setTech(data)
         }
         catch(e){
 

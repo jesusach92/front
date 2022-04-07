@@ -100,3 +100,6 @@ textarea::-webkit-scrollbar {
   border: 0;
   color: #ffff;
 }
+.size{
+  width: 110px;
+}
