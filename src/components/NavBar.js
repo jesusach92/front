@@ -1,7 +1,7 @@
 const NavBar = (props) => {
     return (
         <div className="navbar px-5">
-            {props.brand}
+            <h4>{props.brand}</h4>
         </div>
     )
 }

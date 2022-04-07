@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import {Form,Row, Col, Button, Modal} from 'react-bootstrap'
 import axios from 'axios'
+import { ADP, TEC } from './const/Const'
 
 const AddProduct = ({show,handleCloseP})=>
 {
 
-    const URI ='http://192.168.1.97:3001/agregar/producto'
-    const TEC='http://192.168.1.97:3001/Tecnologias'
+   
     const [tech,setTech] = useState([])
     const [data, setData] = useState({
         FkTechnologyPro: null,
@@ -35,7 +35,7 @@ const AddProduct = ({show,handleCloseP})=>
             data.productName==null||
             data.descriptionProduct==null))
         {
-            const result= await axios.post(URI,data)
+            const result= await axios.post(ADP,data)
          if(result.data.value === 1)
          {
              window.alert("Producto Agregar Correctamente")

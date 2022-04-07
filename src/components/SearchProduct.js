@@ -7,8 +7,7 @@ import AddProduct from './AddProduct'
 
 
 const SearchProduct =(props)=>{
-    const URI="http://192.168.1.97:3001/productos"
-
+    const URI="http://localhost:3001/productos"
     const [products, setProducts] = useState([]);
     const [originProducts, setoriginProducts] =useState([]);
     const [search, setSearch] = useState("");

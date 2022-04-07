@@ -9,7 +9,7 @@ import axios from 'axios'
 
 const SearchSupplie =(props) => {
 
-    const URI = "http://192.168.1.97:3001/proveedores"
+    const URI = "http://localhost:3001/proveedores"
 
     const filtrar =(props)=>
     {

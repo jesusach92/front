@@ -6,9 +6,9 @@ import NavBar from "./NavBar";
 
 const ShowSupplieProduct = (props) => {
     const {id}= useParams()
-    const URI =`http://192.168.1.97:3001/Producto/Proveedores/${id}`
-    const SUP ='http://192.168.1.97:3001/proveedores'
-    const PRO =`http://192.168.1.97:3001/producto/${id}`
+    const URI =`http://localhost:3001/Producto/Proveedores/${id}`
+    const SUP ='http://localhost:3001/proveedores'
+    const PRO =`http://localhost:3001/producto/${id}`
     const [product, setProduct] = useState([])
     const [supplies, setSupplies] = useState([])
     const [Asing, setAsing] =useState([])

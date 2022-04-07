@@ -7,7 +7,7 @@ import NavBar from "./NavBar";
 const ShowProductsSupplie = (props)=>{
 
     const {id} = useParams()
-    const URI=  `http://192.168.1.97:3001/proveedores/productos/${id}`
+    const URI=  `http://localhost:3001/proveedores/productos/${id}`
     const [products, setProducts] = useState([])
     const [supplie, setSupplie] = useState([])
 

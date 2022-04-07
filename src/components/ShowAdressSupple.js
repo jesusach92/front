@@ -7,10 +7,10 @@ import AddAdress from "./Supplies/AddAdress";
 
 const ShowAdressSupplie = (props) => {
     const {id}= useParams()
-    const URI =`http://192.168.1.97:3001/proveedor/${id}`
-    const DOM =`http://192.168.1.97:3001/proveedor/domicilios/${id}`
-    const CON =`http://192.168.1.97:3001/proveedor/domicilio/contactos`
-    const DEL ='http://192.168.1.97:3001/Borrar/Domicilio/'
+    const URI =`http://localhost:3001/proveedor/${id}`
+    const DOM =`http://localhost:3001/proveedor/domicilios/${id}`
+    const CON =`http://localhost:3001/proveedor/domicilio/contactos`
+    const DEL ='http://localhost:3001/Borrar/Domicilio/'
     const [supplie, setSupplie] = useState([])
     const [adress, setAdress] = useState([])
     const [contacts, setContacts] = useState([])

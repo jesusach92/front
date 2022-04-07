@@ -13,6 +13,10 @@ const SideBar =()=>{
       <Link to="/Proveedores">Proveedores</Link>
       </li>
       <li className="links">
+      
+      <Link to="/Agregar/Proveedor">Agregar <br/>Proveedor</Link>
+      </li>
+      <li className="links">
       <Link to="/Productos" >Productos</Link>
       </li>
       <li className="links">

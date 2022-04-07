@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 import {Form,Row, Col, Button, Modal} from 'react-bootstrap'
 import axios from 'axios'
+import { AAS, TAD } from '../const/Const'
 
 
 
 const AddAdress = ({show,handleClose,idSupplie}) =>
 {
-    const AType = 'http://192.168.1.97:3001/TiposDom'
-    const SDT= 'http://192.168.1.97:3001/agregar/domicilio'
     const [adType, setAdType]=useState([])
     const [data, setData] = useState({
         FkSupplieAd:Number(idSupplie),
@@ -20,17 +19,16 @@ const AddAdress = ({show,handleClose,idSupplie}) =>
     })
     const getData = async ()=>
     {
-        const result= await axios.get(AType)
+        const result= await axios.get(TAD)
         setAdType(result.data)
     }
 
 
     const SendData= async ()=>
     {
-        console.log(data)
         if( !(data.FkadressType==null || data.adressCountry==null || data.adressState==null || data.adressDescription==null || data.aComments==null))
         {
-            const result= await axios.post(SDT,data)
+            const result= await axios.post(AAS,data)
          if(result.data.value === 1)
          {
              window.alert("Domicilio guardado correctamente")
@@ -87,11 +85,8 @@ const AddAdress = ({show,handleClose,idSupplie}) =>
             </Form>    
         </Modal.Body>
                 <Modal.Footer>
-          <Button variant="primary" onClick={(e)=>{handleClose()}}>
-            
-            Cerrar
-          </Button>
-          <Button variant="success" onClick={(e)=>{SendData()}}>Agregar Domicilio</Button>
+          <Button variant="primary" onClick={handleClose}>Cerrar</Button>
+          <Button variant="success" onClick={SendData}>Agregar Domicilio</Button>
         </Modal.Footer>
                 </Modal>       
     )
