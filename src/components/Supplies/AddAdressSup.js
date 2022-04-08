@@ -17,6 +17,7 @@ const AddAdressSup = ({FkSupplieAd}) => {
 	const [typeAd , setTypeAd] = useState([]) 
 	const [dataA, setData] = useState({...initialValuesA,FkSupplieAd:FkSupplieAd})
     const [idAdress, setIDAdrees] = useState({id:0})
+    const [Contacts, setContacts] =useState([])
 	
 	const getData= async()=>
 	{
@@ -85,7 +86,14 @@ const AddAdressSup = ({FkSupplieAd}) => {
 				</Form.Group>
     </Form>
     {idAdress.id !== 0 ?
-    (<AddContacAdress FkAdressCont={idAdress.id}/>)
+    (
+    <div className="mt-3">
+        <Button variant="success" onClick={e=>setContacts([...Contacts,""])}>Agregar Contacto</Button>
+        {Contacts.map(contact =>(
+            
+        <AddContacAdress FkAdressCont={idAdress.id} id={contact}></AddContacAdress>))}
+    </div>
+    )
     :
     (
     <Table>

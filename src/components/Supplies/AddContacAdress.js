@@ -10,7 +10,7 @@ const initialValues = {
     comments:""
 }
 
-const AddContacAdress = ({FkAdressCont}) => {
+const AddContacAdress = ({FkAdressCont, id}) => {
   const [data, setData] = useState({...initialValues,FkAdressCont:FkAdressCont})
     return (
     <div >
@@ -18,7 +18,7 @@ const AddContacAdress = ({FkAdressCont}) => {
 			<Form.Label>Agregar Contacto a Domicilio</Form.Label>
         </Form>
 		<Form.Group as={Row}>
-		<Form.Label column sm={3}>Nombre de Contacto</Form.Label>
+		<Form.Label column sm={3}>Nombre de Contacto numero {console.log(id)}</Form.Label>
 		<Col sm={4}>
 			<Form.Control/>
 		</Col>
