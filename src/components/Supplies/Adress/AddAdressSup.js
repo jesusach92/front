@@ -37,7 +37,7 @@ const AddAdressSup = ({FkSupplieAd}) => {
 
 	const SendData= async ()=>
     {
-        if(dataA.FkSupplieAd !== 0 && dataA.FkadressType !== 0 && dataA.adressCountry !== "")
+        if(dataA.FkSupplieAd !== 0 && dataA.FkadressType !== 0 && dataA.adressCountry !== "" && dataA.adressState !=="" && dataA.adressDescription !=="" && dataA.aComments !=="")
         {
             const {data}= await axios.post(AAS,dataA)
             if(data.value === 1)
@@ -51,7 +51,7 @@ const AddAdressSup = ({FkSupplieAd}) => {
     }
 	
 	return (
-        <div className="container border p-2 pt-0 mt-3">
+        <div className="container">
 	<Form>
 		<Form.Group as={Row} className='mt-2'>
         	<Form.Label>

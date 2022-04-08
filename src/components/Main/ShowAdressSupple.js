@@ -1,13 +1,14 @@
-import axios from "axios";
-import { useParams, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import axios from 'axios';
+import { useParams, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import {Table,Form,Row, Col, Button, Modal} from 'react-bootstrap'
-import NavBar from "./NavBar";
-import AddAdress from "./AddAdress";
+import NavBar from './NavBar';
+import ModalAdress from './ModalAdress';
+import ModalContact from './ModalContact'
+import { SBF} from '../const/Const';
 
 const ShowAdressSupplie = (props) => {
     const {id}= useParams()
-    const URI =`http://localhost:3001/proveedor/${id}`
     const DOM =`http://localhost:3001/proveedor/domicilios/${id}`
     const CON =`http://localhost:3001/proveedor/domicilio/contactos`
     const DEL ='http://localhost:3001/Borrar/Domicilio/'
@@ -19,8 +20,9 @@ const ShowAdressSupplie = (props) => {
         setShow(true)
         getContacts(idAdress)
     }
-    const [ModalAdress, setModalAdress] = useState(false)
-
+    const [ModAdress, setModalAdress] = useState(false)
+    const [ModContact, setModContact] =useState(false)
+    const HideCont = ()=>setModContact(false)
     const showAdd = ()=>setModalAdress(true) 
     const HideAdd = ()=>{setModalAdress(false)
     getData()
@@ -32,7 +34,7 @@ const ShowAdressSupplie = (props) => {
     const getData = async ()=>
     {
         try{
-        const tresult= await axios.get(URI)
+        const tresult= await axios.get(SBF)
         const tadress=await axios.get(DOM)
         let [dateinital]= tresult.data[0].sDateInitial.split('T')
         let [dateUpdate] = tresult.data[0].sDateUpdate.split('T')
@@ -101,7 +103,7 @@ const ShowAdressSupplie = (props) => {
 
                 </Form.Group>
                 <Form.Group>
-                <AddAdress show={ModalAdress} handleClose={HideAdd} idSupplie={id}  />
+                <ModalAdress show={ModAdress} handleClose={HideAdd} idSupplie={id}  />
                 <Button onClick={showAdd} className="btn btn-warning">Agregar Domicilio</Button>
                 <Link to= {`/Proveedores/Productos/${supplie.idSupplie}`} className="btn btn-success mx-3">Mostrar Productos</Link>
                 </Form.Group>
@@ -136,18 +138,16 @@ const ShowAdressSupplie = (props) => {
                             <td>{adres.aComments}</td>
                             <td>
                             <Button onClick={(e)=>handleShow(e,adres.idAdress)} className="btn btn-warning">Mostrar</Button>
-
-                            
-                                {/* <Link to={`/Contactos/Proveedor/${adres.id_adress}`} className="btn btn-outline-primary">Ver</Link> */}
                             </td>
-                            <td><Button variant="warning">Agregar</Button></td>
+                            <td>
+                                <ModalContact show={ModContact} handleClose={HideCont} idAdress={adress.idAdress} ></ModalContact>
+                                <Button variant="warning" onClick={e=>setModContact(true)}>Agregar</Button></td>
                             <td><Button variant="danger" onClick={(e)=>{deleteAd(e,adres.idAdress);getData()}}>Borrar</Button></td>
                         </tr>
                     ))}
                 </tbody>
 
             </Table>)}
- 
             <Modal show={show} size="lg" onHide={()=>setShow(false)}>
                 <Modal.Header closeButton>
             <Modal.Title>Contactos</Modal.Title>
@@ -180,7 +180,6 @@ const ShowAdressSupplie = (props) => {
                             <td>{contact.comments}</td>
                             <td>
                             <Button className="btn btn-warning">Editar</Button>
-                                {/* <Link to={`/Contactos/Proveedor/${adres.id_adress}`} className="btn btn-outline-primary">Ver</Link> */}
                             </td>
                         </tr>
                     
