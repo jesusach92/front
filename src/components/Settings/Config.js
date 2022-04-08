@@ -1,5 +1,5 @@
 import { Row } from 'react-bootstrap'
-import NavBar from '../NavBar'
+import NavBar from '../Main/NavBar'
 import BusinessType from './BusinessType'
 import SClasification from './SClasification'
 import Technologies from './Technologies'

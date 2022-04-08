@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {Table,Form,Row, Col, Button} from 'react-bootstrap'
 import NavBar from "./NavBar";
-import { PBS, SBI } from "./const/Const";
+import { PBS, SBI } from "../const/Const";
 
 const ShowProductsSupplie = (props)=>{
 

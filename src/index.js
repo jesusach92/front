@@ -2,16 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'normalize.css'
 import './index.css'
-import SideBar from './components/SideBar'
-import SearchSupplie from './components/SearchSupplie'
-import SearchProduct from './components/SearchProduct'
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
-import ShowSupplieProduct from './components/ShowSupplieProduct'
-import ShowAdressSupplie from './components/ShowAdressSupple';
-import ShowProductsSupplie from './components/ShowProductsSupplie';
-import Home from './components/Home';
-import  AddSupplie  from './components/Supplies/AddSupplie';
-import Config  from './components/Settings/Config.js';
+import SideBar from './components/Main/SideBar';
+import SearchSupplie from './components/Main/SearchSupplie';
+import SearchProduct from './components/Main/SearchProduct';
+import AddSupplie from './components/Supplies/AddSupplie';
+import Config from './components/Settings/Config';
+import ShowAdressSupplie from './components/Main/ShowAdressSupple';
+import ShowSupplieProduct from './components/Main/ShowSupplieProduct';
+import ShowProductsSupplie from './components/Main/ShowProductsSupplie';
+import Home from './components/Main/Home';
+
 
 const App = () => {
 

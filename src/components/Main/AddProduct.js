@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import {Form,Row, Col, Button, Modal} from 'react-bootstrap'
 import axios from 'axios'
-import { ADP, TEC } from './const/Const'
+import { ADP, TEC } from '../const/Const'
 
 const AddProduct = ({show,handleCloseP})=>
 {

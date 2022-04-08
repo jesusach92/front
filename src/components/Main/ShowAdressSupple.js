@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {Table,Form,Row, Col, Button, Modal} from 'react-bootstrap'
 import NavBar from "./NavBar";
-import AddAdress from "./Supplies/AddAdress";
+import AddAdress from "./AddAdress";
 
 const ShowAdressSupplie = (props) => {
     const {id}= useParams()
@@ -25,14 +25,6 @@ const ShowAdressSupplie = (props) => {
     const HideAdd = ()=>{setModalAdress(false)
     getData()
     }
-
-
-
-    const HandleClick = ()=>{
-        alert("Funcion en Desarrollo")
-    }
-
-    
     useEffect (()=>{
         getData()
     },[])

@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-import logo from '../assets/texinlogo.png';
+import logo from '../../assets/texinlogo.png';
 
 const SideBar =()=>{
     return (

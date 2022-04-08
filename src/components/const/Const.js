@@ -14,3 +14,4 @@ export const ACS= `${DIR}/Agregar/Clasificacion`
 export const PBS= `${DIR}/proveedor/productos/`
 export const SBI= `${DIR}/proveedor/`
 export const ADS= `${DIR}/Agregar/proveedor`
+export const ACA= `${DIR}/Agregar/contacto`

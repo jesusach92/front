@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { Button, Col, Form, Row, Table } from "react-bootstrap"
-import { AAS, TAD } from "../const/Const"
+import { Button, Col, Form, Row, Tab, Table, Tabs } from "react-bootstrap"
+import { AAS, TAD } from "../../const/Const"
 import AddContacAdress from "./AddContacAdress"
 
 const initialValuesA ={
@@ -14,6 +14,7 @@ const initialValuesA ={
 }
 
 const AddAdressSup = ({FkSupplieAd}) => {
+	const [key, setKey] = useState('contact0');
 	const [typeAd , setTypeAd] = useState([]) 
 	const [dataA, setData] = useState({...initialValuesA,FkSupplieAd:FkSupplieAd})
     const [idAdress, setIDAdrees] = useState({id:0})
@@ -28,6 +29,12 @@ const AddAdressSup = ({FkSupplieAd}) => {
 	  getData()
 	},[])
 
+    const handleDelete =(indexToDelete)=>{
+        let copyContacts = Contacts.filter((d, index) => index !== indexToDelete);
+        setContacts(copyContacts)
+		setKey('contact0')
+    }
+
 	const SendData= async ()=>
     {
         if(dataA.FkSupplieAd !== 0 && dataA.FkadressType !== 0 && dataA.adressCountry !== "")
@@ -37,6 +44,7 @@ const AddAdressSup = ({FkSupplieAd}) => {
         {
             window.alert("Domicilio guardado correctamente")
             setIDAdrees({id:data.insertId})
+			setContacts([...Contacts,""])
         }
         }
         else{window.alert("Todos los campos tienen que estar llenos")}
@@ -58,7 +66,7 @@ const AddAdressSup = ({FkSupplieAd}) => {
                         {typeAd.map((type)=>(<option value={type.idadressType} key={type.idadressType}>{type.aType}</option>))}
                     </Form.Select>
                     </Col>
-                    </Form.Group>
+        </Form.Group>
                     <Form.Group as={Row} className="mt-4">
                     <Form.Label column='true' sm={2}>País:</Form.Label>
                     <Col sm={4}>
@@ -79,20 +87,35 @@ const AddAdressSup = ({FkSupplieAd}) => {
 					<Form.Control  as='textarea' value={dataA.aComments || ""} onChange={(e)=>{setData({...dataA,aComments:e.target.value})}}></Form.Control>
 					</Col>
 				</Form.Group>
-				<Form.Group className="mt-2">
+                {idAdress.id ===0 ?(<Form.Group className="mt-2">
 					<Col>
 						<Button variant='primary' onClick={SendData}>Guardar</Button>
 					</Col>
-				</Form.Group>
+				</Form.Group>):(<></>)}
+				
     </Form>
     {idAdress.id !== 0 ?
     (
     <div className="mt-3">
         <Button variant="success" onClick={e=>setContacts([...Contacts,""])}>Agregar Contacto</Button>
-        {Contacts.map(contact =>(
-            
-        <AddContacAdress FkAdressCont={idAdress.id} id={contact}></AddContacAdress>))}
-    </div>
+        <Tabs 
+		id="controlled-tab-example"
+      	activeKey={key}
+      	onSelect={(k) => setKey(k)}
+      	className="mb-3 mt-3"
+		>
+			
+		{Contacts.map((contact,index) =>( 
+		<Tab
+		key={index}
+		title={`Contacto Numero ${index+1}`}
+		eventKey={`contact${index}`}
+		>
+		<AddContacAdress FkAdressCont={idAdress.id} id={index} handleDelete={handleDelete}></AddContacAdress>
+		</Tab>
+		))}
+		</Tabs>
+	</div>
     )
     :
     (
