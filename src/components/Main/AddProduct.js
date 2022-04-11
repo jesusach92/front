@@ -3,7 +3,9 @@ import {Form,Row, Col, Button, Modal} from 'react-bootstrap'
 import axios from 'axios'
 import { ADP, TEC } from '../const/Const'
 
-const AddProduct = ({show,handleCloseP})=>
+
+const idProduct = {id:null}
+const AddProduct = ({show,handleCloseP, setidProduct})=>
 {
 
    
@@ -30,7 +32,6 @@ const AddProduct = ({show,handleCloseP})=>
 
     const SendData= async ()=>
     {
-        console.log(data)
         if( !(data.FkTechnologyPro==null ||
             data.productName==null||
             data.descriptionProduct==null))
@@ -39,6 +40,7 @@ const AddProduct = ({show,handleCloseP})=>
          if(result.data.value === 1)
          {
              window.alert("Producto Agregar Correctamente")
+            setidProduct(result.data.insertId)
         }
         handleCloseP()
         setData({
@@ -91,4 +93,5 @@ const AddProduct = ({show,handleCloseP})=>
         </Modal>
     )
 }
+export {idProduct}
 export default AddProduct

@@ -54,7 +54,7 @@ const SearchProduct =(props)=>{
         <NavBar brand={props.brand}/>
         <div className="container px-3 pt-3">
                <Form>
-               <Form.Group as={Row} className="">
+               <Form.Group as={Row}>
                 <Form.Label column='true' sm={3} className="mt-3">Busqueda de Producto :</Form.Label>
                 <Col className="pt-3">
                 <Form.Control sm={4} value={search || ''} placeholder="Busqueda por Palabras clave" onChange={HandleChange}></Form.Control>

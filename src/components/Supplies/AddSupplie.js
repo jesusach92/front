@@ -1,24 +1,54 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Form, Row, Table } from 'react-bootstrap'
-import { ADS, BST, SCT} from '../const/Const'
+import { Button, Col, Form, Row, Tab, Table, Tabs } from 'react-bootstrap'
+import { ADS, BST, PBI, PFF, SCT} from '../const/Const'
+import AddProduct from '../Main/AddProduct'
 import NavBar from '../Main/NavBar'
 import AddAdressSup from './Adress/AddAdressSup'
+import AsingProductSup from './Products/AsingProductSup'
 
 const initialValuesS ={
 	nameSupplie:"",
 	FkBusinessType:0, 
 	FkClasification:0
 }
-
+const initialValuesPS={
+	FkSupplieSpy:0, 
+	FkProductSpy:0, 
+	price:0.0, 
+	deliveryTime:"", 
+	productLine:"", 
+	comments:"", 
+	pSampleF:"", 
+	pSampleLocation:""
+}
 
 const AddSupplie = (props) => {
 
+	const [products, setProducts] = useState([])
+	const [product, setProduct] = useState([])
 	const [businessType, setBusiness] = useState([])
 	const [sclasificacion, setsclasificacion] = useState([])
 	const [dataS, setDataS] = useState(initialValuesS)
-	const [idSupplie, setIdSup] = useState({id:0})
-   
+	const [idSupplie, setIdSup] = useState(0)
+	const [key, setKey] = useState('Domicilio')
+	const [show, setShow] = useState(false)
+	function handleClose () {setShow(false)}
+	const [dataPS, setDataPS] = useState(initialValuesPS)
+	const [idProduct, setidProduct] = useState(0);
+
+	const getProducts = async ()=>{
+		const {data} = await axios.get(PFF)
+		setProducts(data)
+	}
+
+	const getProduct = async()=>{
+		if( idProduct > 0){
+		const {data} = await axios.get(`${PBI}${idProduct}`)
+		setProduct(data[0])
+		setDataPS({...dataPS, FkProductSpy:idProduct, FkSupplieSpy: idSupplie})
+	}
+	}
 	const getData = async ()=>
 	{
 		const business = await axios.get(BST)
@@ -33,7 +63,8 @@ const AddSupplie = (props) => {
 			if(data.value)
 			{
 			alert("Proveedor Agregardo Correctamente")
-			setIdSup({id:data.insertId})
+			setIdSup(data.insertId)
+			getProducts()
 			}
 			else{alert("El Proveedor ya se encuentra registrado")} 
 		}
@@ -41,7 +72,13 @@ const AddSupplie = (props) => {
 	}
 	useEffect (()=>{
 		getData()
+		
 	},[])
+
+	useEffect(()=>{
+		if(idProduct !==0){
+		getProduct()}
+	},[idProduct])
 
 	return (
 	<div className="container-side p-0">
@@ -58,7 +95,7 @@ const AddSupplie = (props) => {
 					Nombre de Proveedor:
 					</Form.Label>
 					<Col sm={3}>
-					<Form.Control value={dataS.nameSupplie} onChange={e=>setDataS({...dataS,nameSupplie:e.target.value})} />
+					<Form.Control readOnly={!(idSupplie===0)} plaintext={!(idSupplie===0)} value={dataS.nameSupplie} onChange={e=>setDataS({...dataS,nameSupplie:e.target.value})} />
 					</Col>
 					<Form.Label column='true' sm={2}>
 					Tipo de Negocio:
@@ -84,16 +121,55 @@ const AddSupplie = (props) => {
 						))}
 					</Form.Select>
 					</Col>
-			{idSupplie.id ===0 ? 
+			{idSupplie ===0 ? 
 			(<Col>
 			<Button variant='primary' onClick={SendDataS}>Guardar</Button>
 					</Col>):(<></>)}
 					</Form.Group>
 			</Form>
-			{idSupplie.id !== 0 ?
-			(				
-				<AddAdressSup FkSupplieAd={idSupplie.id}/>           
-			):(
+			{idSupplie !== 0 ?
+			(			
+				<Tabs
+				activeKey={key}
+			    onSelect={(k) => setKey(k)}
+				>
+					<Tab 
+					eventKey="Domicilio" 
+					title="Domicilio">
+				<AddAdressSup FkSupplieAd={idSupplie}/>           
+					</Tab>
+					<Tab 
+					eventKey="Productos" 
+					title="Productos">
+						<Form className='container mt-3'>
+							<Form.Group as={Row}>
+								<Form.Label column='true' sm={3} >Agregar Nuevo Producto</Form.Label>
+								<Col sm={2}>								
+									<AddProduct show={show} handleCloseP={handleClose} setidProduct={setidProduct}/>
+				                	<Button variant="success" sm={2} onClick={e=>setShow(true)} >Agregar Producto</Button>
+								</Col>
+								<Form.Label column='true' sm={2}>Asignar Producto</Form.Label>
+								<Col sm={3}>
+                    				<Form.Select onChange={(e)=>{setidProduct(Number(e.target.value))}}>
+                        				<option>Selecciona el tipo de domicilio</option>
+                        				{products.map((product)=>(<option value={product.idProduct} key={product.idProduct}>{product.productName}</option>))}
+                    				</Form.Select>
+                    			</Col>
+							</Form.Group>
+								{idProduct !==0 ? (
+									<AsingProductSup idP={idProduct} idSupplie={idSupplie}/>
+								):(
+									<></>
+								)}
+							
+						</Form>
+					</Tab>
+				</Tabs>
+				
+
+			
+			
+				):(
 			<Table>
 				<thead>
 					<tr>

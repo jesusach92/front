@@ -16,3 +16,5 @@ export const SBI= `${DIR}/proveedor/`
 export const ADS= `${DIR}/Agregar/proveedor`
 export const ACA= `${DIR}/Agregar/contacto`
 export const SBF= `${DIR}/proveedores`
+export const PFF= `${DIR}/productos`
+export const PBI= `${DIR}/producto/`

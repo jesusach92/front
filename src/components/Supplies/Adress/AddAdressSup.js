@@ -31,6 +31,9 @@ const AddAdressSup = ({FkSupplieAd}) => {
 
     const handleDelete =(indexToDelete)=>{
         let copyContacts = Contacts.filter((d, index) => index !== indexToDelete);
+        if(copyContacts.length <= 0)
+        setContacts([""])
+        else
         setContacts(copyContacts)
 		setKey('contact0')
     }
@@ -96,13 +99,13 @@ const AddAdressSup = ({FkSupplieAd}) => {
     </Form>
     {idAdress.id !== 0 ?
     (
-    <div className="mt-3">
+    <div className="mt-3 ">
         <Button variant="success" onClick={e=>setContacts([...Contacts,""])}>Agregar Contacto</Button>
         <Tabs 
 		id="controlled-tab-example"
       	activeKey={key}
       	onSelect={(k) => setKey(k)}
-      	className="mb-3 mt-3"
+      	className="mb-5 mt-3"
 		>
 			
 		{Contacts.map((contact,index) =>( 

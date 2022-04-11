@@ -50,7 +50,7 @@ const AddContacAdress = ({FkAdressCont, id, handleDelete }) => {
 	else{alert("Todos los campos deben estar llenos")}
   }
 	return (
-	<div className="mt-3" >
+	<div className="mt-3 mb-3" >
 		<Form>
 			<Form.Label>Agregar Contacto a Domicilio</Form.Label>
 		</Form>

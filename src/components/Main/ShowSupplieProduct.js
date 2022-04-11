@@ -3,16 +3,18 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {Table,Form,Row, Col, Button} from 'react-bootstrap'
 import NavBar from "./NavBar";
+import ModalAsing from "./ModalAsing";
+import { PBI, SBF } from "../const/Const";
 
 const ShowSupplieProduct = (props) => {
     const {id}= useParams()
     const URI =`http://localhost:3001/Producto/Proveedores/${id}`
-    const SUP ='http://localhost:3001/proveedores'
-    const PRO =`http://localhost:3001/producto/${id}`
     const [product, setProduct] = useState([])
+    const [supplie, setsupplie] = useState(0)
     const [supplies, setSupplies] = useState([])
     const [Asing, setAsing] =useState([])
-
+    const [show, setShow] = useState(false)
+    const handleClose = () =>setShow(false)
     const HandleClick = ()=>{
         alert("Funcion en Desarrollo")
     }
@@ -37,13 +39,13 @@ useEffect(()=>
 
     const getAsing = async ()=>
     {
-        const supAsing = await axios.get(SUP)
+        const supAsing = await axios.get(SBF)
         setAsing(supAsing.data)
     }
     const getData = async ()=>
     {
         const result= await axios.get(URI)
-        const product=await axios.get(PRO)
+        const product=await axios.get(`${PBI}${id}`)
         setSupplies(result.data)
         setProduct(product.data[0])
     }
@@ -81,8 +83,8 @@ useEffect(()=>
                 {/*Funcion por Asignar */} <Button onClick={HandleClick}>Editar Producto</Button>
                 </Col>
                 <Col>
-                <Form.Select>
-                    <option>Selecciona un Proveedor para Asignar</option>
+                <Form.Select onChange={e=>setsupplie(Number(e.target.value))}>
+                    <option value={0}>Selecciona un Proveedor para Asignar</option>
                     {Asing.map((asing)=>(
                         <option key={asing.idSupplie} value={asing.idSupplie}>{asing.nameSupplie}</option>
                     ))
@@ -90,8 +92,8 @@ useEffect(()=>
                 </Form.Select>
                 </Col>
                 <Col>
-                {/* <Link to= {'/Agregar/Producto/'} className="btn btn-success mx-3">Agregar Producto</Link> */}
-                 {/*Funcion por Asignar */} <Button className="btn btn-success" onClick={HandleClick}>Asignar Proveedor</Button>
+                    <ModalAsing show={show} handleClose={handleClose} idProduct={product.idProduct} idSupplie={supplie}></ModalAsing>
+                    <Button disabled={supplie === 0} className="btn btn-success" onClick={e=>setShow(true)}>Asignar Proveedor</Button>
                
                 </Col>
                 </Form.Group>
