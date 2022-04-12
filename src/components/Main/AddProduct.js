@@ -39,7 +39,7 @@ const AddProduct = ({show,handleCloseP, setidProduct})=>
             const result= await axios.post(ADP,data)
          if(result.data.value === 1)
          {
-             window.alert("Producto Agregar Correctamente")
+             window.alert("Producto Agregado Correctamente")
             setidProduct(result.data.insertId)
         }
         handleCloseP()

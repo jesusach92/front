@@ -140,7 +140,7 @@ const ShowAdressSupplie = (props) => {
                             <Button onClick={(e)=>handleShow(e,adres.idAdress)} className="btn btn-warning">Mostrar</Button>
                             </td>
                             <td>
-                                <ModalContact show={ModContact} handleClose={HideCont} idAdress={adress.idAdress} ></ModalContact>
+                                <ModalContact show={ModContact} handleClose={HideCont} idAdress={adres.idAdress} ></ModalContact>
                                 <Button variant="warning" onClick={e=>setModContact(true)}>Agregar</Button></td>
                             <td><Button variant="danger" onClick={(e)=>{deleteAd(e,adres.idAdress);getData()}}>Borrar</Button></td>
                         </tr>

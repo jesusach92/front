@@ -1,9 +1,10 @@
-import axios from "axios";
-import { useParams, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import axios from 'axios';
+import { useParams, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import {Table,Form,Row, Col, Button} from 'react-bootstrap'
-import NavBar from "./NavBar";
-import { PBS, SBI } from "../const/Const";
+import NavBar from './NavBar';
+import { PBS, SBI } from '../const/Const';
+import ModalAsing from './ModalAsing';
 
 const ShowProductsSupplie = (props)=>{
 
@@ -12,11 +13,13 @@ const ShowProductsSupplie = (props)=>{
     const  SSI = `${SBI}${id}`
     const [products, setProducts] = useState([])
     const [supplie, setSupplie] = useState([])
+    const [show, setShow] = useState(false)
+    const handleClose = () => setShow(false)
 
     useEffect (()=>{
         getSupplie()
         getProducts()
-    },[])
+    },[show])
 
     const getProducts = async ()=>{
         const {data} = await axios.get(SPS)
@@ -41,10 +44,6 @@ const ShowProductsSupplie = (props)=>{
 		});
         setSupplie(data[0])
     }
-    const HandleClick = ()=>{
-        alert("Funcion en Desarrollo")
-    }
-
     //Retorno del renderizado condicional
     return(
         <div className="container-side p-0">
@@ -90,8 +89,8 @@ const ShowProductsSupplie = (props)=>{
                 </Col>
                 </Form.Group>
 				<Form.Group>
-                {/* <Link to= {`/Agregar/Domicilio/${supplie.id_supplie}`} className="btn btn-primary ">Agregar Domicilio</Link> */}
-                <Button className="btn btn-warning" onClick={HandleClick}>Agregar Producto</Button>
+                <ModalAsing show={show} handleClose={handleClose} idSupplie={supplie.idSupplie} idProduct={0}/>
+                <Button className="btn btn-warning" onClick={e=>setShow(true)}>Agregar Producto</Button>
                 <Link to= {`/Domicilios/Proveedor/${supplie.idSupplie}`} className="btn btn-success mx-3">Mostrar Domicilio</Link>
                 </Form.Group>
             </Form>
@@ -139,7 +138,7 @@ const ShowProductsSupplie = (props)=>{
                             <td>{product.pSampleLocation}</td>
 							<td>{product.comments}</td>
                             <td>{/* <Link to={`/Contactos/Proveedor/${product.idsupply}`} className="btn btn-outline-primary">Editar</Link> */}
-                    		<Button className="btn btn-warning" onClick={HandleClick}>Editar</Button>
+                    		<Button className="btn btn-warning" onClick={e=>{alert("Funcion en desarrollo")}}>Editar</Button>
                             </td>
                         </tr>
                     ))}

@@ -21,8 +21,7 @@ const ShowSupplieProduct = (props) => {
     useEffect (()=>
     {
         getData()
-        getAsing()
-    },[])
+    },[show])
 
 useEffect(()=>
 {
@@ -34,13 +33,15 @@ useEffect(()=>
             element.pDateInitial=DateInital[0]
             element.pDateUpdate=DateUpdate[0]
         })
+        getAsing()
     }
 },[supplies])
 
     const getAsing = async ()=>
     {
-        const supAsing = await axios.get(SBF)
-        setAsing(supAsing.data)
+        const {data} = await axios.get(SBF)
+        const filterData = data.filter(element => !(supplies.find(sup => sup.idSupplie === element.idSupplie)))
+        setAsing(filterData)
     }
     const getData = async ()=>
     {
@@ -78,8 +79,6 @@ useEffect(()=>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3 " >
                     <Col sm={2}>
-                {/* <Link to= {`/Producto/Agregar/Proveedor/${product.id_product}`} className="btn btn-primary ">Asignar Proveedor</Link> */}
-                
                 {/*Funcion por Asignar */} <Button onClick={HandleClick}>Editar Producto</Button>
                 </Col>
                 <Col>
@@ -98,7 +97,8 @@ useEffect(()=>
                 </Col>
                 </Form.Group>
             </Form>
-            <Table responsive hover>
+            {supplies.length !== 0 ? (
+                <Table responsive hover>
                 <thead>
                     <tr>
                         <th>Proveedor</th>
@@ -131,6 +131,11 @@ useEffect(()=>
                 </tbody>}
 
             </Table>
+            ):(
+                <Form>
+                  <Form.Label>El Producto no cuenta con Proveedores Asignados</Form.Label>
+              </Form>
+            )}
             </div>
         </div>
         )

@@ -8,7 +8,7 @@ const ModalAsing = ({show,handleClose,idSupplie,idProduct}) =>{
 				<Modal.Title>Asignar Proveedor</Modal.Title>
 			</Modal.Header> 
 			<Modal.Body>
-				<AsingProductSup idP={idProduct} idSupplie={idSupplie}></AsingProductSup>
+				<AsingProductSup idP={idProduct} idSupplie={idSupplie} handleClose={handleClose}></AsingProductSup>
 			</Modal.Body>
 			<Modal.Footer>
 		  	<Button variant="primary" onClick={handleClose}>Cerrar</Button>
