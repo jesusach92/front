@@ -14,6 +14,8 @@ const ShowProductsSupplie = (props)=>{
     const [products, setProducts] = useState([])
     const [supplie, setSupplie] = useState([])
     const [show, setShow] = useState(false)
+    const [showMoA, setMoA] = useState(false)
+    const handleCloseMA =()=> setMoA (false)
     const handleClose = () => setShow(false)
 
     useEffect (()=>{
@@ -137,7 +139,8 @@ const ShowProductsSupplie = (props)=>{
                             <td>{Number(product.pSampleF) === 1 ? "Contamos con muestra":"No contamos con muestra"}</td>
                             <td>{product.pSampleLocation}</td>
 							<td>{product.comments}</td>
-                            <td>{/* <Link to={`/Contactos/Proveedor/${product.idsupply}`} className="btn btn-outline-primary">Editar</Link> */}
+                            <td>
+                            <ModalAsing show={show} handleClose={handleClose} idSupplie={supplie.idSupplie} idProduct={0}/>
                     		<Button className="btn btn-warning" onClick={e=>{alert("Funcion en desarrollo")}}>Editar</Button>
                             </td>
                         </tr>

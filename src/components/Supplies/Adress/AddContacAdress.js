@@ -80,15 +80,15 @@ const AddContacAdress = ({FkAdressCont, id, handleDelete }) => {
 			<Form.Control as='textarea' value={data.comments} name='comments' onChange={handleText} />
 		</Col>
 	</Form.Group>
-	{save ? (<></>):(<Form.Group as={Row} className='mt-3'>
+	<Form.Group as={Row} className='mt-3'>
 	<Col>
-	<Button onClick={sendData}>Guardar Contacto</Button>
+	<Button onClick={sendData} disabled={save}>Guardar Contacto</Button>
 	</Col>
 	<Col>
-	<Button variant="danger" onClick={e=>handleDelete(id)}>Borrar Contacto</Button>
+	<Button variant="danger" onClick={e=>handleDelete(id)} disabled={save}>Borrar Contacto</Button>
 	</Col>
 	</Form.Group>
-	)}
+	
 	</div>
   )
 }

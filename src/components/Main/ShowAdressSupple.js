@@ -5,7 +5,7 @@ import {Table,Form,Row, Col, Button, Modal} from 'react-bootstrap'
 import NavBar from './NavBar';
 import ModalAdress from './ModalAdress';
 import ModalContact from './ModalContact'
-import { SBF} from '../const/Const';
+import { SBF, SBI} from '../const/Const';
 
 const ShowAdressSupplie = (props) => {
     const {id}= useParams()
@@ -29,12 +29,12 @@ const ShowAdressSupplie = (props) => {
     }
     useEffect (()=>{
         getData()
-    },[])
+    },[show])
 
     const getData = async ()=>
     {
         try{
-        const tresult= await axios.get(SBF)
+        const tresult= await axios.get(`${SBI}${id}`)
         const tadress=await axios.get(DOM)
         let [dateinital]= tresult.data[0].sDateInitial.split('T')
         let [dateUpdate] = tresult.data[0].sDateUpdate.split('T')
