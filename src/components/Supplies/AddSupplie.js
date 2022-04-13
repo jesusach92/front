@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, Row, Tab, Table, Tabs } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import { ADS, BST, SCT} from '../const/Const'
 
 import NavBar from '../Main/NavBar'
@@ -85,10 +86,13 @@ const AddSupplie = (props) => {
 						))}
 					</Form.Select>
 					</Col>
-			{idSupplie ===0 ? 
+			{idSupplie === 0 ? 
 			(<Col>
 			<Button variant='primary' onClick={SendDataS}>Guardar</Button>
-					</Col>):(<></>)}
+					</Col>):(<Col>
+					<Link to='/'>
+			<Button variant='primary'>Salir</Button>
+			</Link></Col>)}
 					</Form.Group>
 			</Form>
 			{idSupplie !== 0 ?
@@ -104,7 +108,8 @@ const AddSupplie = (props) => {
 					</Tab>
 					<Tab 
 					eventKey="Productos" 
-					title="Productos">
+					title="Productos"
+					className='mb-3'>
 						<Form className='container mt-3'>
 						<AsingProductSup idP={0} idSupplie={idSupplie}/>			
 						</Form>

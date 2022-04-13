@@ -1,7 +1,7 @@
 import  axios  from "axios"
 import { useEffect, useState } from "react"
 import { Button, Col, Form, Row } from "react-bootstrap"
-import { APS, PBI, PFF } from "../../const/Const"
+import { APS, PBI, PFF, SBP, USP } from "../../const/Const"
 import AddProduct from "../../Main/AddProduct"
 
 const initialValuesPS={
@@ -15,16 +15,45 @@ const initialValuesPS={
     pSampleLocation:"No contamos con muestra Fisica"
 }
 
-const AsingProductSup = ({idP , idSupplie, handleClose}) => {
+const AsingProductSup = ({idP , idSupplie, handleClose, Supply}) => {
     const [products, setProducts] = useState([])
     const [product, setProduct] = useState([])
-    const [dataPS, setDataPS] = useState(initialValuesPS)
+    const [dataPS, setDataPS] = useState(Supply ? Supply : initialValuesPS)
     const [idProduct, setidProduct] = useState(idP)
     const [show, setShow] = useState(false)
 	function handleCloseP () {setShow(false)}
    
+    const upDateData = async () =>{
+        if(dataPS.FkProductSpy !== 0 
+            && dataPS.FkSupplieSpy !== 0 
+            && dataPS.comments !== "" 
+            && dataPS.deliveryTime !== "" 
+            && dataPS.price !== 0 
+            && dataPS.deliveryTime !== "" 
+            && dataPS.productLine !== ""  
+            )
+        {
+           try
+            {
+                const {data} = await axios.put(USP,dataPS)
+                if(data.value === 0){
+                alert("No se realizo la actualizacion")
+                setDataPS(initialValuesPS)
+                handleClose()
+            }
+            else{
+                alert("La actualizacion se realizo de manera exitosa")
+                handleClose()}
+                setDataPS(initialValuesPS)
+            }
+            catch (e){
+            console.log(e)
+        }
+    }
+    else alert("Todos los campos tienen que estar llenos")
+    }
 
-    const SendData = async() =>{
+    const sendData = async() =>{
         if(dataPS.FkProductSpy !== 0 
             && dataPS.FkSupplieSpy !== 0 
             && dataPS.comments !== "" 
@@ -39,11 +68,13 @@ const AsingProductSup = ({idP , idSupplie, handleClose}) => {
                 const {data} = await axios.post(APS,dataPS)
                 if(data.value === 0){
                 alert("El producto ya se encuentra asignado")
+                setDataPS(initialValuesPS)
                 handleClose()
             }
             else{
                 alert("Producto Asignado Existosamente")
                 handleClose()}
+                setDataPS(initialValuesPS)
             }
             catch (e){
             console.log(e)
@@ -58,8 +89,10 @@ const AsingProductSup = ({idP , idSupplie, handleClose}) => {
     }
     
     useEffect(()=>{
-        if(idProduct !==0){
-        getProduct()}
+        if(idProduct !==0)
+        {
+        getProduct()    
+        }
     },[idProduct])
 
     const getProduct = async()=>{
@@ -92,7 +125,7 @@ const AsingProductSup = ({idP , idSupplie, handleClose}) => {
         ):(<></>)}
         <Form.Group as={Row} className='mt-3'>
             <Form.Label column='true' sm={3}>Nombre de Producto:</Form.Label>
-            <Col><Form.Control readOnly plaintext value={product.productName || ""}/></Col>
+            <Col><Form.Control as='textarea' readOnly plaintext value={product.productName || ""}/></Col>
             <Form.Label column='true'>Descripcion del Producto:</Form.Label>
             <Col><Form.Control as='textarea' readOnly plaintext value={product.descriptionProduct || ""}/></Col>
         </Form.Group>
@@ -125,7 +158,8 @@ const AsingProductSup = ({idP , idSupplie, handleClose}) => {
             </Form.Group>
         </Form.Group>
         <Col className="mt-3">
-         <Button onClick={e => SendData()}>Asignar</Button>
+            {Supply ? (<Button onClick={e => upDateData()}>Actualizar</Button>): (<Button onClick={e => sendData()}>Asignar</Button>)}
+         
         </Col>
     </Form.Group>
   )  

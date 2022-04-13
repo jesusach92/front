@@ -13,6 +13,7 @@ const ShowProductsSupplie = (props)=>{
     const  SSI = `${SBI}${id}`
     const [products, setProducts] = useState([])
     const [supplie, setSupplie] = useState([])
+    const [Supply , setSupply] = useState([])
     const [show, setShow] = useState(false)
     const [showMoA, setMoA] = useState(false)
     const handleCloseMA =()=> setMoA (false)
@@ -20,8 +21,12 @@ const ShowProductsSupplie = (props)=>{
 
     useEffect (()=>{
         getSupplie()
+       
+    },[])
+
+    useEffect(()=>{
         getProducts()
-    },[show])
+    },[showMoA])
 
     const getProducts = async ()=>{
         const {data} = await axios.get(SPS)
@@ -140,8 +145,7 @@ const ShowProductsSupplie = (props)=>{
                             <td>{product.pSampleLocation}</td>
 							<td>{product.comments}</td>
                             <td>
-                            <ModalAsing show={show} handleClose={handleClose} idSupplie={supplie.idSupplie} idProduct={0}/>
-                    		<Button className="btn btn-warning" onClick={e=>{alert("Funcion en desarrollo")}}>Editar</Button>
+                    		<Button className="btn btn-warning" onClick={e=>{setMoA(true); setSupply(product)}}>Editar</Button>
                             </td>
                         </tr>
                     ))}
@@ -149,6 +153,7 @@ const ShowProductsSupplie = (props)=>{
 
             </Table>
 			)}
+            <ModalAsing show={showMoA} handleClose={handleCloseMA} idSupplie={supplie.idSupplie} idProduct={Supply.FkProductSpy} Supply={Supply}/>
             </div>
         </div>
     )
