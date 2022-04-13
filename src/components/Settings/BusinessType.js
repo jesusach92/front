@@ -36,7 +36,7 @@ const AddBusinessType = () => {
     }
     useEffect(()=>{
         getData()
-    },[])
+    },[show])
 
   return (
       <Col>

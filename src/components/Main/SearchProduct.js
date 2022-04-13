@@ -71,7 +71,7 @@ const SearchProduct =(props)=>{
                <div className="container pt-3">
                    Mostrando {products.length} Resultados
                    <div className="container">
-                       <Table responsive hover>
+                       {products.length !== 0 ?(<Table responsive hover>
                            <thead>
                                <tr>
                                    <th>Nombre de Producto</th>
@@ -92,7 +92,21 @@ const SearchProduct =(props)=>{
                                    </tr>
                                ))}
                            </tbody>
+                       </Table>):(
+                           <Table>
+                           <thead>
+                               <tr>
+                                   <th>Productos</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               <tr>
+                                   <td>No hay Productos Registrados</td>
+                               </tr>
+                           </tbody>
                        </Table>
+                       )}
+                       
                    </div>
                </div>
              </div>

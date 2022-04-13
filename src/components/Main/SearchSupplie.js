@@ -74,7 +74,7 @@ const SearchSupplie =(props) => {
              <div className="Results container pt-3">
                 Mostrando {supplies.length} Resultados
                 <div className="container">
-                    <Table responsive hover>
+                    {supplies.length !== 0 ?(<Table responsive hover>
                         <thead>
                             <tr>
                                 <th>Nombre de Proveedor</th>
@@ -104,7 +104,21 @@ const SearchSupplie =(props) => {
                                 </tr>
     ))}
                         </tbody>
+                    </Table>):(
+                        <Table>
+                        <thead>
+                            <tr>
+                                <th>Proveedores</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>No hay proveedore Registrados</td>
+                            </tr>
+                        </tbody>
                     </Table>
+                    )}
+                    
                 </div>
              </div>
              </div>

@@ -40,6 +40,7 @@ const AddProduct = ({show,handleCloseP, setidProduct})=>
          if(result.data.value === 1)
          {
              window.alert("Producto Agregado Correctamente")
+             console.log()
             setidProduct(result.data.insertId)
         }
         handleCloseP()

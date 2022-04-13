@@ -36,7 +36,7 @@ const SClasification = () => {
     }
     useEffect(()=>{
         getData()
-    },[])
+    },[show])
 
   return (
 

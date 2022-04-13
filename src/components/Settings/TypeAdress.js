@@ -17,7 +17,7 @@ const TypeAdress = () => {
 	
 	useEffect(() => {
 	getData()
-	},[])
+	},[show])
 	
     const sendData = async()=>{
         if(data.aType !== "")
@@ -50,7 +50,7 @@ const TypeAdress = () => {
         {typesDom.length === 0  ? (
         <tbody>
             <tr>
-                <th>No hay Tipos de Domicilio registradas</th>
+                <td>No hay Tipos de Domicilio registradas</td>
             </tr>
         </tbody>
         ):(

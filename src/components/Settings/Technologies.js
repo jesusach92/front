@@ -36,7 +36,7 @@ const Technologies = () => {
     }
     useEffect(()=>{
         getData()
-    },[])
+    },[show])
 
   return (
     <Col>
@@ -51,7 +51,7 @@ const Technologies = () => {
         {technologies.length === 0  ? (
         <tbody>
             <tr>
-                <th>No hay Tecnologias registradas</th>
+                <td>No hay Tecnologias registradas</td>
             </tr>
         </tbody>):
         (<tbody>
