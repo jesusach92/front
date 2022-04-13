@@ -5,13 +5,10 @@ import {Table,Form,Row, Col, Button, Modal} from 'react-bootstrap'
 import NavBar from './NavBar';
 import ModalAdress from './ModalAdress';
 import ModalContact from './ModalContact'
-import { SBF, SBI} from '../const/Const';
+import {DAS, SAC, SAF, SBI} from '../const/Const';
 
 const ShowAdressSupplie = (props) => {
     const {id}= useParams()
-    const DOM =`http://localhost:3001/proveedor/domicilios/${id}`
-    const CON =`http://localhost:3001/proveedor/domicilio/contactos`
-    const DEL ='http://localhost:3001/Borrar/Domicilio/'
     const [supplie, setSupplie] = useState([])
     const [adress, setAdress] = useState([])
     const [contacts, setContacts] = useState([])
@@ -23,24 +20,33 @@ const ShowAdressSupplie = (props) => {
     const [ModAdress, setModalAdress] = useState(false)
     const [ModContact, setModContact] =useState(false)
     const HideCont = ()=>setModContact(false)
-    const showAdd = ()=>setModalAdress(true) 
-    const HideAdd = ()=>{setModalAdress(false)
-    getData()
-    }
+    const HideAdd = ()=>setModalAdress(false)
     useEffect (()=>{
-        getData()
-    },[show])
+        getAdrees()
+    },[show,ModAdress])
 
-    const getData = async ()=>
+    useEffect(()=>{
+        getSupplie()
+    },[])
+
+    const getSupplie = async()=>{
+        try {
+       const {data} = await axios.get(`${SBI}${id}`)
+       let [dateinital]= data[0].sDateInitial.split('T')
+       let [dateUpdate] = data[0].sDateUpdate.split('T')
+       data[0].sDateInitial=dateinital
+       data[0].sDateUpdate=dateUpdate
+       setSupplie(data[0])
+        }
+        catch (e){
+            console.log(e)
+        }
+    }
+
+    const getAdrees = async ()=>
     {
         try{
-        const tresult= await axios.get(`${SBI}${id}`)
-        const tadress=await axios.get(DOM)
-        let [dateinital]= tresult.data[0].sDateInitial.split('T')
-        let [dateUpdate] = tresult.data[0].sDateUpdate.split('T')
-        tresult.data[0].sDateInitial=dateinital
-        tresult.data[0].sDateUpdate=dateUpdate
-        setSupplie(tresult.data[0])
+        const tadress=await axios.get(`${SAF}${id}`) 
         setAdress(tadress.data)
     }
         catch (e){
@@ -48,14 +54,13 @@ const ShowAdressSupplie = (props) => {
         }
     }
     const getContacts= async (idAdress)=>{
-        const result = await axios.get(`${CON}/${idAdress}`)
-        setContacts(result.data)
+        const {data} = await axios.get(`${SAC}${idAdress}`)
+        setContacts(data)
     }
 
     const deleteAd= async(e,idad)=>
     {
-        const result=await axios.delete(`${DEL}${idad}`)
-        console.log(result)
+        await axios.delete(`${DAS}${idad}`)
     }
 //Componente para Renderizado condicional
     return (
@@ -104,7 +109,7 @@ const ShowAdressSupplie = (props) => {
                 </Form.Group>
                 <Form.Group>
                 <ModalAdress show={ModAdress} handleClose={HideAdd} idSupplie={id}  />
-                <Button onClick={showAdd} className="btn btn-warning">Agregar Domicilio</Button>
+                <Button onClick={e=>setModalAdress(true)} className="btn btn-warning">Agregar Domicilio</Button>
                 <Link to= {`/Proveedores/Productos/${supplie.idSupplie}`} className="btn btn-success mx-3">Mostrar Productos</Link>
                 </Form.Group>
             </Form>
@@ -142,7 +147,7 @@ const ShowAdressSupplie = (props) => {
                             <td>
                                 <ModalContact show={ModContact} handleClose={HideCont} idAdress={adres.idAdress} ></ModalContact>
                                 <Button variant="warning" onClick={e=>setModContact(true)}>Agregar</Button></td>
-                            <td><Button variant="danger" onClick={(e)=>{deleteAd(e,adres.idAdress);getData()}}>Borrar</Button></td>
+                            <td><Button variant="danger" onClick={(e)=>{deleteAd(e,adres.idAdress)}}>Borrar</Button></td>
                         </tr>
                     ))}
                 </tbody>
