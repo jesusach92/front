@@ -32,7 +32,6 @@ const App = () => {
       <Route path={"/Proveedores/Productos/:id"} element={<ShowProductsSupplie brand="Productos que tiene un Proveedor"/>}/>
       <Route path={'/Inicio'} element={<Home/>}/>
       <Route path={'/'} element={<Home/>}/>
-      
     </Routes>
     </div>
   </BrowserRouter>
