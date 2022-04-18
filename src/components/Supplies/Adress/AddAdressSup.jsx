@@ -45,7 +45,7 @@ const AddAdressSup = ({FkSupplieAd}) => {
             const {data}= await axios.post(AAS,dataA)
             if(data.value === 1)
         {
-            window.alert("Domicilio guardado correctamente")
+            setTimeout(alert("Domicilio guardado correctamente"),500) 
             setIDAdrees({id:data.insertId})
 			setContacts([...Contacts,""])
         }
@@ -73,21 +73,21 @@ const AddAdressSup = ({FkSupplieAd}) => {
                     <Form.Group as={Row} className="mt-4">
                     <Form.Label column='true' sm={2}>País:</Form.Label>
                     <Col sm={4}>
-                    <Form.Control onChange={(e)=>{setData({...dataA,adressCountry:e.target.value})}} value={dataA.adressCountry || ""}/>
+                    <Form.Control placeholder="País" onChange={(e)=>{setData({...dataA,adressCountry:e.target.value})}} value={dataA.adressCountry || ""}/>
                     </Col>
-                    <Form.Label column sm={2}>Estado o Provincia:</Form.Label>
+                    <Form.Label  column sm={2}>Estado o Provincia:</Form.Label>
                     <Col sm={4}>
-                    <Form.Control onChange={(e)=>{setData({...dataA,adressState:e.target.value})}} value={dataA.adressState || ""}/>
+                    <Form.Control placeholder="Estado" onChange={(e)=>{setData({...dataA,adressState:e.target.value})}} value={dataA.adressState || ""}/>
                     </Col>
                     </Form.Group>
                 <Form.Group as={Row} className='mt-2'>
                     <Form.Label column sm={9} >Direccion:</Form.Label>
 					<Col sm={12}>
-                    	<Form.Control as='textarea' rows={2} value={dataA.adressDescription || ""} onChange={(e)=>{setData({...dataA,adressDescription:e.target.value})}}></Form.Control>
+                    	<Form.Control placeholder="Direccion con Calle Numero y Colonia" as='textarea' rows={2} value={dataA.adressDescription || ""} onChange={(e)=>{setData({...dataA,adressDescription:e.target.value})}}></Form.Control>
                     </Col>
 					<Form.Label column sm={9}>Comentarios:</Form.Label>
                     <Col sm={12}>
-					<Form.Control  as='textarea' value={dataA.aComments || ""} onChange={(e)=>{setData({...dataA,aComments:e.target.value})}}></Form.Control>
+					<Form.Control placeholder="Comentarios Importantes del Domicilio"  as='textarea' value={dataA.aComments || ""} onChange={(e)=>{setData({...dataA,aComments:e.target.value})}}></Form.Control>
 					</Col>
 				</Form.Group>
                 {idAdress.id ===0 ?(<Form.Group className="mt-2">

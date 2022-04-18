@@ -57,27 +57,27 @@ const AddContacAdress = ({FkAdressCont, id, handleDelete }) => {
 		<Form.Group as={Row}>
 		<Form.Label column sm={2}>Nombre:</Form.Label>
 		<Col sm={4}>
-			<Form.Control value={data.nameContact} name='nameContact' onChange={handleText}/>
+			<Form.Control placeholder="Nombre Completo" value={data.nameContact} name='nameContact' onChange={handleText}/>
 		</Col>
 	<Form.Label column sm={2}>Puesto:</Form.Label>
 		<Col sm={4}>
-			<Form.Control value={data.workposition} name='workposition' onChange={handleText}/>
+			<Form.Control placeholder="Puesto Desempeñado" value={data.workposition} name='workposition' onChange={handleText}/>
 		</Col>
 		</Form.Group>
 	<Form.Group as={Row} className='mt-3'>
 		<Form.Label column sm={2}>Numero de Oficina:</Form.Label>
 		<Col sm={4}>
-			<Form.Control value={data.officeNumber} name='officeNumber' maxLength="10" onChange={handleNumber}/>
+			<Form.Control  placeholder="Numero de Oficina" value={data.officeNumber} name='officeNumber' maxLength="10" onChange={handleNumber}/>
 		</Col>
 	<Form.Label column sm={2}>Numero Celular:</Form.Label>
 		<Col sm={4}>
-			<Form.Control value={data.cellphoneNumber} name='cellphoneNumber' maxLength="10" onChange={handleNumber}/>
+			<Form.Control placeholder="Numero Celular" value={data.cellphoneNumber} name='cellphoneNumber' maxLength="10" onChange={handleNumber}/>
 		</Col>
 		</Form.Group>
 	<Form.Group as={Row} className='mt-3'>
 	<Form.Label column sm={4} className='mt-3'>Comentarios u Observaciones: </Form.Label>
 		<Col sm={8}>
-			<Form.Control as='textarea' value={data.comments} name='comments' onChange={handleText} />
+			<Form.Control placeholder="Comentarios importantes del contacto" as='textarea' value={data.comments} name='comments' onChange={handleText} />
 		</Col>
 	</Form.Group>
 	<Form.Group as={Row} className='mt-3'>
