@@ -24,6 +24,7 @@ const SearchProduct =(props)=>{
             element.nameTechnology.toString().toLowerCase().includes(props.toLowerCase())){
                 return element;
             }
+            return null
         })
         setProducts(resultSearching)
     }

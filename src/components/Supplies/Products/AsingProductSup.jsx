@@ -1,7 +1,7 @@
 import  axios  from "axios"
 import { useEffect, useState } from "react"
 import { Button, Col, Form, Row } from "react-bootstrap"
-import { APS, PBI, PFF, SBP, USP } from "../../const/Const"
+import { APS, PBI, PFF, USP } from "../../const/Const"
 import AddProduct from "../../Main/AddProduct"
 
 const initialValuesPS={
