@@ -5,10 +5,10 @@ import SClasification from "./SClasification";
 import Technologies from "./Technologies";
 import TypeAdress from "./TypeAdress";
 
-const Config = (props) => {
+const Config = ({brand}) => {
   return (
     <div className="container-side p-0">
-      <NavBar brand={props.brand} />
+      <NavBar brand={brand} />
       <div className="container border mt-5 p-3">
         <h5>
           Este apartado de configuracion es para agregar campos importantes de

@@ -44,7 +44,7 @@ const ModalContact = ({ show, handleClose, idAdress }) => {
                     FkAdressCont={idAdress}
                     id={index}
                     handleDelete={handleDelete}
-                  ></AddContacAdress>
+                  />
                 </Tab>
               ))}
             </Tabs>

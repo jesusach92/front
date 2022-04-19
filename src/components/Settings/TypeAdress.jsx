@@ -1,14 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { AAT, TAD } from "../const/Const";
+import { AAT, TAD, UAT } from "../const/Const";
 
+const initialValues ={
+  aType: ""
+}
 const TypeAdress = () => {
   const [typesDom, setTypes] = useState([]);
   const [show, setShow] = useState(false);
-  const [data, setData] = useState({
-    aType: "",
-  });
+  const [data, setData] = useState(initialValues);
+  const [flag, setFlag] = useState(false)
 
   const getData = async () => {
     const { data } = await axios.get(TAD);
@@ -33,6 +35,20 @@ const TypeAdress = () => {
       alert("No puedes enviar texto vacio");
     }
   };
+
+  const updateData = async () =>{
+    if (data.aType !== "") {
+      const result = await axios.put(UAT, data);
+      if (result.data.value === 1) {
+        alert("Tipo de Domicilio actualizado correctamente");
+        setShow(false);
+        setData(initialValues);
+        setFlag(false);
+      }
+    } else {
+      alert("No puedes enviar texto vacio");
+    }
+  }
 
   return (
     <Col>
@@ -60,7 +76,16 @@ const TypeAdress = () => {
               <tr key={type.idadressType}>
                 <td value={type.aType}>{type.aType}</td>
                 <td>
-                  <Button>Editar</Button>
+                  <Button
+                  onClick={(e) => {
+                    setShow(true);
+                    setData({
+                      ...data,
+                      idadressType: type.idadressType,
+                      aType: type.aType
+                    });
+                    setFlag(true);}}
+                  >Editar</Button>
                 </td>
               </tr>
             ))}
@@ -69,7 +94,7 @@ const TypeAdress = () => {
       </Table>
       <Modal show={show} onHide={(e) => setShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Agregar Tipo de Domicilio</Modal.Title>
+        {flag ? (<Modal.Title>Actualizar Tipo de Domicilio</Modal.Title>):(<Modal.Title>Agregar Tipo de Domicilio</Modal.Title>)}
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -78,19 +103,29 @@ const TypeAdress = () => {
               <Col>
                 <Form.Control
                   value={data.aType}
-                  onChange={(e) => setData({ aType: e.target.value })}
+                  onChange={(e) => setData({...data, aType: e.target.value })}
                 />
               </Col>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={(e) => setShow(false)}>
+          <Button variant="primary" onClick={(e) => {
+              setShow(false);
+              setData(initialValues);
+              setFlag(false);
+            }}>
             Cerrar
-          </Button>
-          <Button variant="success" onClick={sendData}>
-            Agregar Domicilio
-          </Button>
+            </Button>
+            {flag ? (
+            <Button variant="success" onClick={updateData}>
+              Actualizar
+            </Button>
+          ) : (
+            <Button variant="success" onClick={sendData}>
+              Agregar
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </Col>

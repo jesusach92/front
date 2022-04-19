@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "normalize.css";
 import "./index.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router , Routes, Route } from "react-router-dom";
 import SideBar from "./components/Main/SideBar";
 import SearchSupplie from "./components/Main/SearchSupplie";
 import SearchProduct from "./components/Main/SearchProduct";
@@ -12,10 +12,11 @@ import ShowAdressSupplie from "./components/Main/ShowAdressSupple";
 import ShowSupplieProduct from "./components/Main/ShowSupplieProduct";
 import ShowProductsSupplie from "./components/Main/ShowProductsSupplie";
 import Home from "./components/Main/Home";
+import Login from "./components/Main/Login";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <div className="flex">
         <SideBar />
         <Routes>
@@ -51,11 +52,12 @@ const App = () => {
               <ShowProductsSupplie brand="Productos que tiene un Proveedor" />
             }
           />
-          <Route path={"/Inicio"} element={<Home />} />
-          <Route path={"/"} element={<Home />} />
+          <Route path={"/Inicio"} element={<SearchSupplie brand={"Inicio"} />} />
+          <Route path={"/"} element={<SearchSupplie brand={"Inicio"} />} />
+          <Route path={"/login"} element={<Login brand={"Login"}/>}/>
         </Routes>
       </div>
-    </BrowserRouter>
+    </Router>
   );
 };
 

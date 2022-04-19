@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { ABT, BST } from "../const/Const";
+import { ABT, BST, UBT } from "../const/Const";
 
 const initialValues = {
   bName: "",
@@ -12,15 +12,28 @@ const AddBusinessType = () => {
   const [data, setData] = useState(initialValues);
   const [businessType, setBusiness] = useState([]);
   const [show, setShow] = useState(false);
+  const [flag, setflag] = useState(false);
 
   const sendData = async () => {
-    console.log(data);
     if (data.bName !== "" && data.bDescription !== "") {
       const result = await axios.post(ABT, data);
       if (result.data.value === 1) {
         alert("Tipo de Negocio guardado correctamente");
         setShow(false);
         setData(initialValues);
+      }
+    } else {
+      alert("No puedes enviar texto vacio");
+    }
+  };
+  const updateData = async (updateData) => {
+    if (data.bName !== "" && data.bDescription !== "") {
+      const result = await axios.put(UBT, data);
+      if (result.data.value === 1) {
+        alert("Tipo de Negocio actualizado correctamente");
+        setShow(false);
+        setData(initialValues);
+        setflag(false);
       }
     } else {
       alert("No puedes enviar texto vacio");
@@ -41,7 +54,9 @@ const AddBusinessType = () => {
       <Table responsive hover>
         <thead>
           <tr>
-            <th>Tipos de negocio</th>
+            <th>
+              <div className="size">Tipos de negocio</div>
+            </th>
             <th>
               <Button variant="success" onClick={(e) => setShow(true)}>
                 Agregar
@@ -62,7 +77,20 @@ const AddBusinessType = () => {
                 <td value={type.bName}>{type.bName}</td>
                 <td value={type.bDescription}>{type.bDescription}</td>
                 <td>
-                  <Button>Editar</Button>
+                  <Button
+                    onClick={(e) => {
+                      setShow(true);
+                      setData({
+                        ...data,
+                        bName: type.bName,
+                        bDescription: type.bDescription,
+                        idBusinessType: type.idBusinessType,
+                      });
+                      setflag(true);
+                    }}
+                  >
+                    Editar
+                  </Button>
                 </td>
               </tr>
             ))}
@@ -72,7 +100,8 @@ const AddBusinessType = () => {
 
       <Modal show={show} onHide={(e) => setShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Agregar Tipo de Negocio</Modal.Title>
+          {flag ? (<Modal.Title>Actualizar Tipo de Negocio</Modal.Title>) :(<Modal.Title>Agregar Tipo de Negocio</Modal.Title>)}
+          
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -80,7 +109,7 @@ const AddBusinessType = () => {
               <Form.Label>Tipo de Negocio</Form.Label>
               <Col>
                 <Form.Control
-                  placerholder="El Tipo de Negocio no debe tener más de 10 letras"
+                  placeholder="El Tipo de Negocio no debe tener más de 10 letras"
                   value={data.bName}
                   onChange={(e) => setData({ ...data, bName: e.target.value })}
                 />
@@ -88,6 +117,7 @@ const AddBusinessType = () => {
               <Form.Label>Descripcion del Negocio</Form.Label>
               <Col>
                 <Form.Control
+                  placeholder="Descripcion del Negocio"
                   as="textarea"
                   rows={2}
                   value={data.bDescription}
@@ -100,12 +130,25 @@ const AddBusinessType = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={(e) => setShow(false)}>
+          <Button
+            variant="primary"
+            onClick={(e) => {
+              setShow(false);
+              setData(initialValues);
+              setflag(false);
+            }}
+          >
             Cerrar
           </Button>
-          <Button variant="success" onClick={sendData}>
-            Agregar
-          </Button>
+          {flag ? (
+            <Button variant="success" onClick={updateData}>
+              Actualizar
+            </Button>
+          ) : (
+            <Button variant="success" onClick={sendData}>
+              Agregar
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </Col>

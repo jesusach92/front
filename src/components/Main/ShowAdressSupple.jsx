@@ -5,6 +5,7 @@ import { Table, Form, Row, Col, Button, Modal } from "react-bootstrap";
 import NavBar from "./NavBar";
 import ModalAdress from "./ModalAdress";
 import ModalContact from "./ModalContact";
+import ModalContactUpdate from "./ModalContactUpdate";
 import { DAS, SAC, SAF, SBI } from "../const/Const";
 
 const ShowAdressSupplie = (props) => {
@@ -12,6 +13,10 @@ const ShowAdressSupplie = (props) => {
   const [supplie, setSupplie] = useState([]);
   const [adress, setAdress] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [contact, setcontact] = useState([]);
+  const [user, setUser] = useState("User");
+  const [showUpC, setshowUpC] = useState(false);
+  const handleCloseUpC = ()=> setshowUpC(false)
   const [show, setShow] = useState(false);
   const handleShow = (e, idAdress) => {
     setShow(true);
@@ -24,6 +29,7 @@ const ShowAdressSupplie = (props) => {
 
   useEffect(() => {
     getAdrees();
+    
   }, [show, ModAdress]);
 
   useEffect(() => {
@@ -171,7 +177,7 @@ const ShowAdressSupplie = (props) => {
                 <th>Comentarios</th>
                 <th>Contactos</th>
                 <th>Agregar contacto</th>
-                <th>Borrar Domicilio</th>
+                {user === "Admin" ? <th>Borrar Domicilio</th> : <></>}
               </tr>
             </thead>
             <tbody>
@@ -208,16 +214,20 @@ const ShowAdressSupplie = (props) => {
                       Agregar
                     </Button>
                   </td>
-                  <td>
-                    <Button
-                      variant="danger"
-                      onClick={(e) => {
-                        deleteAd(e, adres.idAdress);
-                      }}
-                    >
-                      Borrar
-                    </Button>
-                  </td>
+                  {user === "Admin" ? (
+                    <td>
+                      <Button
+                        variant="danger"
+                        onClick={(e) => {
+                          deleteAd(e, adres.idAdress);
+                        }}
+                      >
+                        Borrar
+                      </Button>
+                    </td>
+                  ) : (
+                    <></>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -252,7 +262,7 @@ const ShowAdressSupplie = (props) => {
                     <tr key={contact.idContact}>
                       <td>{contact.nameContact}</td>
                       <td>
-                        {contact.contactPrincipal.data[0] === 1
+                        {contact.contactPrincipal === 1
                           ? "Contacto Principal"
                           : "Contacto Secundario"}
                       </td>
@@ -261,7 +271,15 @@ const ShowAdressSupplie = (props) => {
                       <td>{contact.cellphoneNumber}</td>
                       <td>{contact.comments}</td>
                       <td>
-                        <Button className="btn btn-warning">Editar</Button>
+                        <Button
+                          className="btn btn-warning"
+                          onClick={(e) => {
+                            setcontact(contact);
+                            setshowUpC(true);
+                          }}
+                        >
+                          Editar
+                        </Button>
                       </td>
                     </tr>
                   ))}
@@ -276,6 +294,7 @@ const ShowAdressSupplie = (props) => {
           </Modal.Footer>
         </Modal>
       </div>
+      <ModalContactUpdate show={showUpC} handleClose={handleCloseUpC} contact={contact}/>
     </div>
   );
 };

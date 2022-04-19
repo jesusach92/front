@@ -1,14 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { ACS, SCT } from "../const/Const";
+import { ACS, SCT, UCS } from "../const/Const";
 
+const initialValues = {
+  clasificationName: ""
+}
 const SClasification = () => {
   const [show, setShow] = useState(false);
-  const [data, setData] = useState({
-    clasificationName: "",
-  });
+  const [data, setData] = useState(initialValues);
   const [sclasificacion, setsclasificacion] = useState([]);
+  const [flag, setFlag] = useState(false)
 
   const getData = async () => {
     const sclass = await axios.get(SCT);
@@ -17,9 +19,9 @@ const SClasification = () => {
 
   const sendData = async () => {
     if (data !== "") {
-      console.log(data);
+     
       const result = await axios.post(ACS, data);
-      console.log(result.data);
+     
       if (result.data.value === 1) {
         alert("Clasificacion de Proveedor Guardada Exitosamente");
         setShow(false);
@@ -31,6 +33,23 @@ const SClasification = () => {
       alert("No puedes enviar texto vacio");
     }
   };
+
+  const updateData = async () =>{
+    if (data !== "") {
+      
+      const result = await axios.put(UCS, data);
+     
+      if (result.data.value === 1) {
+        alert("Clasificacion de Proveedor Actualizada Exitosamente");
+        setShow(false);
+        setData(initialValues);
+        setFlag(false);
+      }
+    } else {
+      alert("No puedes enviar texto vacio");
+    }
+  }
+
   useEffect(() => {
     getData();
   }, [show]);
@@ -61,7 +80,16 @@ const SClasification = () => {
               <tr key={type.idClasification}>
                 <td value={type.clasificationName}>{type.clasificationName}</td>
                 <td>
-                  <Button>Editar</Button>
+                  <Button
+                  onClick={(e) => {
+                    setShow(true);
+                    setData({
+                      ...data,
+                      idClasification: type.idClasification,
+                      clasificationName: type.clasificationName
+                    });
+                    setFlag(true);}}
+                  >Editar</Button>
                 </td>
               </tr>
             ))}
@@ -70,7 +98,7 @@ const SClasification = () => {
       </Table>
       <Modal show={show} onHide={(e) => setShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Agregar Clasificacion de Proveedor</Modal.Title>
+        {flag ? (<Modal.Title>Actualizar Clasificacion</Modal.Title>):(<Modal.Title>Agregar Clasificacion</Modal.Title>)}
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -78,9 +106,10 @@ const SClasification = () => {
               <Form.Label>Clasificacion de Proveedor</Form.Label>
               <Col>
                 <Form.Control
+                  placeholder="Nombre de La Clasificacion"
                   value={data.clasificationName}
                   onChange={(e) =>
-                    setData({ clasificationName: e.target.value })
+                    setData({ ...data, clasificationName: e.target.value })
                   }
                 />
               </Col>
@@ -88,12 +117,25 @@ const SClasification = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={(e) => setShow(false)}>
+          <Button
+            variant="primary"
+            onClick={(e) => {
+              setShow(false);
+              setData(initialValues);
+              setFlag(false);
+            }}
+          >
             Cerrar
           </Button>
-          <Button variant="success" onClick={sendData}>
-            Agregar
-          </Button>
+          {flag ? (
+            <Button variant="success" onClick={updateData}>
+              Actualizar
+            </Button>
+          ) : (
+            <Button variant="success" onClick={sendData}>
+              Agregar
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </Col>
