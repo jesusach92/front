@@ -17,20 +17,20 @@ const SideBar = () => {
           </Link>
         </li>
         <li className="links">
-          <Link to="/Proveedores"><AccountBoxIcon/>Proveedores</Link>
+          <Link to="/Proveedores"><AccountBoxIcon className="icon_my"/>Proveedores</Link>
         </li>
         <li className="links">
           
-          <Link to="/Agregar/Proveedor"><AddBoxIcon/>
+          <Link to="/Agregar/Proveedor"><AddBoxIcon className="icon_my"/>
             Agregar Proveedor
           </Link>
         </li>
         <li className="links">
-          <Link to="/Productos"><BarChartIcon/>Productos</Link>
+          <Link to="/Productos"><BarChartIcon className="icon_my"/>Productos</Link>
         </li>
         <li className="links">
          
-          <Link to="/Configuracion"><SettingsIcon/>Configuracion</Link>
+          <Link to="/Configuracion"><SettingsIcon className="icon_my"/>Configuracion</Link>
         </li>
       </ul>
       </div>

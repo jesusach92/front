@@ -31,9 +31,10 @@
   justify-content: flex-start;
   align-items: center;
 }
-svg{
+.icon_my{
   margin-right: 30px;
 }
+
 .links , .links  a {
   text-decoration: none;
   font-family: sans-serif;

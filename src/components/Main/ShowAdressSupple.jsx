@@ -16,7 +16,7 @@ const ShowAdressSupplie = (props) => {
   const [contact, setcontact] = useState([]);
   const [user, setUser] = useState("User");
   const [showUpC, setshowUpC] = useState(false);
-  const handleCloseUpC = ()=> setshowUpC(false)
+  const handleCloseUpC = () => setshowUpC(false);
   const [show, setShow] = useState(false);
   const handleShow = (e, idAdress) => {
     setShow(true);
@@ -29,7 +29,6 @@ const ShowAdressSupplie = (props) => {
 
   useEffect(() => {
     getAdrees();
-    
   }, [show, ModAdress]);
 
   useEffect(() => {
@@ -294,7 +293,11 @@ const ShowAdressSupplie = (props) => {
           </Modal.Footer>
         </Modal>
       </div>
-      <ModalContactUpdate show={showUpC} handleClose={handleCloseUpC} contact={contact}/>
+      <ModalContactUpdate
+        show={showUpC}
+        handleClose={handleCloseUpC}
+        contact={contact}
+      />
     </div>
   );
 };

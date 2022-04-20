@@ -72,4 +72,5 @@ const ModalContact = ({ show, handleClose, idAdress }) => {
     </Modal>
   );
 };
+
 export default ModalContact;

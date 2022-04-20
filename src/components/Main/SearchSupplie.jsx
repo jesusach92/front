@@ -3,10 +3,9 @@ import NavBar from "./NavBar";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { SBF } from "../const/Const";
 
 const SearchSupplie = (props) => {
-  const URI = "http://localhost:3001/proveedores";
-
   const filtrar = (props) => {
     let resultSearching = tabSupplies.filter((element) => {
       if (
@@ -44,7 +43,7 @@ const SearchSupplie = (props) => {
   }, []);
 
   const getSupplies = async () => {
-    const result = await axios.get(URI);
+    const result = await axios.get(SBF);
     setSupplies(result.data);
     setTabSupplies(result.data);
   };

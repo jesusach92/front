@@ -1,4 +1,4 @@
-const DIR = "http://localhost:3001";
+const DIR = "http://192.168.1.79:3001";
 export const BST = `${DIR}/Negocios`;
 export const SCT = `${DIR}/Clasificacion`;
 export const ADP = `${DIR}/agregar/producto`;
@@ -29,3 +29,4 @@ export const UTH = `${DIR}/Actualizar/Tecnologia`;
 export const UCS = `${DIR}/Actualizar/Clasificacion`;
 export const UAT= `${DIR}/Actualizar/TipoDomicilio`;
 export const UCA= `${DIR}/Actualizar/Contacto`
+export const AUS= `${DIR}/Registrar/usuario`

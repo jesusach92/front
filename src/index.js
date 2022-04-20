@@ -11,8 +11,8 @@ import Config from "./components/Settings/Config";
 import ShowAdressSupplie from "./components/Main/ShowAdressSupple";
 import ShowSupplieProduct from "./components/Main/ShowSupplieProduct";
 import ShowProductsSupplie from "./components/Main/ShowProductsSupplie";
-import Home from "./components/Main/Home";
 import Login from "./components/Main/Login";
+import Register from "./components/Main/Register";
 
 const App = () => {
   return (
@@ -52,9 +52,10 @@ const App = () => {
               <ShowProductsSupplie brand="Productos que tiene un Proveedor" />
             }
           />
-          <Route path={"/Inicio"} element={<SearchSupplie brand={"Inicio"} />} />
-          <Route path={"/"} element={<SearchSupplie brand={"Inicio"} />} />
-          <Route path={"/login"} element={<Login brand={"Login"}/>}/>
+          <Route path={"/Inicio"} element={<Login brand={"Inicio"} />} />
+          <Route path={"/"} element={<Login brand={"Inicio"} />} />
+          <Route path={"/login"} element={<Login brand={"Iniciar Sesión"}/>}/>
+          <Route path={"/Register"} element={<Register brand={"Registrar Usuario"}/>}/>
         </Routes>
       </div>
     </Router>
