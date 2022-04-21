@@ -30,3 +30,4 @@ export const UCS = `${DIR}/Actualizar/Clasificacion`;
 export const UAT= `${DIR}/Actualizar/TipoDomicilio`;
 export const UCA= `${DIR}/Actualizar/Contacto`
 export const AUS= `${DIR}/Registrar/usuario`
+export const AUT= `${DIR}/Autenticar`

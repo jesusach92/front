@@ -5,7 +5,6 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-
 const SideBar = () => {
   return (
     <aside className="sidebar">

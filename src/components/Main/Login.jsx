@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import NavBar from './NavBar'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -11,7 +11,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Grid } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import axios from 'axios';
+import { AUT } from '../const/Const';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,10 +38,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
+const initialValues = {
+  nameUser:"", 
+  passwordUser:""
+}
 
 const Login = ({brand}) => {
   const classes = useStyles();
+  const [data, setData] = useState(initialValues)
+  const [session, setSession] = useState({})
+  const [flag, setFlag] = useState(false)
+
+  const sendData = async ()=>{
+   try {
+    const result = await axios.post(AUT,data)
+    setSession({data: result.data.user})
+    setFlag(true)
+   } catch ({response}) {
+     alert(response.data)
+    
+   }
+  }
   return (
 
     <div className="container-side p-0">
@@ -61,8 +81,10 @@ const Login = ({brand}) => {
             fullWidth
             id="email"
             label="Usuario"
-            name="usuario"
+            name="nameUser"
             autoComplete="user"
+            value={data.nameUser}
+            onChange={e=>setData({...data, nameUser:e.target.value})}
             autoFocus
           />
           <TextField
@@ -70,11 +92,13 @@ const Login = ({brand}) => {
             margin="normal"
             required
             fullWidth
-            name="password"
+            name="passwordUser"
             label="Contraseña"
             type="password"
+            value={data.passwordUser}
             id="password"
             autoComplete="current-password"
+            onChange={e=>setData({...data, passwordUser : e.target.value})}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -85,9 +109,11 @@ const Login = ({brand}) => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={sendData}
           >
             Iniciar Sesión
           </Button>
+          {flag === true ? (<div>{alert("Bienvenido")}<Navigate to="/proveedores" replace/></div>):<></>}
           <Grid item xs>
               <Link to="/Register" variant="body2">
                 Registrarse
