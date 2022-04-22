@@ -11,11 +11,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Grid } from '@material-ui/core';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AUT } from '../const/Const';
 import { Alert } from '@material-ui/lab';
 import { UserContext } from '../ContextUser/UserContext';
+import { Types } from '../ContextUser/UserReducer';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -45,6 +46,8 @@ const initialValues = {
 }
 
 const Login = ({brand}) => {
+
+  const navigate = useNavigate()
   const[state, dispatch] = useContext(UserContext)
   const classes = useStyles();
   const [data, setData] = useState(initialValues)
@@ -54,15 +57,17 @@ const Login = ({brand}) => {
   const sendData = async ()=>{
    try {
     const result = await axios.post(AUT,data)
-    setSession({data: result.data.user})
+    dispatch({type: Types.authLogin, payload: result.data.user})
+    console.log(result.data.user)
     setFlag(true)
+    navigate('/proveedores',{replace:true})
    } catch ({response}) {
      alert(response.data)
     
    }
   }
   return (
-    session.tokenUser !== "" ? (<Navigate to={'/Proveedores'} replace></Navigate>):
+    state.user.tokenUser !== "" ? (<Navigate to={'/Proveedores'} replace></Navigate>):
     <div className="container-side p-0">
          <NavBar brand={brand}/>
          <div className="container-sm">
