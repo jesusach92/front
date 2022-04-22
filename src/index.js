@@ -13,9 +13,11 @@ import ShowSupplieProduct from "./components/Main/ShowSupplieProduct";
 import ShowProductsSupplie from "./components/Main/ShowProductsSupplie";
 import Login from "./components/Main/Login";
 import Register from "./components/Main/Register";
+import UserProvaider from "./components/ContextUser/UserContext";
 
 const App = () => {
   return (
+    <UserProvaider>
     <Router>
       <div className="flex">
         <SideBar />
@@ -59,6 +61,7 @@ const App = () => {
         </Routes>
       </div>
     </Router>
+    </UserProvaider>
   );
 };
 

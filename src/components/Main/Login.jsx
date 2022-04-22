@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import NavBar from './NavBar'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -15,6 +15,7 @@ import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { AUT } from '../const/Const';
 import { Alert } from '@material-ui/lab';
+import { UserContext } from '../ContextUser/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -44,9 +45,10 @@ const initialValues = {
 }
 
 const Login = ({brand}) => {
+  const[state, dispatch] = useContext(UserContext)
   const classes = useStyles();
   const [data, setData] = useState(initialValues)
-  const [session, setSession] = useState({})
+  const [session, setSession] = useState(state.user)
   const [flag, setFlag] = useState(false)
 
   const sendData = async ()=>{
@@ -60,7 +62,7 @@ const Login = ({brand}) => {
    }
   }
   return (
-
+    session.tokenUser !== "" ? (<Navigate to={'/Proveedores'} replace></Navigate>):
     <div className="container-side p-0">
          <NavBar brand={brand}/>
          <div className="container-sm">
