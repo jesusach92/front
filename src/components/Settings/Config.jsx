@@ -1,5 +1,6 @@
 import { Row } from "react-bootstrap";
 import NavBar from "../Main/NavBar";
+import SideBar from "../Main/SideBar";
 import BusinessType from "./BusinessType";
 import SClasification from "./SClasification";
 import Technologies from "./Technologies";
@@ -7,7 +8,9 @@ import TypeAdress from "./TypeAdress";
 
 const Config = ({brand}) => {
   return (
-    <div className="container-side p-0">
+    <div className="flex">
+      <SideBar/>
+      <div className="container-side p-0">
       <NavBar brand={brand} />
       <div className="container border mt-5 p-3">
         <h5>
@@ -26,7 +29,8 @@ const Config = ({brand}) => {
           <TypeAdress />
         </Row>
       </div>
-    </div>
+    </div></div>
+    
   );
 };
 

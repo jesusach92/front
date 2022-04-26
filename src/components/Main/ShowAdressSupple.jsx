@@ -7,6 +7,7 @@ import ModalAdress from "./ModalAdress";
 import ModalContact from "./ModalContact";
 import ModalContactUpdate from "./ModalContactUpdate";
 import { DAS, SAC, SAF, SBI } from "../const/Const";
+import SideBar from "./SideBar";
 
 const ShowAdressSupplie = (props) => {
   const { id } = useParams();
@@ -67,7 +68,9 @@ const ShowAdressSupplie = (props) => {
   };
   //Componente para Renderizado condicional
   return (
-    <div className="container-side p-0">
+    <div className="flex">
+      <SideBar/>
+      <div className="container-side p-0">
       <NavBar brand={props.brand}></NavBar>
       <div className="container px-3 pt-3 ">
         <Form>
@@ -298,7 +301,8 @@ const ShowAdressSupplie = (props) => {
         handleClose={handleCloseUpC}
         contact={contact}
       />
-    </div>
+    </div></div>
+    
   );
 };
 export default ShowAdressSupplie;

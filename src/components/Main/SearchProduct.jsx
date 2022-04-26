@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import AddProduct from "./AddProduct";
 import { PFF } from "../const/Const";
+import SideBar from "./SideBar";
 
-const SearchProduct = (props) => {
+const SearchProduct = ({brand}) => {
   const [products, setProducts] = useState([]);
   const [originProducts, setoriginProducts] = useState([]);
   const [search, setSearch] = useState("");
@@ -61,8 +62,10 @@ const SearchProduct = (props) => {
   };
   //Retorno de Componente condicionado
   return (
-    <div className="container-side p-0">
-      <NavBar brand={props.brand} />
+    <div className="flex">
+      <SideBar/>
+      <div className="container-side p-0">
+      <NavBar brand={brand} />
       <div className="container px-3 pt-3">
         <Form>
           <Form.Group as={Row}>
@@ -147,7 +150,8 @@ const SearchProduct = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </div></div>
+    
   );
 };
 export default SearchProduct;

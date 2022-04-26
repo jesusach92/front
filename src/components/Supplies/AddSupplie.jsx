@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { ADS, BST, SCT } from "../const/Const";
 
 import NavBar from "../Main/NavBar";
+import SideBar from "../Main/SideBar";
 import AddAdressSup from "./Adress/AddAdressSup";
 import AsingProductSup from "./Products/AsingProductSup";
 
@@ -48,7 +49,9 @@ const AddSupplie = (props) => {
     getData();
   }, []);
   return (
-    <div className="container-side p-0">
+    <div className="flex">
+      <SideBar/>
+      <div className="container-side p-0">
       <NavBar brand={props.brand} />
       <div className="container pt-3">
         <Form className="mt-2">
@@ -155,7 +158,8 @@ const AddSupplie = (props) => {
           </Table>
         )}
       </div>
-    </div>
+    </div></div>
+    
   );
 };
 export default AddSupplie;

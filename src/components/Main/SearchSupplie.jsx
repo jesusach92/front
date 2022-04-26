@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { SBF } from "../const/Const";
+import SideBar from "./SideBar";
 
 const SearchSupplie = (props) => {
   const filtrar = (props) => {
@@ -56,6 +57,8 @@ const SearchSupplie = (props) => {
   });
 
   return (
+    <div className="flex">
+      <SideBar />
     <div className="container-side p-0">
       <NavBar brand={props.brand}></NavBar>
       <div className="container px-3 pt-3">
@@ -95,7 +98,7 @@ const SearchSupplie = (props) => {
                   <th>Tipo de Negocio</th>
                   <th>Clasificacion</th>
                   <th>Fecha de Alta</th>
-                  <th>Fecha de Ultima Actualizacion</th>
+                  <th>Fecha de Actualizacion</th>
                   <th>Domicilios</th>
                   <th>Productos</th>
                 </tr>
@@ -145,6 +148,7 @@ const SearchSupplie = (props) => {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 };

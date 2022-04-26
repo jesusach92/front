@@ -4,6 +4,7 @@
   --orange: #fa5d02;
   --backgroundbox: rgba(5, 24, 68, 0.07);
   --blue: rgba(6, 10, 71, 0.91);
+  --ligth-blue: rgba(107,134,244,0.87)
 }
 * {
   margin: 0;
@@ -103,4 +104,56 @@ textarea::-webkit-scrollbar {
 }
 .size {
   width: 90px;
+}
+.Logout
+{
+  cursor: pointer;
+}
+.widgets{
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.widget{
+  -webkit-box-shadow: 2px 4px 10px 1px #000000; 
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 20rem;
+}
+.flex-widget{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.title{
+  font-size: 1rem;
+  color: var(--ligth-blue);
+  padding-left: 15px;
+}
+.counter{
+  font-size: 3rem;
+  margin: auto;
+}
+.link, .link a
+{
+  text-decoration: none;
+  color: var(--blue);
+  cursor: pointer;
+  padding-bottom: 20px;
+}
+.link:hover, .link a:hover
+{
+  text-decoration: none;
+  color: var(--ligth-blue);
+  cursor: pointer;
+  padding-bottom: 20px;
+}
+.iconWidget{
+  font-size: 1rem;
+  color:var(--blue);
+  padding-bottom: 20px;
 }

@@ -11,16 +11,16 @@ const initialState = {
         nameUser: "",
         namePerson:"",
         roleUser:"",
-        tokenUser:""
       }
 }
 
 const UserReducer = (state,action)=>{
 switch(action.type){
-    case Types.authLogout:
+    case Types.authLogout: 
         return{
             ...state,
-            user:initialState.user
+            user:initialState.user,
+            
         }
     case Types.authLogin :
         return {...state,

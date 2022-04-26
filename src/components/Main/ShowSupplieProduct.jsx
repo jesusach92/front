@@ -6,6 +6,7 @@ import NavBar from "./NavBar";
 import ModalAsing from "./ModalAsing";
 import { PBI, SBF, SPS } from "../const/Const";
 import AddProduct from "./AddProduct";
+import SideBar from "./SideBar";
 
 const ShowSupplieProduct = (props) => {
   const { id } = useParams();
@@ -50,7 +51,9 @@ const ShowSupplieProduct = (props) => {
 
   //Componente para Renderizado condicional
   return (
-    <div className="container-side p-0">
+    <div className="flex">
+      <SideBar/>
+      <div className="container-side p-0">
       <NavBar brand={props.brand}></NavBar>
       <div className="container px-3 pt-3 ">
         <Form>
@@ -173,7 +176,8 @@ const ShowSupplieProduct = (props) => {
           </Form>
         )}
       </div>
-    </div>
+    </div></div>
+    
   );
 };
 export default ShowSupplieProduct;

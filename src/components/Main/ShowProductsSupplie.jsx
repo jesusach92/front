@@ -5,6 +5,7 @@ import { Table, Form, Row, Col, Button } from "react-bootstrap";
 import NavBar from "./NavBar";
 import { PBS, SBI } from "../const/Const";
 import ModalAsing from "./ModalAsing";
+import SideBar from "./SideBar";
 
 const ShowProductsSupplie = (props) => {
   const { id } = useParams();
@@ -50,7 +51,9 @@ const ShowProductsSupplie = (props) => {
   };
   //Retorno del renderizado condicional
   return (
-    <div className="container-side p-0">
+    <div className="flex">
+      <SideBar/>
+      <div className="container-side p-0">
       <NavBar brand={props.brand}></NavBar>
       <div className="container px-3 pt-3 ">
         <Form>
@@ -216,7 +219,8 @@ const ShowProductsSupplie = (props) => {
           Supply={Supply}
         />
       </div>
-    </div>
+    </div></div>
+    
   );
 };
 export default ShowProductsSupplie;
