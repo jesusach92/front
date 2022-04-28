@@ -27,27 +27,24 @@ const AddUser = ({ setFlag, flag }) => {
   const getRole = async () => {
     try {
       const { data } = await axios.get(DRA);
-      const roleFilter = data.filter(
-        (role) => role.idRole !== 999
-      );
+      const roleFilter = data.filter((role) => role.idRole !== 999);
       setRole(roleFilter);
     } catch (error) {}
   };
   useEffect(() => {
     getRole();
   }, []);
-
+  const searchFkRole = (e) => {
+    const Role = role.find((element) => element.nameRole === e.target.value);
+    setDataUser({ ...dataUser, FkRole: Role.idRole, nameRole:e.target.value });
+  };
   const sendData = async () => {
     try {
-      const Role = role.find(
-        (element) => element.nameRole === dataUser.nameRole
-      );
-    setDataUser({ ...dataUser, FkRole: Role.idRole });
-    const { data } = await axios.post(AUA, dataUser);
-    alert(""+data.message) 
-    setFlag(!flag);      
+      const { data } = await axios.post(AUA, dataUser);
+      alert("" + data.message);
+      setFlag(!flag);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   return (
@@ -99,9 +96,7 @@ const AddUser = ({ setFlag, flag }) => {
           value={dataUser.nameRole}
           helperText="Selecciona el Rol de Usuario"
           className="mx-4"
-          onChange={(e) => {
-            setDataUser({ ...dataUser, nameRole: e.target.value });
-          }}
+          onChange={(e) => {searchFkRole(e)}}
         >
           {role.map((option) => (
             <MenuItem key={option.idRole} value={option.nameRole}>
