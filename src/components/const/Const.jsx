@@ -1,4 +1,4 @@
-const DIR = "http://192.168.1.102:3001";
+const DIR = "http://localhost:3001";
 export const BST = `${DIR}/Negocios`;
 export const SCT = `${DIR}/Clasificacion`;
 export const ADP = `${DIR}/agregar/producto`;
