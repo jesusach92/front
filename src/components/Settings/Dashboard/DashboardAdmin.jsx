@@ -4,10 +4,12 @@ import { DTA } from "../../const/Const";
 import { UserContext } from "../../ContextUser/UserContext";
 import NavBar from "../../Main/NavBar";
 import SideBar from "../../Main/SideBar";
+import AddUser from "./AddUser";
 import UsersTable from "./UsersTable";
 import Widget from "./Widget";
 
 const DashboardAdmin = ({ brand }) => {
+  const [flag, setFlag] = useState(false);
   const [dataAdmin, setDataAdmin] = useState({});
   const [state, dispatch] = useContext(UserContext);
   const session = state.user;
@@ -35,8 +37,8 @@ const DashboardAdmin = ({ brand }) => {
           <Widget type="contacts" dataAdmin={dataAdmin.Contactos}></Widget>
         </div>
         <div className="container px-3 pt-3 flex">
-          <div className="px-3"><UsersTable/></div>
-          <div className="px-3">Agregar Usuario</div>
+          <div className="px-3"><UsersTable flag={flag} setFlag={setFlag}/></div>
+          <div className="px-3"><AddUser flag={flag} setFlag={setFlag}/></div>
         </div>
       </div>
     </div>

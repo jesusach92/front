@@ -141,7 +141,7 @@ const SearchSupplie = (props) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>No hay proveedore Registrados</td>
+                  <td>No hay proveedores Registrados</td>
                 </tr>
               </tbody>
             </Table>

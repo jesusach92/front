@@ -27,7 +27,7 @@ const SideBar = () => {
             <img src={logo} alt="texinlogo" className="image-responsive logo" />
           </Link>
         </li>
-        {(session.roleUser ===  1 || session.roleUser === 2) ? (
+        {(session.roleUser ===  1 || session.roleUser === 999) ? (
         <li className="links">
           <Link to="/Dashboard"><BuildIcon className="icon_my"/>Administracion</Link>
         </li>):(<></>)}

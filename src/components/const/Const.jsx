@@ -1,4 +1,4 @@
-const DIR = "http://localhost:3001";
+const DIR = "http://192.168.1.102:3001";
 export const BST = `${DIR}/Negocios`;
 export const SCT = `${DIR}/Clasificacion`;
 export const ADP = `${DIR}/agregar/producto`;
@@ -32,3 +32,7 @@ export const UCA = `${DIR}/Actualizar/Contacto`;
 export const AUS = `${DIR}/Registrar/usuario`;
 export const AUT = `${DIR}/Autenticar`;
 export const DTA = `${DIR}/DataAdmin`;
+export const DUA = `${DIR}/UsuariosAdmin`;
+export const DDA = `${DIR}/Borrar/Usuario`;
+export const DRA = `${DIR}/Roles`;
+export const AUA = `${DIR}/Agregar/Usuario`;
