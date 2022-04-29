@@ -7,10 +7,10 @@ const Types ={
 
 const initialState = {
     user: {
-        id: "",
+        idUsers: "",
         nameUser: "",
         namePerson:"",
-        roleUser:"",
+        FkRole:"",
       }
 }
 

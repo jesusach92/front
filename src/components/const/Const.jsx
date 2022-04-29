@@ -36,3 +36,4 @@ export const DUA = `${DIR}/UsuariosAdmin`;
 export const DDA = `${DIR}/Borrar/Usuario`;
 export const DRA = `${DIR}/Roles`;
 export const AUA = `${DIR}/Agregar/Usuario`;
+export const UDA = `${DIR}/Actualizar/Usuario`;

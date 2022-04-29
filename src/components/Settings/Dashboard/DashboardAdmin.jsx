@@ -12,6 +12,7 @@ const DashboardAdmin = ({ brand }) => {
   const [flag, setFlag] = useState(false);
   const [dataAdmin, setDataAdmin] = useState({});
   const [state, dispatch] = useContext(UserContext);
+  const [user, setUser] = useState(null)
   const session = state.user;
   useEffect(() => {
     getdataAdmin();
@@ -37,8 +38,8 @@ const DashboardAdmin = ({ brand }) => {
           <Widget type="contacts" dataAdmin={dataAdmin.Contactos}></Widget>
         </div>
         <div className="container px-3 pt-3 flex">
-          <div className="px-3"><UsersTable flag={flag} setFlag={setFlag}/></div>
-          <div className="px-3"><AddUser flag={flag} setFlag={setFlag}/></div>
+          <div className="px-3"><UsersTable flag={flag} setFlag={setFlag} setUser={setUser}/></div>
+          <div className="px-3"><AddUser flag={flag} setFlag={setFlag} user={user}/></div>
         </div>
       </div>
     </div>

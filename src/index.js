@@ -59,7 +59,7 @@ const RoutesIndex = () => {
               />
               <Route path={"/Inicio"} element={<Login brand="Inicio" />} />
               <Route path={"/"} element={<Login brand="Inicio" />} />
-              {(session.roleUser ===  1 || session.roleUser === 999) ?(
+              {(session.FkRole ===  1 || session.FkRole === 999) ?(
                <Route path={"/Dashboard"} element={<DashboardAdmin brand="Administrar" />} /> 
               ):(<></>)}
             </Routes>

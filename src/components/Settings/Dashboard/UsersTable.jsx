@@ -9,9 +9,10 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
 import { DDA, DUA } from "../../const/Const";
-import { Button } from "react-bootstrap";
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import { UserContext } from "../../ContextUser/UserContext";
+import { IconButton } from "@material-ui/core";
 
 const useStyles = makeStyles({
   table: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-const UsersTable = ({ flag, setFlag }) => {
+const UsersTable = ({ flag, setFlag, setUser }) => {
   const [state, dispatch] = useContext(UserContext);
   const user = state.user;
   const classes = useStyles();
@@ -28,21 +29,47 @@ const UsersTable = ({ flag, setFlag }) => {
     try {
       const { data } = await axios.delete(`${DDA}/${idUsers}`);
       if (data.value === 1) {
+        setUser(null);
         setFlag(!flag);
       } else {
-        alert("No se pudo eliminar al Usuario");
+        alert("No se pudo Actualizar el Usuario");
       }
     } catch (error) {
       console.log(error);
     }
   };
-  const createData = (idUsers, nameUser, namePerson, nameRole, privileges) => {
+
+  const createData = (
+    idUsers,
+    nameUser,
+    namePerson,
+    nameRole,
+    privileges,
+    user
+  ) => {
     const deleteUser = (
-      <Button onClick={(e) => deleteUsers(idUsers)}>
+      <IconButton
+        size="small"
+        color="secondary"
+        onClick={(e) => deleteUsers(idUsers)}
+      >
         <DeleteIcon />
-      </Button>
+      </IconButton>
     );
-    return { idUsers, nameUser, namePerson, nameRole, privileges, deleteUser };
+    const editUser = (
+      <IconButton size="small" color="primary" onClick={(e) => setUser(user)}>
+        <EditIcon />
+      </IconButton>
+    );
+    return {
+      idUsers,
+      nameUser,
+      namePerson,
+      nameRole,
+      privileges,
+      editUser,
+      deleteUser,
+    };
   };
   const getUsers = async () => {
     try {
@@ -66,7 +93,8 @@ const UsersTable = ({ flag, setFlag }) => {
       user.nameUser,
       user.namePerson,
       user.nameRole,
-      user.privileges
+      user.privileges,
+      user
     )
   );
   return (
@@ -75,22 +103,22 @@ const UsersTable = ({ flag, setFlag }) => {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Id Usuario</TableCell>
             <TableCell align="right">Nombre de Usuario</TableCell>
             <TableCell align="right">Nombre de Persona</TableCell>
             <TableCell align="right">Rol de Usuario</TableCell>
             <TableCell align="right">Privilegios</TableCell>
+            <TableCell align="center">Editar</TableCell>
             <TableCell align="center">Borrar</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody fixed={true}>
+        <TableBody>
           {rows.map((row) => (
             <TableRow key={row.idUsers} hover={true}>
-              <TableCell align="center">{row.idUsers}</TableCell>
               <TableCell align="center">{row.nameUser}</TableCell>
               <TableCell align="right">{row.namePerson}</TableCell>
               <TableCell align="center">{row.nameRole}</TableCell>
               <TableCell align="right">{row.privileges}</TableCell>
+              <TableCell align="center">{row.editUser}</TableCell>
               <TableCell align="right">{row.deleteUser}</TableCell>
             </TableRow>
           ))}
