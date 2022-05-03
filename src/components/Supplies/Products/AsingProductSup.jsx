@@ -7,7 +7,7 @@ import AddProduct from "../../Main/AddProduct";
 const initialValuesPS = {
   FkSupplieSpy: 0,
   FkProductSpy: 0,
-  price: "",
+  price: 0.0,
   divisa: "",
   deliveryTime: "",
   productLine: "",
@@ -112,10 +112,11 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
 
   const handleNumber = (e) => {
     const { name, value } = e.target;
-    let regex = new RegExp("^[0-9]+$");
+    var preg = /^\d*\.?\d*$/; 
     for (let i = 0; i < value.length; i++) {
       let letra = value[i];
-      if (!regex.test(letra) || !letra === " ") {
+      console.log(preg.test(letra))
+      if (!preg.test(letra) || !letra === " ") {
         return;
       }
     }
@@ -200,8 +201,9 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
         </Form.Label>
         <Col sm={2}>
           <Form.Control
+          name="price"
             placeholder="920.00"
-            onChange={(e) => setDataPS({ ...dataPS, price: Number(e.target.value) })}
+            onChange={(e) => {handleNumber(e)}}
             value={dataPS.price}
           />
         </Col>
