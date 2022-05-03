@@ -1,7 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { ATH, TEC, UTH } from "../const/Const";
+import { ATH, TEC,DTH, UTH } from "../const/Const";
+
+import { IconButton } from "@material-ui/core";
+
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 
 const initialValues = {
   nameTechnology: "",
@@ -17,6 +23,13 @@ const Technologies = () => {
     setTech(data);
   };
 
+const deleteData = async (e, id) =>{
+  const { data } = await axios.delete(`${DTH}/${id}`);
+    setShow(false);
+    setData(initialValues);
+    getData();
+}
+  
   const sendData = async () => {
     if (data !== "") {
       const result = await axios.post(ATH, data);
@@ -57,9 +70,9 @@ const Technologies = () => {
           <tr>
             <th>Clasificacion de Tecnologias</th>
             <th>
-              <Button variant="success" onClick={(e) => setShow(true)}>
-                Agregar
-              </Button>
+              <IconButton color="primary" onClick={(e) => setShow(true)}>
+                <AddBoxIcon fontSize="large"/>
+              </IconButton>
             </th>
           </tr>
         </thead>
@@ -75,7 +88,9 @@ const Technologies = () => {
               <tr key={type.idTechnology}>
                 <td value={type.nameTechnology}>{type.nameTechnology}</td>
                 <td>
-                  <Button
+                  <IconButton
+                    size="small"
+                    color="primary"
                     onClick={(e) => {
                       setShow(true);
                       setData({
@@ -86,9 +101,10 @@ const Technologies = () => {
                       setFlag(true);
                     }}
                   >
-                    Editar
-                  </Button>
+                    <EditIcon/>
+                  </IconButton>
                 </td>
+                <td><IconButton size="small" color="secondary" onClick={e=>deleteData(e, type.idTechnology)}><DeleteIcon></DeleteIcon></IconButton></td>
               </tr>
             ))}
           </tbody>

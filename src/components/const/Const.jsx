@@ -37,3 +37,7 @@ export const DDA = `${DIR}/Borrar/Usuario`;
 export const DRA = `${DIR}/Roles`;
 export const AUA = `${DIR}/Agregar/Usuario`;
 export const UDA = `${DIR}/Actualizar/Usuario`;
+export const DAT = `${DIR}/Borrar/TNegocio`
+export const DCS = `${DIR}/Borrar/Clasificacion`
+export const DTH = `${DIR}/Borrar/Tecnologia`
+export const DTD = `${DIR}/Borrar/TipoDom`

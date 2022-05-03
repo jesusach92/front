@@ -1,7 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { ABT, BST, UBT } from "../const/Const";
+import { ABT, BST, DAT, UBT } from "../const/Const";
+import { IconButton } from "@material-ui/core";
+
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 
 const initialValues = {
   bName: "",
@@ -39,6 +44,12 @@ const AddBusinessType = () => {
       alert("No puedes enviar texto vacio");
     }
   };
+  const deleteData = async (e, id) => {
+    const { data } = await axios.delete(`${DAT}/${id}`);
+    setShow(false);
+    setData(initialValues);
+    getData()
+  };
 
   const getData = async () => {
     const result = await axios.get(BST);
@@ -58,9 +69,9 @@ const AddBusinessType = () => {
               <div className="size">Tipos de negocio</div>
             </th>
             <th>
-              <Button variant="success" onClick={(e) => setShow(true)}>
-                Agregar
-              </Button>
+              <IconButton color="primary" onClick={(e) => setShow(true)}>
+                <AddBoxIcon  fontSize="large"></AddBoxIcon>
+              </IconButton>
             </th>
           </tr>
         </thead>
@@ -74,10 +85,12 @@ const AddBusinessType = () => {
           <tbody>
             {businessType.map((type) => (
               <tr key={type.idBusinessType}>
-                <td value={type.bName}>{type.bName}</td>
+                <td  value={type.bName}>{type.bName}</td>
                 <td value={type.bDescription}>{type.bDescription}</td>
                 <td>
-                  <Button
+                  <IconButton
+                    size="small"
+                    color="primary"
                     onClick={(e) => {
                       setShow(true);
                       setData({
@@ -89,8 +102,17 @@ const AddBusinessType = () => {
                       setflag(true);
                     }}
                   >
-                    Editar
-                  </Button>
+                    <EditIcon />
+                  </IconButton>
+                </td>
+                <td>
+                  <IconButton
+                    size="small"
+                    color="secondary"
+                    onClick={(e) => deleteData(e, type.idBusinessType)}
+                  >
+                    <DeleteIcon></DeleteIcon>
+                  </IconButton>
                 </td>
               </tr>
             ))}
@@ -100,8 +122,11 @@ const AddBusinessType = () => {
 
       <Modal show={show} onHide={(e) => setShow(false)}>
         <Modal.Header closeButton>
-          {flag ? (<Modal.Title>Actualizar Tipo de Negocio</Modal.Title>) :(<Modal.Title>Agregar Tipo de Negocio</Modal.Title>)}
-          
+          {flag ? (
+            <Modal.Title>Actualizar Tipo de Negocio</Modal.Title>
+          ) : (
+            <Modal.Title>Agregar Tipo de Negocio</Modal.Title>
+          )}
         </Modal.Header>
         <Modal.Body>
           <Form>

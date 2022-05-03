@@ -1,27 +1,39 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { ACS, SCT, UCS } from "../const/Const";
+import { ACS, DCS, SCT, UCS } from "../const/Const";
+
+import { IconButton } from "@material-ui/core";
+
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 
 const initialValues = {
-  clasificationName: ""
-}
+  clasificationName: "",
+};
 const SClasification = () => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState(initialValues);
   const [sclasificacion, setsclasificacion] = useState([]);
-  const [flag, setFlag] = useState(false)
+  const [flag, setFlag] = useState(false);
 
   const getData = async () => {
     const sclass = await axios.get(SCT);
     setsclasificacion(sclass.data);
   };
 
+  const deleteData = async (e, id) => {
+    const { data } = await axios.delete(`${DCS}/${id}`);
+    setShow(false);
+    setData(initialValues);
+    getData();
+  };
+
   const sendData = async () => {
     if (data !== "") {
-     
       const result = await axios.post(ACS, data);
-     
+
       if (result.data.value === 1) {
         alert("Clasificacion de Proveedor Guardada Exitosamente");
         setShow(false);
@@ -34,11 +46,10 @@ const SClasification = () => {
     }
   };
 
-  const updateData = async () =>{
+  const updateData = async () => {
     if (data !== "") {
-      
       const result = await axios.put(UCS, data);
-     
+
       if (result.data.value === 1) {
         alert("Clasificacion de Proveedor Actualizada Exitosamente");
         setShow(false);
@@ -48,7 +59,7 @@ const SClasification = () => {
     } else {
       alert("No puedes enviar texto vacio");
     }
-  }
+  };
 
   useEffect(() => {
     getData();
@@ -62,9 +73,9 @@ const SClasification = () => {
           <tr>
             <th>Clasificacion de Proveedor</th>
             <th>
-              <Button variant="success" onClick={(e) => setShow(true)}>
-                Agregar
-              </Button>
+              <IconButton color="primary" onClick={(e) => setShow(true)}>
+                <AddBoxIcon fontSize="large"></AddBoxIcon>
+              </IconButton>
             </th>
           </tr>
         </thead>
@@ -80,16 +91,30 @@ const SClasification = () => {
               <tr key={type.idClasification}>
                 <td value={type.clasificationName}>{type.clasificationName}</td>
                 <td>
-                  <Button
-                  onClick={(e) => {
-                    setShow(true);
-                    setData({
-                      ...data,
-                      idClasification: type.idClasification,
-                      clasificationName: type.clasificationName
-                    });
-                    setFlag(true);}}
-                  >Editar</Button>
+                  <IconButton
+                    size="small"
+                    color="primary"
+                    onClick={(e) => {
+                      setShow(true);
+                      setData({
+                        ...data,
+                        idClasification: type.idClasification,
+                        clasificationName: type.clasificationName,
+                      });
+                      setFlag(true);
+                    }}
+                  >
+                    <EditIcon></EditIcon>
+                  </IconButton>
+                </td>
+                <td>
+                  <IconButton
+                    size="small"
+                    color="secondary"
+                    onClick={(e) => deleteData(e, type.idClasification)}
+                  >
+                    <DeleteIcon></DeleteIcon>
+                  </IconButton>
                 </td>
               </tr>
             ))}
@@ -98,7 +123,11 @@ const SClasification = () => {
       </Table>
       <Modal show={show} onHide={(e) => setShow(false)}>
         <Modal.Header closeButton>
-        {flag ? (<Modal.Title>Actualizar Clasificacion</Modal.Title>):(<Modal.Title>Agregar Clasificacion</Modal.Title>)}
+          {flag ? (
+            <Modal.Title>Actualizar Clasificacion</Modal.Title>
+          ) : (
+            <Modal.Title>Agregar Clasificacion</Modal.Title>
+          )}
         </Modal.Header>
         <Modal.Body>
           <Form>

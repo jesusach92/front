@@ -54,14 +54,9 @@ const AddUser = ({ setFlag, flag, user }) => {
       (dataUser.passwordUser !== null && dataUser.passwordUser !== ""  && dataUser.hasOwnProperty('passwordUser')) &&
       dataUser.namePerson !== ""
     ) {
-      console.log("///////////////////")
-      console.log(dataUser.passwordUser !== null )
-      console.log(dataUser.passwordUser !== "" )
       return true;
     }
     else{
-    console.log(2)
-    console.log(dataUser)
     return false;
   }
   };
@@ -72,6 +67,7 @@ const AddUser = ({ setFlag, flag, user }) => {
         if (data.value === 1) {
           setDataUser(initialValues);
           setFlag(!flag);
+          setFlagUse(false);
         } else {
           alert("No se pudo Actualizar el Usuario");
         }
@@ -92,7 +88,7 @@ const AddUser = ({ setFlag, flag, user }) => {
         alert("" + data.message);
         setDataUser(initialValues);
         setFlag(!flag);
-        setFlagUse(false);
+        
       } catch (error) {
         console.log(error);
       }

@@ -7,7 +7,7 @@ import AddProduct from "../../Main/AddProduct";
 const initialValuesPS = {
   FkSupplieSpy: 0,
   FkProductSpy: 0,
-  price: 0.0,
+  price: "",
   divisa: "",
   deliveryTime: "",
   productLine: "",
@@ -109,6 +109,19 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
   useEffect(() => {
     getProducts();
   }, []);
+
+  const handleNumber = (e) => {
+    const { name, value } = e.target;
+    let regex = new RegExp("^[0-9]+$");
+    for (let i = 0; i < value.length; i++) {
+      let letra = value[i];
+      if (!regex.test(letra) || !letra === " ") {
+        return;
+      }
+    }
+    setDataPS({ ...dataPS, [name]: value });
+  };
+
   return (
     <Form.Group>
       {idP === 0 ? (
@@ -187,15 +200,17 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
         </Form.Label>
         <Col sm={2}>
           <Form.Control
-            onChange={(e) => setDataPS({ ...dataPS, price: e.target.value })}
+            placeholder="920.00"
+            onChange={(e) => setDataPS({ ...dataPS, price: Number(e.target.value) })}
             value={dataPS.price}
           />
         </Col>
         <Form.Label column="true" sm={2}>
-          Divisa:
+          Moneda:
         </Form.Label>
         <Col sm={2}>
           <Form.Control
+            placeholder="MXN, DLL, EUR"
             maxLength={3}
             onChange={(e) =>
               setDataPS({ ...dataPS, divisa: e.target.value.toUpperCase() })
@@ -206,6 +221,7 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
         <Form.Label column="true">Tiempo de Entrega:</Form.Label>
         <Col sm={2}>
           <Form.Control
+          placeholder="Cantidad en días"
             onChange={(e) =>
               setDataPS({ ...dataPS, deliveryTime: e.target.value })
             }
@@ -218,6 +234,7 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
           </Form.Label>
           <Col sm={3}>
             <Form.Control
+              placeholder="Stock, Bajo Pedido"
               onChange={(e) =>
                 setDataPS({ ...dataPS, productLine: e.target.value })
               }
@@ -235,7 +252,7 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
               value={1}
               checked={dataPS.pSampleF === 1}
               onChange={(e) => {
-                setDataPS({ ...dataPS, pSampleF: Number(e.target.value) });
+                setDataPS({ ...dataPS, pSampleF: parseFloat(e.target.value) });
               }}
             />
             <Form.Check

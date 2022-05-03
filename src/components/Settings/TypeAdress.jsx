@@ -1,16 +1,22 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { AAT, TAD, UAT } from "../const/Const";
+import { AAT, DTD, TAD, UAT } from "../const/Const";
 
-const initialValues ={
-  aType: ""
-}
+import { IconButton } from "@material-ui/core";
+
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+
+const initialValues = {
+  aType: "",
+};
 const TypeAdress = () => {
   const [typesDom, setTypes] = useState([]);
   const [show, setShow] = useState(false);
   const [data, setData] = useState(initialValues);
-  const [flag, setFlag] = useState(false)
+  const [flag, setFlag] = useState(false);
 
   const getData = async () => {
     const { data } = await axios.get(TAD);
@@ -20,6 +26,13 @@ const TypeAdress = () => {
   useEffect(() => {
     getData();
   }, [show]);
+
+  const deleteData = async (e, id) => {
+    const { data } = await axios.delete(`${DTD}/${id}`);
+    setShow(false);
+    setData(initialValues);
+    getData();
+  };
 
   const sendData = async () => {
     if (data.aType !== "") {
@@ -36,7 +49,7 @@ const TypeAdress = () => {
     }
   };
 
-  const updateData = async () =>{
+  const updateData = async () => {
     if (data.aType !== "") {
       const result = await axios.put(UAT, data);
       if (result.data.value === 1) {
@@ -48,7 +61,7 @@ const TypeAdress = () => {
     } else {
       alert("No puedes enviar texto vacio");
     }
-  }
+  };
 
   return (
     <Col>
@@ -58,16 +71,16 @@ const TypeAdress = () => {
           <tr>
             <th>Tipos de Domicilios</th>
             <th>
-              <Button variant="success" onClick={(e) => setShow(true)}>
-                Agregar
-              </Button>
+              <IconButton color="primary" onClick={(e) => setShow(true)}>
+                <AddBoxIcon fontSize="large" />
+              </IconButton>
             </th>
           </tr>
         </thead>
         {typesDom.length === 0 ? (
           <tbody>
             <tr>
-              <td>No hay Tipos de Domicilio registradas</td>
+              <td>No hay Tipos de Domicilio registrados</td>
             </tr>
           </tbody>
         ) : (
@@ -76,17 +89,24 @@ const TypeAdress = () => {
               <tr key={type.idadressType}>
                 <td value={type.aType}>{type.aType}</td>
                 <td>
-                  <Button
-                  onClick={(e) => {
-                    setShow(true);
-                    setData({
-                      ...data,
-                      idadressType: type.idadressType,
-                      aType: type.aType
-                    });
-                    setFlag(true);}}
-                  >Editar</Button>
+                  <IconButton
+                    size="small"
+                    color="primary"
+                    onClick={(e) => {
+                      setShow(true);
+                      setData({
+                        ...data,
+                        idadressType: type.idadressType,
+                        aType: type.aType,
+                      });
+                      setFlag(true);
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
                 </td>
+                <td><IconButton size="small" color="secondary" onClick={e=>deleteData(e, type.idadressType)}><DeleteIcon></DeleteIcon></IconButton></td>
+
               </tr>
             ))}
           </tbody>
@@ -94,7 +114,11 @@ const TypeAdress = () => {
       </Table>
       <Modal show={show} onHide={(e) => setShow(false)}>
         <Modal.Header closeButton>
-        {flag ? (<Modal.Title>Actualizar Tipo de Domicilio</Modal.Title>):(<Modal.Title>Agregar Tipo de Domicilio</Modal.Title>)}
+          {flag ? (
+            <Modal.Title>Actualizar Tipo de Domicilio</Modal.Title>
+          ) : (
+            <Modal.Title>Agregar Tipo de Domicilio</Modal.Title>
+          )}
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -103,21 +127,24 @@ const TypeAdress = () => {
               <Col>
                 <Form.Control
                   value={data.aType}
-                  onChange={(e) => setData({...data, aType: e.target.value })}
+                  onChange={(e) => setData({ ...data, aType: e.target.value })}
                 />
               </Col>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={(e) => {
+          <Button
+            variant="primary"
+            onClick={(e) => {
               setShow(false);
               setData(initialValues);
               setFlag(false);
-            }}>
+            }}
+          >
             Cerrar
-            </Button>
-            {flag ? (
+          </Button>
+          {flag ? (
             <Button variant="success" onClick={updateData}>
               Actualizar
             </Button>
