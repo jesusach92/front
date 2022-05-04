@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import { AAT, DTD, TAD, UAT } from "../const/Const";
 
@@ -8,11 +8,14 @@ import { IconButton } from "@material-ui/core";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import { UserContext } from "../ContextUser/UserContext";
 
 const initialValues = {
   aType: "",
 };
 const TypeAdress = () => {
+  const [state, dispatch] = useContext(UserContext);
+  const user = state.user;
   const [typesDom, setTypes] = useState([]);
   const [show, setShow] = useState(false);
   const [data, setData] = useState(initialValues);
@@ -69,12 +72,17 @@ const TypeAdress = () => {
       <Table responsive hover>
         <thead>
           <tr>
-            <th>Tipos de Domicilios</th>
-            <th>
+            <th>Tipos de Domicilios
+            {user.FkRole === 1 ||
+                user.FkRole === 2 ||
+                user.FkRole ===3 ||
+                user.FkRole === 999 ? (
               <IconButton color="primary" onClick={(e) => setShow(true)}>
                 <AddBoxIcon fontSize="large" />
               </IconButton>
+            ):(<></>)}
             </th>
+           
           </tr>
         </thead>
         {typesDom.length === 0 ? (
@@ -88,7 +96,9 @@ const TypeAdress = () => {
             {typesDom.map((type) => (
               <tr key={type.idadressType}>
                 <td value={type.aType}>{type.aType}</td>
-                <td>
+                {user.FkRole === 1 ||
+                user.FkRole === 2 ||
+                user.FkRole === 999 ?(<td>
                   <IconButton
                     size="small"
                     color="primary"
@@ -104,9 +114,22 @@ const TypeAdress = () => {
                   >
                     <EditIcon />
                   </IconButton>
-                </td>
-                <td><IconButton size="small" color="secondary" onClick={e=>deleteData(e, type.idadressType)}><DeleteIcon></DeleteIcon></IconButton></td>
-
+                </td>):(<></>)}
+                
+                {user.FkRole === 1 ||
+                user.FkRole === 999 ? (
+                  <td>
+                    <IconButton
+                      size="small"
+                      color="secondary"
+                      onClick={(e) => deleteData(e, type.idadressType)}
+                    >
+                      <DeleteIcon></DeleteIcon>
+                    </IconButton>
+                  </td>
+                ) : (
+                  <></>
+                )}
               </tr>
             ))}
           </tbody>

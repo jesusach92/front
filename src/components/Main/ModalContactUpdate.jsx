@@ -6,7 +6,7 @@ const ModalContactUpdate = ({show, handleClose, contact}) => {
   return (
     <Modal show={show} onHide={handleClose} size="lg">
     <Modal.Header closeButton>
-      <Modal.Title>Agregar Domicilio</Modal.Title>
+      <Modal.Title>Actualizar Contacto</Modal.Title>
     </Modal.Header>
     <Modal.Body>
       <AddContacAdress contact={contact} handleClose={handleClose}></AddContacAdress>

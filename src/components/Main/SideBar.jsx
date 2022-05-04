@@ -10,36 +10,31 @@ import { useContext, useEffect, useState } from "react";
 
 const SideBar = () => {
   const [state, dispatch] = useContext(UserContext)
-  const [session, setSession] = useState(state.user)
+  const {user} = state
   
-  useEffect(() => {
-    if(state.user.tokenUser)
-    {
-      setSession(state.user)
-    }
-  },[state])
   return (
     <aside className="sidebar">
       <div className="sidebar-container">
-      {session.tokenUser ? (<ul>
+      {user.tokenUser ? (<ul>
         <li>  
           <Link to="/Inicio">
             <img src={logo} alt="texinlogo" className="image-responsive logo" />
           </Link>
         </li>
-        {(session.FkRole ===  1 || session.FkRole === 999) ? (
+        {user.FkRole ===  1 || user.FkRole === 999 ? (
         <li className="links">
           <Link to="/Dashboard"><BuildIcon className="icon_my"/>Administracion</Link>
         </li>):(<></>)}
         <li className="links">
           <Link to="/Proveedores"><AccountBoxIcon className="icon_my"/>Proveedores</Link>
         </li>
-        <li className="links">
+        {user.FkRole === 1 || user.FkRole === 2 || user.FkRole === 3 || user.FkRole === 999 ?(<li className="links">
           
           <Link to="/Agregar/Proveedor"><AddBoxIcon className="icon_my"/>
             Agregar Proveedor
           </Link>
-        </li>
+        </li>):(<></>)}
+        
         <li className="links">
           <Link to="/Productos"><BarChartIcon className="icon_my"/>Productos</Link>
         </li>

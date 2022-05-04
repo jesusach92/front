@@ -188,3 +188,7 @@ textarea::-webkit-scrollbar {
 .contenedor::-webkit-scrollbar-track {
   border-radius: 10px;  
 }
+.link-btn, .link-btn:hover{
+  color: #fff;
+  text-decoration: none;
+}

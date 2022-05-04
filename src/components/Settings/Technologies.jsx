@@ -1,18 +1,21 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { ATH, TEC,DTH, UTH } from "../const/Const";
+import { ATH, TEC, DTH, UTH } from "../const/Const";
 
 import { IconButton } from "@material-ui/core";
 
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import { UserContext } from "../ContextUser/UserContext";
 
 const initialValues = {
   nameTechnology: "",
 };
 const Technologies = () => {
+  const [state, dispatch] = useContext(UserContext);
+  const user = state.user;
   const [technologies, setTech] = useState([]);
   const [show, setShow] = useState(false);
   const [data, setData] = useState(initialValues);
@@ -23,13 +26,13 @@ const Technologies = () => {
     setTech(data);
   };
 
-const deleteData = async (e, id) =>{
-  const { data } = await axios.delete(`${DTH}/${id}`);
+  const deleteData = async (e, id) => {
+    const { data } = await axios.delete(`${DTH}/${id}`);
     setShow(false);
     setData(initialValues);
     getData();
-}
-  
+  };
+
   const sendData = async () => {
     if (data !== "") {
       const result = await axios.post(ATH, data);
@@ -44,7 +47,7 @@ const deleteData = async (e, id) =>{
   };
 
   const updateData = async () => {
-    console.log(data)
+    console.log(data);
     if (data !== "") {
       const result = await axios.put(UTH, data);
       if (result.data.value === 1) {
@@ -68,12 +71,15 @@ const deleteData = async (e, id) =>{
       <Table responsive hover>
         <thead>
           <tr>
-            <th>Clasificacion de Tecnologias</th>
-            <th>
+            <th>Clasificacion de Tecnologias  {user.FkRole === 1 ||
+                user.FkRole === 2 ||
+                user.FkRole ===3 ||
+                user.FkRole === 999 ? (
               <IconButton color="primary" onClick={(e) => setShow(true)}>
-                <AddBoxIcon fontSize="large"/>
+                <AddBoxIcon fontSize="large" />
               </IconButton>
-            </th>
+            ):(<></>)}
+            </th>    
           </tr>
         </thead>
         {technologies.length === 0 ? (
@@ -87,7 +93,9 @@ const deleteData = async (e, id) =>{
             {technologies.map((type) => (
               <tr key={type.idTechnology}>
                 <td value={type.nameTechnology}>{type.nameTechnology}</td>
-                <td>
+                {user.FkRole === 1 ||
+                user.FkRole === 2 ||
+                user.FkRole === 999 ?(<td>
                   <IconButton
                     size="small"
                     color="primary"
@@ -95,16 +103,30 @@ const deleteData = async (e, id) =>{
                       setShow(true);
                       setData({
                         ...data,
-                          idTechnology: type.idTechnology,
-                        nameTechnology: type.nameTechnology
+                        idTechnology: type.idTechnology,
+                        nameTechnology: type.nameTechnology,
                       });
                       setFlag(true);
                     }}
                   >
-                    <EditIcon/>
+                    <EditIcon />
                   </IconButton>
-                </td>
-                <td><IconButton size="small" color="secondary" onClick={e=>deleteData(e, type.idTechnology)}><DeleteIcon></DeleteIcon></IconButton></td>
+                </td>):(<></>)}
+                
+                {user.FkRole === 1 ||
+                user.FkRole === 999 ? (
+                  <td>
+                    <IconButton
+                      size="small"
+                      color="secondary"
+                      onClick={(e) => deleteData(e, type.idTechnology)}
+                    >
+                      <DeleteIcon></DeleteIcon>
+                    </IconButton>
+                  </td>
+                ) : (
+                  <></>
+                )}
               </tr>
             ))}
           </tbody>
@@ -112,8 +134,11 @@ const deleteData = async (e, id) =>{
       </Table>
       <Modal show={show} onHide={(e) => setShow(false)}>
         <Modal.Header closeButton>
-          {flag ? (<Modal.Title>Actualizar Tecnologia</Modal.Title>):(<Modal.Title>Agregar Tecnologia</Modal.Title>)}
-          
+          {flag ? (
+            <Modal.Title>Actualizar Tecnologia</Modal.Title>
+          ) : (
+            <Modal.Title>Agregar Tecnologia</Modal.Title>
+          )}
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -122,7 +147,9 @@ const deleteData = async (e, id) =>{
               <Col>
                 <Form.Control
                   value={data.nameTechnology}
-                  onChange={(e) => setData({ ...data, nameTechnology: e.target.value })}
+                  onChange={(e) =>
+                    setData({ ...data, nameTechnology: e.target.value })
+                  }
                 />
               </Col>
             </Form.Group>

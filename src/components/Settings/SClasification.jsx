@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import { ACS, DCS, SCT, UCS } from "../const/Const";
 
@@ -8,11 +8,14 @@ import { IconButton } from "@material-ui/core";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import { UserContext } from "../ContextUser/UserContext";
 
 const initialValues = {
   clasificationName: "",
 };
 const SClasification = () => {
+  const [state, dispatch] = useContext(UserContext);
+  const user = state.user;
   const [show, setShow] = useState(false);
   const [data, setData] = useState(initialValues);
   const [sclasificacion, setsclasificacion] = useState([]);
@@ -71,12 +74,16 @@ const SClasification = () => {
       <Table responsive hover className="mt-2">
         <thead>
           <tr>
-            <th>Clasificacion de Proveedor</th>
-            <th>
+            <th>Clasificacion de Proveedor {user.FkRole === 1 ||
+                user.FkRole === 2 ||
+                user.FkRole ===3 ||
+                user.FkRole === 999 ? (
               <IconButton color="primary" onClick={(e) => setShow(true)}>
                 <AddBoxIcon fontSize="large"></AddBoxIcon>
               </IconButton>
-            </th>
+            ):(<></>)} </th>
+            
+            
           </tr>
         </thead>
         {sclasificacion.length === 0 ? (
@@ -90,7 +97,9 @@ const SClasification = () => {
             {sclasificacion.map((type) => (
               <tr key={type.idClasification}>
                 <td value={type.clasificationName}>{type.clasificationName}</td>
-                <td>
+                {user.FkRole === 1 ||
+                user.FkRole === 2 ||
+                user.FkRole === 999 ?(<td>
                   <IconButton
                     size="small"
                     color="primary"
@@ -106,16 +115,22 @@ const SClasification = () => {
                   >
                     <EditIcon></EditIcon>
                   </IconButton>
-                </td>
-                <td>
-                  <IconButton
-                    size="small"
-                    color="secondary"
-                    onClick={(e) => deleteData(e, type.idClasification)}
-                  >
-                    <DeleteIcon></DeleteIcon>
-                  </IconButton>
-                </td>
+                </td>):(<></>)}
+                
+                {user.FkRole === 1 ||
+                user.FkRole === 999 ? (
+                  <td>
+                    <IconButton
+                      size="small"
+                      color="secondary"
+                      onClick={(e) => deleteData(e, type.idClasification)}
+                    >
+                      <DeleteIcon></DeleteIcon>
+                    </IconButton>
+                  </td>
+                ) : (
+                  <></>
+                )}
               </tr>
             ))}
           </tbody>

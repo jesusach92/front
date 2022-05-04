@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import { ABT, BST, DAT, UBT } from "../const/Const";
 import { IconButton } from "@material-ui/core";
+import { UserContext } from "../ContextUser/UserContext";
 
-import AddBoxIcon from '@material-ui/icons/AddBox';
+import AddBoxIcon from "@material-ui/icons/AddBox";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
@@ -14,6 +15,8 @@ const initialValues = {
 };
 
 const AddBusinessType = () => {
+  const [state] = useContext(UserContext);
+  const user = state.user;
   const [data, setData] = useState(initialValues);
   const [businessType, setBusiness] = useState([]);
   const [show, setShow] = useState(false);
@@ -48,7 +51,7 @@ const AddBusinessType = () => {
     const { data } = await axios.delete(`${DAT}/${id}`);
     setShow(false);
     setData(initialValues);
-    getData()
+    getData();
   };
 
   const getData = async () => {
@@ -66,13 +69,17 @@ const AddBusinessType = () => {
         <thead>
           <tr>
             <th>
-              <div className="size">Tipos de negocio</div>
-            </th>
-            <th>
+              Tipos de negocio {user.FkRole === 1 ||
+                user.FkRole === 2 ||
+                user.FkRole ===3 ||
+                user.FkRole === 999 ? (
               <IconButton color="primary" onClick={(e) => setShow(true)}>
-                <AddBoxIcon  fontSize="large"></AddBoxIcon>
+                <AddBoxIcon fontSize="large"></AddBoxIcon>
               </IconButton>
+            ):(<></>)}
             </th>
+            
+            
           </tr>
         </thead>
         {businessType.length === 0 ? (
@@ -85,8 +92,11 @@ const AddBusinessType = () => {
           <tbody>
             {businessType.map((type) => (
               <tr key={type.idBusinessType}>
-                <td  value={type.bName}>{type.bName}</td>
+                <td value={type.bName}>{type.bName}</td>
                 <td value={type.bDescription}>{type.bDescription}</td>
+                {user.FkRole === 1 ||
+                user.FkRole === 2 ||
+                user.FkRole === 999 ?(
                 <td>
                   <IconButton
                     size="small"
@@ -104,16 +114,22 @@ const AddBusinessType = () => {
                   >
                     <EditIcon />
                   </IconButton>
-                </td>
-                <td>
-                  <IconButton
-                    size="small"
-                    color="secondary"
-                    onClick={(e) => deleteData(e, type.idBusinessType)}
-                  >
-                    <DeleteIcon></DeleteIcon>
-                  </IconButton>
-                </td>
+                </td>):(<></>)}
+                
+                {user.FkRole === 1 ||
+                user.FkRole === 999 ? (
+                  <td>
+                    <IconButton
+                      size="small"
+                      color="secondary"
+                      onClick={(e) => deleteData(e, type.idBusinessType)}
+                    >
+                      <DeleteIcon></DeleteIcon>
+                    </IconButton>
+                  </td>
+                ) : (
+                  <></>
+                )}
               </tr>
             ))}
           </tbody>

@@ -18,78 +18,89 @@ import UserProvaider, {
 
 const RoutesIndex = () => {
   const [state, dispatch] = useContext(UserContext);
-  const session = state.user;
+  const { user } = state;
   return (
     <>
-      {session.tokenUser ? (
+      {user.tokenUser ? (
         <Router>
-            <Routes>
-              <Route
-                path={"/Proveedores"}
-                element={<SearchSupplie brand="Busqueda de Proveedores" />}
-              >
-              </Route>
-              <Route
-                path={"/Productos"}
-                element={<SearchProduct brand="Busqueda de Productos" />}
-              />
+          <Routes>
+            <Route
+              path={"/Proveedores"}
+              element={<SearchSupplie brand="Busqueda de Proveedores" />}
+            ></Route>
+            <Route
+              path={"/Productos"}
+              element={<SearchProduct brand="Busqueda de Productos" />}
+            />
+            {user.FkRole === 1 ||
+            user.FkRole === 2 ||
+            user.FkRole === 3 ||
+            user.FkRole === 999 ? (
               <Route
                 path={"/Agregar/Proveedor"}
                 element={<AddSupplie brand="Agregar Proveedor" />}
               />
+            ) : (
+              <></>
+            )}
+
+            <Route
+              path={"/Configuracion"}
+              element={<Config brand="Configuracion" />}
+            />
+            <Route
+              path={"/Domicilios/Proveedor/:id"}
+              element={<ShowAdressSupplie brand="Domicilios Proveedor" />}
+            />
+            <Route
+              path={"/productos/proveedores/:id"}
+              element={
+                <ShowSupplieProduct brand="Proveedores que cuentan con el producto" />
+              }
+            />
+            <Route
+              path={"/Proveedores/Productos/:id"}
+              element={
+                <ShowProductsSupplie brand="Productos que tiene un Proveedor" />
+              }
+            />
+            <Route path={"/Inicio"} element={<Login brand="Inicio" />} />
+            <Route path={"/"} element={<Login brand="Inicio" />} />
+            {user.FkRole === 1 || user.FkRole === 999 ? (
               <Route
-                path={"/Configuracion"}
-                element={<Config brand="Configuracion" />}
+                path={"/Dashboard"}
+                element={<DashboardAdmin brand="Administrar" />}
               />
-              <Route
-                path={"/Domicilios/Proveedor/:id"}
-                element={<ShowAdressSupplie brand="Domicilios Proveedor" />}
-              />
-              <Route
-                path={"/productos/proveedores/:id"}
-                element={
-                  <ShowSupplieProduct brand="Proveedores que cuentan con el producto" />
-                }
-              />
-              <Route
-                path={"/Proveedores/Productos/:id"}
-                element={
-                  <ShowProductsSupplie brand="Productos que tiene un Proveedor" />
-                }
-              />
-              <Route path={"/Inicio"} element={<Login brand="Inicio" />} />
-              <Route path={"/"} element={<Login brand="Inicio" />} />
-              {(session.FkRole ===  1 || session.FkRole === 999) ?(
-               <Route path={"/Dashboard"} element={<DashboardAdmin brand="Administrar" />} /> 
-              ):(<></>)}
-            </Routes>
+            ) : (
+              <></>
+            )}
+          </Routes>
         </Router>
       ) : (
         <Router>
-            <Routes>
-              <Route path={"/Inicio"} element={<Login brand={"Inicio"} />} />
-              <Route path={"/"} element={<Login brand={"Inicio"} />} />
-              <Route
-                path={"/login"}
-                element={<Login brand={"Iniciar Sesión"} />}
-              />
-              <Route
+          <Routes>
+            <Route path={"/Inicio"} element={<Login brand={"Inicio"} />} />
+            <Route path={"/"} element={<Login brand={"Inicio"} />} />
+            <Route
+              path={"/login"}
+              element={<Login brand={"Iniciar Sesión"} />}
+            />
+            <Route
               path={"*"}
               element={<Login brand={"Iniciar Sesión"}></Login>}
-              ></Route>
-            </Routes>
+            ></Route>
+          </Routes>
         </Router>
       )}
     </>
   );
 };
-  const App = () => {
-    return (
-      <UserProvaider>
-        <RoutesIndex></RoutesIndex>
-      </UserProvaider>
-    )
-  }
-
+const App = () => {
+  return (
+    <UserProvaider>
+      <RoutesIndex></RoutesIndex>
+    </UserProvaider>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById("root"));

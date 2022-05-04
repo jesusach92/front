@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Table, Form, Row, Col, Button } from "react-bootstrap";
+import { Table, Form, Row, Col} from "react-bootstrap";
 import NavBar from "./NavBar";
 import { PBS, SBI } from "../const/Const";
 import ModalAsing from "./ModalAsing";
 import SideBar from "./SideBar";
+import { Button } from "@material-ui/core";
 
 const ShowProductsSupplie = (props) => {
   const { id } = useParams();
@@ -131,15 +132,21 @@ const ShowProductsSupplie = (props) => {
               idSupplie={supplie.idSupplie}
               idProduct={0}
             />
-            <Button className="btn btn-warning" onClick={(e) => setShow(true)}>
+            <Button variant="contained"
+                    color="primary" onClick={(e) => setShow(true)}>
               Agregar Producto
             </Button>
+            <Button variant="contained"
+              style={{backgroundColor:"#00695f"}}
+              className="mx-3"
+              >
             <Link
               to={`/Domicilios/Proveedor/${supplie.idSupplie}`}
-              className="btn btn-success mx-3"
+              className="link-btn"
             >
               Mostrar Domicilio
             </Link>
+            </Button>
           </Form.Group>
         </Form>
         {!products.length ? (
