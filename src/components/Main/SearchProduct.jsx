@@ -1,13 +1,18 @@
 import { Form, Row, Button, Col, Table } from "react-bootstrap";
 import NavBar from "./NavBar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AddProduct from "./AddProduct";
 import { PFF } from "../const/Const";
 import SideBar from "./SideBar";
+import { UserContext } from "../ContextUser/UserContext";
+import { IconButton } from "@material-ui/core";
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const SearchProduct = ({brand}) => {
+  const [state] = useContext(UserContext);
+  const { user } = state;
   const [products, setProducts] = useState([]);
   const [originProducts, setoriginProducts] = useState([]);
   const [search, setSearch] = useState("");
@@ -90,7 +95,10 @@ const SearchProduct = ({brand}) => {
               </Button>
             </Col>
             <Col>
-              <AddProduct show={showAddP} handleCloseP={handleClose} />
+            {user.FkRole === 1 ||
+                  user.FkRole === 2 ||
+                  user.FkRole === 3 ||
+                  user.FkRole === 999 ?(<><AddProduct show={showAddP} handleCloseP={handleClose} />
               <Button
                 variant="success"
                 className="mt-3"
@@ -98,7 +106,8 @@ const SearchProduct = ({brand}) => {
                 onClick={handleShow}
               >
                 Agregar Producto
-              </Button>
+              </Button></>):(<></>)}
+              
             </Col>
           </Form.Group>
         </Form>
@@ -107,27 +116,29 @@ const SearchProduct = ({brand}) => {
           <div className="container">
             {products.length !== 0 ? (
               <Table responsive hover>
-                <thead>
-                  <tr>
+                <thead >
+                  <tr align="center">
                     <th>Nombre de Producto</th>
                     <th>Descripcion de Producto</th>
                     <th>Tecnologia</th>
-                    <th>Consultar Proveedores</th>
+                    <th align="center">Consultar Proveedores</th>
                   </tr>
                 </thead>
                 <tbody>
                   {products.map((product) => (
-                    <tr key={product.idProduct}>
+                    <tr align="center" key={product.idProduct}>
                       <td>{product.productName}</td>
                       <td>{product.descriptionProduct}</td>
                       <td>{product.nameTechnology}</td>
-                      <td>
-                        <Link
+                      <td align="center"><Link
                           to={`/productos/proveedores/${product.idProduct}`}
-                          className="btn btn-primary"
                         >
-                          Ver Proveedores
+                          <IconButton color="primary">
+                          <VisibilityIcon> </VisibilityIcon>
+                        </IconButton>
                         </Link>
+                        
+                       
                       </td>
                     </tr>
                   ))}

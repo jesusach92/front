@@ -10,10 +10,10 @@ const NavBar = ({brand}) => {
   return (
     <div className="navbar px-5">
       <div className="flex container">
-        <h4>{brand}{user.FkRole}</h4>
-        {user.nameUser !== "" ? (
-          <span className="Logout" onClick={e=>{dispatch({type: Types.authLogout});navigate('/Login',{replace:true});}}>
-              Cerrar Sesión </span>
+        <h4>{brand}</h4>
+        {user.nameUser !== "" ? (<div><span  className="Logout" onClick={e=>{dispatch({type: Types.authLogout});navigate('/Login',{replace:true});}}>
+              Cerrar Sesión<span className="mx-3">{user.nameUser}</span> </span></div>
+          
         ) : (
        <></> )}
       </div>

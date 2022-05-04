@@ -1,14 +1,17 @@
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Table, Form, Row, Col, Button } from "react-bootstrap";
 import NavBar from "./NavBar";
 import ModalAsing from "./ModalAsing";
 import { PBI, SBF, SPS } from "../const/Const";
 import AddProduct from "./AddProduct";
 import SideBar from "./SideBar";
+import { UserContext } from "../ContextUser/UserContext";
 
 const ShowSupplieProduct = (props) => {
+  const [state] = useContext(UserContext);
+  const user = state.user;
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [supplie, setsupplie] = useState(0);
@@ -92,11 +95,18 @@ const ShowSupplieProduct = (props) => {
               />
             </Col>
           </Form.Group>
-          <Form.Group as={Row} className="mb-3 ">
-            <Col sm={2}>
+          {user.FkRole === 1 ||
+                  user.FkRole === 2 ||
+                  user.FkRole === 3 ||
+                  user.FkRole === 999 ?(<Form.Group as={Row} className="mb-3 ">
+{user.FkRole === 1 ||
+                  user.FkRole === 2 ||
+                  user.FkRole === 999 ?(<Col sm={2}>
+              
               <AddProduct show={showPe} handleCloseP={handleClosePE} product={product}></AddProduct>
               <Button onClick={e=> setSPe(true)}>Editar Producto</Button>
-            </Col>
+            </Col>):(<></>)}
+            
             <Col>
               <Form.Select onChange={(e) => setsupplie(Number(e.target.value))}>
                 <option value={0}>Selecciona un Proveedor para Asignar</option>
@@ -122,7 +132,8 @@ const ShowSupplieProduct = (props) => {
                 Asignar Proveedor
               </Button>
             </Col>
-          </Form.Group>
+          </Form.Group>):(<></>)}
+          
         </Form>
         {supplies.length !== 0 ? (
           <Table responsive hover>
