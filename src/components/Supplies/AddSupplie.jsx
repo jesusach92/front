@@ -146,7 +146,7 @@ const AddSupplie = (props) => {
                     variant="primary"
                     onClick={(e) => {
                       SendDataS();
-                      setIsBlocking({ band: true, message: 1 });
+                      setIsBlocking({ band: true, message: 1, data:1 });
                     }}
                   >
                     Guardar
