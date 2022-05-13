@@ -9,6 +9,7 @@ const initialValues = {
   workposition: "",
   officeNumber: "",
   cellphoneNumber: "",
+  emailContact:"",
   comments: "",
 };
 
@@ -28,7 +29,7 @@ const AddContacAdress = ({
   const [save, setSave] = useState(false);
   const handleText = (e) => {
     const { name, value } = e.target;
-    let regex = new RegExp("^[ñíóáéú a-zA-Z ]+$");
+    let regex = new RegExp("^[ñíóáéú a-zA-Z @ . ]+$");
     for (let i = 0; i < value.length; i++) {
       let letra = value[i];
       if (!regex.test(letra) || !letra === " ") {
@@ -56,6 +57,7 @@ const AddContacAdress = ({
       data.workposition !== "" &&
       data.officeNumber !== "" &&
       data.cellphoneNumber !== "" &&
+      data.emailContact !== "" &&
       data.comments !== ""
     ) {
       try {
@@ -79,6 +81,7 @@ const AddContacAdress = ({
       data.workposition !== "" &&
       data.officeNumber !== "" &&
       data.cellphoneNumber !== "" &&
+      data.emailContact !== "" &&
       data.comments !== ""
     ) {
       try {
@@ -156,7 +159,21 @@ const AddContacAdress = ({
           />
         </Col>
       </Form.Group>
+      <Form.Group as={Row} className="my-4">
+        <Form.Label column sm={3}>
+          Correo Electronico:
+        </Form.Label>
+        <Col sm={9}>
+          <Form.Control
+            placeholder="Correo Electronico"
+            value={data.emailContact}
+            name="emailContact"
+            onChange={handleText}
+          />
+        </Col>
+      </Form.Group>
       <Form.Group as={Row} className="mt-3">
+      
         <Form.Label column sm={4} className="mt-3">
           Comentarios u Observaciones:{" "}
         </Form.Label>
@@ -180,6 +197,7 @@ const AddContacAdress = ({
         <Form.Group as={Row} className="mt-3">
           <Col>
             <Button onClick={e=>{sendData(); setIsBlocking({...isBlocking, message:2})}} disabled={save}>
+              {console.log(isBlocking)}
               Guardar Contacto
             </Button>
           </Col>

@@ -45,7 +45,7 @@ const AsingProductSup = ({
       dataPS.productLine !== ""
     ) {
       try {
-        console.log(dataPS);
+       
         const { data } = await axios.put(USP, dataPS);
 
         if (data.value === 0) {
@@ -122,7 +122,6 @@ const AsingProductSup = ({
     var preg = /^\d*\.?\d*$/;
     for (let i = 0; i < value.length; i++) {
       let letra = value[i];
-      console.log(preg.test(letra));
       if (!preg.test(letra) || !letra === " ") {
         return;
       }
@@ -316,7 +315,7 @@ const AsingProductSup = ({
           <Button
             onClick={(e) => {
               sendData();
-              setIsBlocking({ ...isBlocking, message: 3 });
+              setIsBlocking({isBlocking:false, message: 3 });
             }}
           >
             Asignar
