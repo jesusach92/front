@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import logo from "../../assets/texinlogo.png";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import BarChartIcon from '@material-ui/icons/BarChart';
@@ -6,12 +6,12 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import SettingsIcon from '@material-ui/icons/Settings';
 import BuildIcon from '@material-ui/icons/Build';
 import { UserContext } from "../ContextUser/UserContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 const SideBar = () => {
   const [state, dispatch] = useContext(UserContext)
   const {user} = state
-  
+   
   return (
     <aside className="sidebar">
       <div className="sidebar-container">

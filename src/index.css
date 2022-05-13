@@ -105,6 +105,9 @@ textarea::-webkit-scrollbar {
 .size {
   width: 90px;
 }
+.size2 {
+  width:110px;
+}
 .Logout
 {
   cursor: pointer;

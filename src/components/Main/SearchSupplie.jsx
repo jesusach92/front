@@ -1,7 +1,7 @@
-import { Form, Row, Button, Col, Table } from "react-bootstrap";
+import { Form, Row, Button, Col, Table, Modal, ModalTitle } from "react-bootstrap";
 import NavBar from "./NavBar";
 import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import axios from "axios";
 import { DSF, SBF } from "../const/Const";
 import SideBar from "./SideBar";
@@ -19,6 +19,7 @@ const SearchSupplie = (props) => {
   const [tabSupplies, setTabSupplies] = useState([]);
   const [search, setSearch] = useState("");
   const [flag, setFlag] = useState(false)
+
   const filtrar = (props) => {
     let resultSearching = tabSupplies.filter((element) => {
       if (
@@ -166,6 +167,11 @@ const SearchSupplie = (props) => {
                             </IconButton>
                           </th> */}
                           <th>
+                            <Modal>
+                                <ModalTitle>
+                                  
+                                </ModalTitle>
+                            </Modal>
                             <IconButton color="secondary" onClick={e=>deleteSupplie(e,supplie.idSupplie)}>
                               <DeleteIcon></DeleteIcon>
                             </IconButton>

@@ -16,7 +16,14 @@ const initialValuesPS = {
   pSampleLocation: "No contamos con muestra Fisica",
 };
 
-const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
+const AsingProductSup = ({
+  idP,
+  idSupplie,
+  handleClose,
+  Supply,
+  isBlocking,
+  setIsBlocking,
+}) => {
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState([]);
   const [dataPS, setDataPS] = useState(Supply ? Supply : initialValuesPS);
@@ -38,9 +45,9 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
       dataPS.productLine !== ""
     ) {
       try {
-        console.log(dataPS)
+        console.log(dataPS);
         const { data } = await axios.put(USP, dataPS);
-        
+
         if (data.value === 0) {
           alert("No se realizo la actualizacion");
           setDataPS(initialValuesPS);
@@ -112,10 +119,10 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
 
   const handleNumber = (e) => {
     const { name, value } = e.target;
-    var preg = /^\d*\.?\d*$/; 
+    var preg = /^\d*\.?\d*$/;
     for (let i = 0; i < value.length; i++) {
       let letra = value[i];
-      console.log(preg.test(letra))
+      console.log(preg.test(letra));
       if (!preg.test(letra) || !letra === " ") {
         return;
       }
@@ -201,9 +208,11 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
         </Form.Label>
         <Col sm={2}>
           <Form.Control
-          name="price"
+            name="price"
             placeholder="920.00"
-            onChange={(e) => {handleNumber(e)}}
+            onChange={(e) => {
+              handleNumber(e);
+            }}
             value={dataPS.price}
           />
         </Col>
@@ -223,7 +232,7 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
         <Form.Label column="true">Tiempo de Entrega:</Form.Label>
         <Col sm={2}>
           <Form.Control
-          placeholder="Cantidad en días"
+            placeholder="Cantidad en días"
             onChange={(e) =>
               setDataPS({ ...dataPS, deliveryTime: e.target.value })
             }
@@ -304,7 +313,14 @@ const AsingProductSup = ({ idP, idSupplie, handleClose, Supply }) => {
         {Supply ? (
           <Button onClick={(e) => upDateData()}>Actualizar</Button>
         ) : (
-          <Button onClick={(e) => sendData()}>Asignar</Button>
+          <Button
+            onClick={(e) => {
+              sendData();
+              setIsBlocking({ ...isBlocking, message: 3 });
+            }}
+          >
+            Asignar
+          </Button>
         )}
       </Col>
     </Form.Group>

@@ -18,6 +18,8 @@ const AddContacAdress = ({
   handleDelete,
   contact,
   handleClose,
+  isBlocking,
+  setIsBlocking,
 }) => {
   const [data, setData] = useState({
     ...initialValues,
@@ -177,7 +179,7 @@ const AddContacAdress = ({
       ) : (
         <Form.Group as={Row} className="mt-3">
           <Col>
-            <Button onClick={sendData} disabled={save}>
+            <Button onClick={e=>{sendData(); setIsBlocking({...isBlocking, message:2})}} disabled={save}>
               Guardar Contacto
             </Button>
           </Col>

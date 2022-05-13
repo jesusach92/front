@@ -93,7 +93,7 @@ const AddBusinessType = () => {
             {businessType.map((type) => (
               <tr key={type.idBusinessType}>
                 <td value={type.bName}>{type.bName}</td>
-                <td value={type.bDescription}>{type.bDescription}</td>
+                <td className="size2" value={type.bDescription}>{type.bDescription}</td>
                 {user.FkRole === 1 ||
                 user.FkRole === 2 ||
                 user.FkRole === 999 ?(
