@@ -11,6 +11,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import BusinessIcon from '@material-ui/icons/Business';
 import StorefrontIcon from '@material-ui/icons/Storefront';
+import Swal from 'sweetalert2'
 
 const SearchSupplie = (props) => {
   const [state] = useContext(UserContext);
@@ -67,14 +68,38 @@ const SearchSupplie = (props) => {
     }
   },[flag])
   
-  const deleteSupplie= async(e,id)=>{
-    try {
-      const {data} = await axios.delete(`${DSF}/${id}`)
-      setFlag(!flag)
+  const deleteSupplie= (e,id)=>{
+    Swal.fire({
+      title: 'Estas seguro que deseas borrar',
+      text: "Esta Operacion no se puede deshacer",
+      icon: 'warning',
+      showCancelButton: true,
+      
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Borralo'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          {timer:2000,
+          timerProgressBar: true,
+          title:'Borrado',
+          text:'El proveedor fue borrado con exito',
+          icon:'success'
+        } 
+        )
+         try {
+       axios.delete(`${DSF}/${id}`).then(()=>{
+        setFlag(!flag)
+      })
+      
 
     } catch (error) {
       console.log(error)
     }
+      }
+    })
+   
   }
   return (
     <div className="flex">

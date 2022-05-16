@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import Swal from "sweetalert2";
 import { ACA, UCA } from "../../const/Const";
 
 const initialValues = {
@@ -9,7 +10,7 @@ const initialValues = {
   workposition: "",
   officeNumber: "",
   cellphoneNumber: "",
-  emailContact:"",
+  emailContact: "",
   comments: "",
 };
 
@@ -63,14 +64,26 @@ const AddContacAdress = ({
       try {
         const result = await axios.post(ACA, data);
         if (result.data.value === 1) {
-          window.alert("Contacto Registrado Correctamente");
+          Swal.fire({
+            timer: 2000,
+            timerProgressBar: true,
+            title: "Exitoso",
+            text: "Contacto Registrado Correctamente",
+            icon: "success",
+          });
           setSave(true);
         }
       } catch (e) {
         console.log(e);
       }
     } else {
-      alert("Todos los campos deben estar llenos");
+      Swal.fire({
+        timer: 2000,
+        timerProgressBar: true,
+        title: "Advertencia",
+        text: "Todos los campos deben estar llenos",
+        icon: "success",
+      });
     }
   };
 
@@ -87,7 +100,13 @@ const AddContacAdress = ({
       try {
         const result = await axios.put(UCA, data);
         if (result.data.value === 1) {
-          window.alert("Contacto Actualizado Correctamente");
+          Swal.fire({
+            timer: 2000,
+            timerProgressBar: true,
+            title: "Exitoso",
+            text: "Contacto actualizado correctamente",
+            icon: "success",
+          });
           setSave(true);
           setData(initialValues);
           handleClose();
@@ -96,9 +115,17 @@ const AddContacAdress = ({
         console.log(e);
       }
     } else {
-      alert("Todos los campos deben estar llenos");
+      Swal.fire({
+        timer: 2000,
+        timerProgressBar: true,
+        title: "Advertencia",
+        text: "Todos los campos deben estar llenos",
+        icon: "success",
+      });
     }
   };
+
+  
 
   useEffect(() => {
     if (contact) setData(contact);
@@ -173,7 +200,6 @@ const AddContacAdress = ({
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mt-3">
-      
         <Form.Label column sm={4} className="mt-3">
           Comentarios u Observaciones:{" "}
         </Form.Label>
@@ -196,8 +222,13 @@ const AddContacAdress = ({
       ) : (
         <Form.Group as={Row} className="mt-3">
           <Col>
-            <Button onClick={e=>{sendData(); setIsBlocking({...isBlocking, message:2})}} disabled={save}>
-              {console.log(isBlocking)}
+            <Button
+              onClick={(e) => {
+                sendData();
+                setIsBlocking({ ...isBlocking, message: 2 });
+              }}
+              disabled={save}
+            >
               Guardar Contacto
             </Button>
           </Col>

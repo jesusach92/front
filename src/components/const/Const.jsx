@@ -42,3 +42,4 @@ export const DCS = `${DIR}/Borrar/Clasificacion`;
 export const DTH = `${DIR}/Borrar/Tecnologia`;
 export const DTD = `${DIR}/Borrar/TipoDom`;
 export const DSF = `${DIR}/Borrar/Proveedor`;
+export const DSC = `${DIR}/Borrar/contacto`

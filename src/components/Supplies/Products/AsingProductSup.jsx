@@ -315,7 +315,7 @@ const AsingProductSup = ({
           <Button
             onClick={(e) => {
               sendData();
-              setIsBlocking({isBlocking:false, message: 3 });
+              setIsBlocking({band:false, message: 3 });
             }}
           >
             Asignar

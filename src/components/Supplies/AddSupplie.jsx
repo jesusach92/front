@@ -4,6 +4,7 @@ import { Button, Col, Form, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { usePrompt } from "../../assets/blocks";
 import { ADS, BST, SCT } from "../const/Const";
+import Swal from "sweetalert2";
 
 import NavBar from "../Main/NavBar";
 import SideBar from "../Main/SideBar";
@@ -22,7 +23,11 @@ const AddSupplie = (props) => {
   const [dataS, setDataS] = useState(initialValuesS);
   const [idSupplie, setIdSup] = useState(0);
   const [key, setKey] = useState("Domicilio");
-  const [isBlocking, setIsBlocking] = useState({ band: false, message: 1, data:0 });
+  const [isBlocking, setIsBlocking] = useState({
+    band: false,
+    message: 1,
+    data: 0,
+  });
 
   const getData = async () => {
     const business = await axios.get(BST);
@@ -31,22 +36,46 @@ const AddSupplie = (props) => {
     setBusiness(business.data);
   };
   const SendDataS = async () => {
-    if (
-      dataS.FkBusinessType > 0 &&
-      dataS.FkBusinessType > 0 &&
-      dataS.nameSupplie !== ""
-    ) {
-      const { data } = await axios.post(ADS, dataS);
-      if (data.value) {
-        alert("Proveedor Agregardo Correctamente");
-        setIdSup(data.insertId);
+    try {
+      if (
+        dataS.FkBusinessType > 0 &&
+        dataS.FkBusinessType > 0 &&
+        dataS.nameSupplie !== ""
+      ) {
+        const { data } = await axios.post(ADS, dataS);
+        if (data.value) {
+          Swal.fire({
+            icon:'success',
+            title: 'Correcto',
+            text: 'Provedor Agregador correctamente',
+            timer:1500,
+            timerProgressBar: true
+          })
+          setIdSup(data.insertId);
+        } else {
+          Swal.fire({
+            title: 'Error',
+            icon: 'error',
+            text: 'El Proveedor ya se encuentra registrado',
+            timer:1500,
+            timerProgressBar: true
+          })
+          
+        }
       } else {
-        alert("El Proveedor ya se encuentra registrado");
+        Swal.fire({
+          title: 'Advertencia',
+          icon: 'warning',
+          text: 'Todos los campos deben estar llenos',
+          timer:1500,
+          timerProgressBar: true
+        })
       }
-    } else {
-      alert("Todos los campos deben estar llenos");
+    } catch (error) {
+      console.log(error);
     }
   };
+
   useEffect(() => {
     getData();
   }, []);
@@ -146,7 +175,7 @@ const AddSupplie = (props) => {
                     variant="primary"
                     onClick={(e) => {
                       SendDataS();
-                      setIsBlocking({ band: true, message: 1, data:1 });
+                      setIsBlocking({ band: true, message: 1, data: 1 });
                     }}
                   >
                     Guardar

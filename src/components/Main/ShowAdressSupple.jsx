@@ -6,7 +6,7 @@ import NavBar from "./NavBar";
 import ModalAdress from "./ModalAdress";
 import ModalContact from "./ModalContact";
 import ModalContactUpdate from "./ModalContactUpdate";
-import { DAS, SAC, SAF, SBI } from "../const/Const";
+import { DAS, DSC, SAC, SAF, SBI } from "../const/Const";
 import SideBar from "./SideBar";
 import { UserContext } from "../ContextUser/UserContext";
 import { Button, IconButton } from "@material-ui/core";
@@ -14,6 +14,7 @@ import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import Swal from "sweetalert2";
 
 const ShowAdressSupplie = (props) => {
   const [state] = useContext(UserContext);
@@ -68,10 +69,64 @@ const ShowAdressSupplie = (props) => {
     const { data } = await axios.get(`${SAC}${idAdress}`);
     setContacts(data);
   };
+  const deleteContact = async (e, Contact) => {
+    Swal.fire({
+      title: "Estas seguro que deseas borrar",
+      text: "Esta Operacion no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Borralo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          axios.delete(`${DSC}/${Contact.idContact}`).then(() => {
+            Swal.fire({
+              timer: 2000,
+              timerProgressBar: true,
+              title: "Borrado",
+              text: "El Contacto fue borrado con exito",
+              icon: "success",
+            });
+            getContacts(Contact.FkAdressCont);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
 
   const deleteAd = async (e, idad) => {
-    await axios.delete(`${DAS}${idad}`);
-    getAdrees();
+    Swal.fire({
+      title: "Estas seguro que deseas borrar",
+      text: "Esta Operacion no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Borralo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          axios.delete(`${DAS}${idad}`).then(() => {
+            Swal.fire({
+              timer: 2000,
+              timerProgressBar: true,
+              title: "Borrado",
+              text: "El Domicilio fue borrado con exito",
+              icon: "success",
+            });
+            getAdrees();
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
   };
   //Componente para Renderizado condicional
   return (
@@ -297,11 +352,17 @@ const ShowAdressSupplie = (props) => {
                       <th>Puesto</th>
                       <th>Numero de Oficina</th>
                       <th>Numero Celular</th>
+                      <th>Correo</th>
                       <th>Comentarios</th>
                       {user.FkRole === 1 ||
                       user.FkRole === 2 ||
                       user.FkRole === 999 ? (
                         <th>Editar contacto</th>
+                      ) : (
+                        <></>
+                      )}
+                      {user.FkRole === 1 || user.FkRole === 999 ? (
+                        <th>Borrar Contacto</th>
                       ) : (
                         <></>
                       )}
@@ -319,6 +380,7 @@ const ShowAdressSupplie = (props) => {
                         <td>{contact.workposition}</td>
                         <td>{contact.officeNumber}</td>
                         <td>{contact.cellphoneNumber}</td>
+                        <td>{contact.emailContact}</td>
                         <td>{contact.comments}</td>
                         {user.FkRole === 1 ||
                         user.FkRole === 2 ||
@@ -333,6 +395,20 @@ const ShowAdressSupplie = (props) => {
                             >
                               <EditIcon></EditIcon>
                             </IconButton>
+                          </td>
+                        ) : (
+                          <></>
+                        )}
+                        {user.FkRole === 1 || user.FkRole === 999 ? (
+                          <td>
+                          <IconButton
+                            color="primary"
+                            onClick={(e) => {
+                              deleteContact(e, contact);
+                            }}
+                          >
+                            <DeleteIcon></DeleteIcon>
+                          </IconButton>
                           </td>
                         ) : (
                           <></>

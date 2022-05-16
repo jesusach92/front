@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row, Tab, Table, Tabs } from "react-bootstrap";
+import Swal from "sweetalert2";
 import { AAS, TAD } from "../../const/Const";
 import AddContacAdress from "./AddContacAdress";
 
@@ -49,12 +50,30 @@ const AddAdressSup = ({ FkSupplieAd, isBlocking, setIsBlocking }) => {
     ) {
       const { data } = await axios.post(AAS, dataA);
       if (data.value === 1) {
-        setTimeout(alert("Domicilio guardado correctamente"), 500);
+        Swal.fire(
+          {timer:2000,
+          timerProgressBar: true,
+          title:'Agregado',
+          text:'Domicilio guardado correctamente',
+          icon:'success'
+        } 
+        )
+        if(isBlocking)
+        {
+          setIsBlocking({ ...isBlocking, message: 3 });
+        }
         setIDAdrees({ id: data.insertId });
         setContacts([...Contacts, ""]);
       }
     } else {
-      window.alert("Todos los campos tienen que estar llenos");
+      Swal.fire(
+        {timer:2000,
+        timerProgressBar: true,
+        title:'Advertencia',
+        text:'Todos los campos deben estar llenos',
+        icon: 'warning'
+      } 
+      )
     }
   };
 
@@ -145,7 +164,7 @@ const AddAdressSup = ({ FkSupplieAd, isBlocking, setIsBlocking }) => {
                 variant="primary"
                 onClick={(e) => {
                   SendData();
-                  setIsBlocking({ ...isBlocking, message: 3 });
+                  
                 }}
               >
                 Guardar
