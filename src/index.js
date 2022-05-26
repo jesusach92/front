@@ -15,6 +15,7 @@ import DashboardAdmin from "./components/Settings/Dashboard/DashboardAdmin";
 import UserProvaider, {
   UserContext,
 } from "./components/ContextUser/UserContext";
+import ShowSupplie from "./components/Main/ShowSupplie";
 
 const RoutesIndex = () => {
   const [state, dispatch] = useContext(UserContext);
@@ -26,7 +27,7 @@ const RoutesIndex = () => {
           <Routes>
             <Route
               path={"/Proveedores"}
-              element={<SearchSupplie brand="Busqueda de Proveedores" />}
+              element={<ShowSupplie brand="Busqueda de Proveedores" />}
             ></Route>
             <Route
               path={"/Productos"}

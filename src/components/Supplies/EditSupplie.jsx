@@ -116,6 +116,33 @@ const EditSupplie = ({ show, handleClose, supplie }) => {
               </Form.Select>
             </Col>
           </Form.Group>
+          <Form.Group as={Row}>
+            <Form.Label column="true" sm={3}>
+              Correo Electronico:
+            </Form.Label>
+            <Col sm={3}>
+              <Form.Control
+                placeholder="Correo Principal"
+                value={data.emailSupplie}
+                onChange={(e) =>
+                  setData({ ...data, emailSupplie: e.target.value })
+                }
+              />
+            </Col>
+            <Form.Label column="true" sm={3}>
+              Telefono:
+            </Form.Label>
+            <Col sm={3}>
+              <Form.Control
+                placeholder="Telefono Principal"
+                maxLength={10}
+                value={data.contactPhone}
+                onChange={(e) =>
+                  setData({ ...data, contactPhone: e.target.value })
+                }
+              />
+            </Col>
+          </Form.Group>
           <Form.Group as={Row} className="mt-4">
             <Form.Label column="true" sm={3}>
               Clasificacion:

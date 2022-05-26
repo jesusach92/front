@@ -264,8 +264,9 @@ const ShowAdressSupplie = (props) => {
                   ) : (
                     <></>
                   )}
+				  {user.FkRole===1 || user.FkRole === 2 || user.FkRole === 999 ?(<th>Editar</th>):(<></>)}
                   {user.FkRole === 1 || user.FkRole === 999 ? (
-                    <th>Borrar Domicilio</th>
+                    <th>Borrar</th>
                   ) : (
                     <></>
                   )}
@@ -312,7 +313,11 @@ const ShowAdressSupplie = (props) => {
                     ) : (
                       <></>
                     )}
-
+					{user.FkRole===1 || user.FkRole === 2 || user.FkRole === 999 ?(<td align="center"><IconButton
+					color="primary"
+					>
+						<EditIcon fontSize="large"></EditIcon>
+						</IconButton></td>):(<></>)}
                     {user.FkRole === 1 || user.FkRole === 999 ? (
                       <td align="center">
                         <IconButton
