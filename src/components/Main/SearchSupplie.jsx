@@ -1,7 +1,13 @@
-import { Form, Row, Button, Col, Table, Modal, ModalTitle } from "react-bootstrap";
+import {
+  Form,
+  Row,
+  Button,
+  Col,
+  Table
+} from "react-bootstrap";
 import NavBar from "./NavBar";
 import { useState, useEffect, useContext } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { DSF, SBF } from "../const/Const";
 import SideBar from "./SideBar";
@@ -9,17 +15,23 @@ import { UserContext } from "../ContextUser/UserContext";
 import { IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import BusinessIcon from '@material-ui/icons/Business';
-import StorefrontIcon from '@material-ui/icons/Storefront';
-import Swal from 'sweetalert2'
+import BusinessIcon from "@material-ui/icons/Business";
+import StorefrontIcon from "@material-ui/icons/Storefront";
+import Swal from "sweetalert2";
+import EditSupplie from "../Supplies/EditSupplie";
 
 const SearchSupplie = (props) => {
   const [state] = useContext(UserContext);
   const user = state.user;
   const [supplies, setSupplies] = useState([]);
   const [tabSupplies, setTabSupplies] = useState([]);
+  const [supplieEdit, setSupplieEdit] = useState({})
   const [search, setSearch] = useState("");
-  const [flag, setFlag] = useState(false)
+  const [flag, setFlag] = useState(false);
+  const [show, setshow] = useState(false);
+  const handleClose = () =>{
+    setshow(false);
+  }
 
   const filtrar = (props) => {
     let resultSearching = tabSupplies.filter((element) => {
@@ -61,52 +73,49 @@ const SearchSupplie = (props) => {
     element.sDateInitial = DateInital[0];
     element.sDateUpdate = DateUpdate[0];
   });
-  useEffect(()=>{
-    if(supplies)
-    {
-      getSupplies()
+  useEffect(() => {
+    if (supplies) {
+      getSupplies();
     }
-  },[flag])
-  
-  const deleteSupplie= (e,id)=>{
+  }, [flag, show]);
+
+  const deleteSupplie = (e, id) => {
     Swal.fire({
-      title: 'Estas seguro que deseas borrar',
+      title: "Estas seguro que deseas borrar",
       text: "Esta Operacion no se puede deshacer",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Borralo'
+
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Borralo",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          {timer:2000,
+        Swal.fire({
+          timer: 2000,
           timerProgressBar: true,
-          title:'Borrado',
-          text:'El proveedor fue borrado con exito',
-          icon:'success'
-        } 
-        )
-         try {
-       axios.delete(`${DSF}/${id}`).then(()=>{
-        setFlag(!flag)
-      })
-      
-
-    } catch (error) {
-      console.log(error)
-    }
+          title: "Borrado",
+          text: "El proveedor fue borrado con exito",
+          icon: "success",
+        });
+        try {
+          axios.delete(`${DSF}/${id}`).then(() => {
+            setFlag(!flag);
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
-    })
-   
-  }
+    });
+  };
+  
   return (
     <div className="flex">
       <SideBar />
       <div className="container-side p-0">
         <NavBar brand={props.brand}></NavBar>
         <div className="container px-3 pt-3">
+        <EditSupplie show={show} handleClose={handleClose} supplie={supplieEdit}></EditSupplie>
           <Form>
             <Form.Group as={Row}>
               <Form.Label column="true" sm={3} className="mt-3">
@@ -146,10 +155,9 @@ const SearchSupplie = (props) => {
                     <th>Fecha de Actualizacion</th>
                     <th>Domicilios</th>
                     <th>Productos</th>
-                    {user.FkRole === 1 ||
-                    user.FkRole === 999 ? (
+                    {user.FkRole === 1 || user.FkRole === 999 ? (
                       <>
-                        {/* <th>Editar</th> */}
+                        <th>Editar</th>
                         <th>Borrar</th>
                       </>
                     ) : (
@@ -166,38 +174,38 @@ const SearchSupplie = (props) => {
                       <td>{supplie.sDateInitial}</td>
                       <td>{supplie.sDateUpdate}</td>
                       <td>
-                        <Link
-                          to={`/Domicilios/Proveedor/${supplie.idSupplie}`}
-                        ><IconButton style={{color: "#fa5d02"}}><BusinessIcon>
-                          </BusinessIcon></IconButton>
+                        <Link to={`/Domicilios/Proveedor/${supplie.idSupplie}`}>
+                          <IconButton style={{ color: "#fa5d02" }}>
+                            <BusinessIcon></BusinessIcon>
+                          </IconButton>
                         </Link>
-                        
                       </td>
 
                       <td>
                         <Link
                           to={`/Proveedores/Productos/${supplie.idSupplie}`}
-                          
                         >
-                         <IconButton style={{color: "rgba(6, 10, 71, 0.91)"}}><StorefrontIcon>
-                          </StorefrontIcon></IconButton>
+                          <IconButton
+                            style={{ color: "rgba(6, 10, 71, 0.91)" }}
+                          >
+                            <StorefrontIcon></StorefrontIcon>
+                          </IconButton>
                         </Link>
                       </td>
-                      {user.FkRole === 1 ||
-                      user.FkRole === 999 ? (
+                      {user.FkRole === 1 || user.FkRole === 999 ? (
                         <>
-                          {/* <th>
-                            <IconButton>
-                              <EditIcon color="primary"></EditIcon>
-                            </IconButton>
-                          </th> */}
                           <th>
-                            <Modal>
-                                <ModalTitle>
-                                  
-                                </ModalTitle>
-                            </Modal>
-                            <IconButton color="secondary" onClick={e=>deleteSupplie(e,supplie.idSupplie)}>
+                            <IconButton>
+                              <EditIcon color="primary" onClick={e=> {setshow(true); setSupplieEdit(supplie)}}></EditIcon>
+                            </IconButton>
+                          </th>
+                          <th>
+                            <IconButton
+                              color="secondary"
+                              onClick={(e) =>
+                                deleteSupplie(e, supplie.idSupplie)
+                              }
+                            >
                               <DeleteIcon></DeleteIcon>
                             </IconButton>
                           </th>
