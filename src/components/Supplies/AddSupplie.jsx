@@ -15,6 +15,8 @@ const initialValuesS = {
   nameSupplie: "",
   FkBusinessType: 0,
   FkClasification: 0,
+  emailSupplie: "",
+  contactPhone: ""
 };
 
 const AddSupplie = (props) => {
@@ -40,7 +42,9 @@ const AddSupplie = (props) => {
       if (
         dataS.FkBusinessType > 0 &&
         dataS.FkBusinessType > 0 &&
-        dataS.nameSupplie !== ""
+        dataS.nameSupplie !== "" &&
+        dataS.emailSupplie !== "" &&
+        dataS.contactPhone !== ""
       ) {
         const { data } = await axios.post(ADS, dataS);
         if (data.value) {
