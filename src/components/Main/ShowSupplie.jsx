@@ -289,7 +289,7 @@ import { Button, Col, Form, Row as Fila } from 'react-bootstrap';
           <div className="container">
             {supplies ? (
     <TableContainer component={Paper}>
-        <EditSupplie show={show} handleClose={handleClose} supplie={supplieEdit}></EditSupplie>
+        <EditSupplie show={show} handleClose={handleClose} supplie={supplieEdit} setFlag={setFlag} flag={flag}></EditSupplie>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>

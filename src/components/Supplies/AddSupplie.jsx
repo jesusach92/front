@@ -149,6 +149,33 @@ const AddSupplie = (props) => {
                 </Form.Select>
               </Col>
             </Form.Group>
+            <Form.Group as={Row} className="pt-3">
+            <Form.Label column="true" sm={3}>
+              Correo Electronico:
+            </Form.Label>
+            <Col sm={3}>
+              <Form.Control
+                placeholder="Correo Principal"
+                value={dataS.emailSupplie}
+                onChange={(e) =>
+                  setDataS({ ...dataS, emailSupplie: e.target.value })
+                }
+              />
+            </Col>
+            <Form.Label column="true" sm={2}>
+              Telefono:
+            </Form.Label>
+            <Col sm={3}>
+              <Form.Control
+                placeholder="Telefono Principal"
+                maxLength={10}
+                value={dataS.contactPhone}
+                onChange={(e) =>
+                  setDataS({ ...dataS, contactPhone: e.target.value })
+                }
+              />
+            </Col>
+          </Form.Group>
             <Form.Group as={Row} className="mt-4">
               <Form.Label column="true" sm={3}>
                 Clasificacion:
@@ -173,6 +200,8 @@ const AddSupplie = (props) => {
                   ))}
                 </Form.Select>
               </Col>
+
+
               {idSupplie === 0 ? (
                 <Col>
                   <Button

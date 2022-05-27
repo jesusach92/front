@@ -10,7 +10,7 @@ const initialValuesS = {
     FkClasification: 0,
   };
 
-const EditSupplie = ({ show, handleClose, supplie }) => {
+const EditSupplie = ({ show, handleClose, supplie, setFlag, flag }) => {
   const [data, setData] = useState(initialValuesS);
   const [business, setBusiness] = useState([]);
   const [sclasification, setSclasification] = useState([]);
@@ -45,6 +45,7 @@ const EditSupplie = ({ show, handleClose, supplie }) => {
       ) {
         const result = await axios.put(USF, data);
         if (result.data.value === 1) {
+          setFlag(!flag)
           Swal.fire({
             icon:'success',
             title: 'Correcto',
@@ -100,6 +101,7 @@ const EditSupplie = ({ show, handleClose, supplie }) => {
             </Form.Label>
             <Col sm={4}>
               <Form.Select
+                value={data.FkBusinessType}
                 onChange={(e) =>
                   setData({
                     ...data,
@@ -149,6 +151,7 @@ const EditSupplie = ({ show, handleClose, supplie }) => {
             </Form.Label>
             <Col sm={4}>
               <Form.Select
+              value={data.FkClasification}
                 onChange={(e) =>
                   setData({
                     ...data,
