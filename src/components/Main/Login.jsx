@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
-import { AUT } from "../const/Const";
+import { AUT, AUTH, USERS } from "../const/Const";
 import { UserContext } from "../ContextUser/UserContext";
 import { Types } from "../ContextUser/UserReducer";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -52,7 +52,7 @@ const Login = ({ brand }) => {
 
   const sendData = async () => {
     try {
-      const result = await axios.post(AUT, data);
+      const result = await axios.post(AUTH, data);
       dispatch({ type: Types.authLogin, payload: result.data.user });
       setFlag(true);
       navigate("/proveedores", { replace: true });

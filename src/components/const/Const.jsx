@@ -1,46 +1,22 @@
 const DIR = "http://localhost:3001";
-export const BST = `${DIR}/Negocios`;
-export const SCT = `${DIR}/Clasificacion`;
-export const ADP = `${DIR}/agregar/producto`;
-export const TEC = `${DIR}/Tecnologias`;
-export const TAD = `${DIR}/TiposDom`;
-export const AAS = `${DIR}/Agregar/domicilio`;
-export const ABT = `${DIR}/Agregar/Negocio`;
-export const AAT = `${DIR}/Agregar/TipoDomicilio`;
-export const ATH = `${DIR}/Agregar/Tecnologia`;
-export const ACS = `${DIR}/Agregar/Clasificacion`;
-export const PBS = `${DIR}/proveedor/productos/`;
-export const SBI = `${DIR}/proveedor/`;
-export const ADS = `${DIR}/Agregar/proveedor`;
-export const ACA = `${DIR}/Agregar/contacto`;
-export const SBF = `${DIR}/proveedores`;
-export const USF = `${DIR}/Actualizar/Proveedor`;
-export const PFF = `${DIR}/productos`;
-export const PBI = `${DIR}/producto/`;
-export const APS = `${DIR}/Asignar/Producto`;
-export const SBP = `${DIR}/Proveedor/Producto/`;
-export const USP = `${DIR}/Actualizar/Relacion`;
-export const SAF = `${DIR}/proveedor/domicilios/`;
-export const SAC = `${DIR}/proveedor/domicilio/contactos/`;
-export const DAS = `${DIR}/Borrar/Domicilio/`;
-export const SPS = `${DIR}/Producto/Proveedores/`;
-export const UPF = `${DIR}/Actualizar/Producto`;
-export const UBT = `${DIR}/Actualizar/Negocio`;
-export const UTH = `${DIR}/Actualizar/Tecnologia`;
-export const UCS = `${DIR}/Actualizar/Clasificacion`;
-export const UAT = `${DIR}/Actualizar/TipoDomicilio`;
-export const UCA = `${DIR}/Actualizar/Contacto`;
-export const AUS = `${DIR}/Registrar/usuario`;
-export const AUT = `${DIR}/Autenticar`;
-export const DTA = `${DIR}/DataAdmin`;
-export const DUA = `${DIR}/UsuariosAdmin`;
-export const DDA = `${DIR}/Borrar/Usuario`;
-export const DRA = `${DIR}/Roles`;
-export const AUA = `${DIR}/Agregar/Usuario`;
-export const UDA = `${DIR}/Actualizar/Usuario`;
-export const DAT = `${DIR}/Borrar/TNegocio`;
-export const DCS = `${DIR}/Borrar/Clasificacion`;
-export const DTH = `${DIR}/Borrar/Tecnologia`;
-export const DTD = `${DIR}/Borrar/TipoDom`;
-export const DSF = `${DIR}/Borrar/Proveedor`;
-export const DSC = `${DIR}/Borrar/contacto`;
+
+const CONF ="config";
+export const BUSINESS_TYPE = `${DIR}/${CONF}/BusinessType`;
+export const S_CLASIFICATION = `${DIR}/${CONF}/SClasification`;
+export const TECHNOLOGY = `${DIR}/${CONF}/Tech`;
+export const ADRESS_TYPE = `${DIR}/${CONF}/AdresType`;
+
+export const PRODUCTS = `${DIR}/products`
+
+export const SUPPLIE = `${DIR}/supplies`
+
+export const CONTACTS = `${DIR}/contacts`
+
+export const ADRESS = `${DIR}/adress`
+
+export const SUPPLYS = `${DIR}/supplys`
+
+export const USERS = `${DIR}/users`
+
+export const AUTH = `${DIR}/auth`
+
