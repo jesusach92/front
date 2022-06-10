@@ -6,7 +6,7 @@ import NavBar from "./NavBar";
 import ModalAdress from "./ModalAdress";
 import ModalContact from "./ModalContact";
 import ModalContactUpdate from "./ModalContactUpdate";
-import { DAS, DSC, SAC, SAF, SBI } from "../const/Const";
+import { ADRESS, CONTACTS, SUPPLIE } from "../const/Const";
 import SideBar from "./SideBar";
 import { UserContext } from "../ContextUser/UserContext";
 import { Button, IconButton } from "@material-ui/core";
@@ -46,7 +46,7 @@ const ShowAdressSupplie = (props) => {
 
   const getSupplie = async () => {
     try {
-      const { data } = await axios.get(`${SBI}${id}`);
+      const { data } = await axios.get(`${SUPPLIE}${id}`);
       let [dateinital] = data[0].sDateInitial.split("T");
       let [dateUpdate] = data[0].sDateUpdate.split("T");
       data[0].sDateInitial = dateinital;
@@ -59,14 +59,14 @@ const ShowAdressSupplie = (props) => {
 
   const getAdrees = async () => {
     try {
-      const tadress = await axios.get(`${SAF}${id}`);
+      const tadress = await axios.get(`${ADRESS}${id}`);
       setAdress(tadress.data);
     } catch (e) {
       console.log(e);
     }
   };
   const getContacts = async (idAdress) => {
-    const { data } = await axios.get(`${SAC}${idAdress}`);
+    const { data } = await axios.get(`${CONTACTS}${idAdress}`);
     setContacts(data);
   };
   const deleteContact = async (e, Contact) => {
@@ -82,7 +82,7 @@ const ShowAdressSupplie = (props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         try {
-          axios.delete(`${DSC}/${Contact.idContact}`).then(() => {
+          axios.delete(`${CONTACTS}}/${Contact.idContact}`).then(() => {
             Swal.fire({
               timer: 2000,
               timerProgressBar: true,
@@ -112,7 +112,7 @@ const ShowAdressSupplie = (props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         try {
-          axios.delete(`${DAS}${idad}`).then(() => {
+          axios.delete(`${ADRESS}${idad}`).then(() => {
             Swal.fire({
               timer: 2000,
               timerProgressBar: true,
@@ -264,7 +264,13 @@ const ShowAdressSupplie = (props) => {
                   ) : (
                     <></>
                   )}
-				  {user.FkRole===1 || user.FkRole === 2 || user.FkRole === 999 ?(<th>Editar</th>):(<></>)}
+                  {user.FkRole === 1 ||
+                  user.FkRole === 2 ||
+                  user.FkRole === 999 ? (
+                    <th>Editar</th>
+                  ) : (
+                    <></>
+                  )}
                   {user.FkRole === 1 || user.FkRole === 999 ? (
                     <th>Borrar</th>
                   ) : (
@@ -313,11 +319,17 @@ const ShowAdressSupplie = (props) => {
                     ) : (
                       <></>
                     )}
-					{user.FkRole===1 || user.FkRole === 2 || user.FkRole === 999 ?(<td align="center"><IconButton
-					color="primary"
-					>
-						<EditIcon fontSize="large"></EditIcon>
-						</IconButton></td>):(<></>)}
+                    {user.FkRole === 1 ||
+                    user.FkRole === 2 ||
+                    user.FkRole === 999 ? (
+                      <td align="center">
+                        <IconButton color="primary">
+                          <EditIcon fontSize="large"></EditIcon>
+                        </IconButton>
+                      </td>
+                    ) : (
+                      <></>
+                    )}
                     {user.FkRole === 1 || user.FkRole === 999 ? (
                       <td align="center">
                         <IconButton
@@ -406,14 +418,14 @@ const ShowAdressSupplie = (props) => {
                         )}
                         {user.FkRole === 1 || user.FkRole === 999 ? (
                           <td>
-                          <IconButton
-                            color="primary"
-                            onClick={(e) => {
-                              deleteContact(e, contact);
-                            }}
-                          >
-                            <DeleteIcon></DeleteIcon>
-                          </IconButton>
+                            <IconButton
+                              color="primary"
+                              onClick={(e) => {
+                                deleteContact(e, contact);
+                              }}
+                            >
+                              <DeleteIcon></DeleteIcon>
+                            </IconButton>
                           </td>
                         ) : (
                           <></>

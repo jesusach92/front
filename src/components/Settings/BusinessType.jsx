@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { ABT, BST, DAT, UBT } from "../const/Const";
+import { BUSINESS_TYPE } from "../const/Const";
 import { IconButton } from "@material-ui/core";
 import { UserContext } from "../ContextUser/UserContext";
 
@@ -24,7 +24,7 @@ const AddBusinessType = () => {
 
   const sendData = async () => {
     if (data.bName !== "" && data.bDescription !== "") {
-      const result = await axios.post(ABT, data);
+      const result = await axios.post(BUSINESS_TYPE, data);
       if (result.data.value === 1) {
         alert("Tipo de Negocio guardado correctamente");
         setShow(false);
@@ -36,7 +36,7 @@ const AddBusinessType = () => {
   };
   const updateData = async (updateData) => {
     if (data.bName !== "" && data.bDescription !== "") {
-      const result = await axios.put(UBT, data);
+      const result = await axios.put(BUSINESS_TYPE, data);
       if (result.data.value === 1) {
         alert("Tipo de Negocio actualizado correctamente");
         setShow(false);
@@ -48,14 +48,14 @@ const AddBusinessType = () => {
     }
   };
   const deleteData = async (e, id) => {
-    const { data } = await axios.delete(`${DAT}/${id}`);
+    await axios.delete(`${BUSINESS_TYPE}/${id}`);
     setShow(false);
     setData(initialValues);
     getData();
   };
 
   const getData = async () => {
-    const result = await axios.get(BST);
+    const result = await axios.get(BUSINESS_TYPE);
     setBusiness(result.data);
   };
   useEffect(() => {
@@ -69,17 +69,18 @@ const AddBusinessType = () => {
         <thead>
           <tr>
             <th>
-              Tipos de negocio {user.FkRole === 1 ||
-                user.FkRole === 2 ||
-                user.FkRole ===3 ||
-                user.FkRole === 999 ? (
-              <IconButton color="primary" onClick={(e) => setShow(true)}>
-                <AddBoxIcon fontSize="large"></AddBoxIcon>
-              </IconButton>
-            ):(<></>)}
+              Tipos de negocio{" "}
+              {user.FkRole === 1 ||
+              user.FkRole === 2 ||
+              user.FkRole === 3 ||
+              user.FkRole === 999 ? (
+                <IconButton color="primary" onClick={(e) => setShow(true)}>
+                  <AddBoxIcon fontSize="large"></AddBoxIcon>
+                </IconButton>
+              ) : (
+                <></>
+              )}
             </th>
-            
-            
           </tr>
         </thead>
         {businessType.length === 0 ? (
@@ -93,31 +94,35 @@ const AddBusinessType = () => {
             {businessType.map((type) => (
               <tr key={type.idBusinessType}>
                 <td value={type.bName}>{type.bName}</td>
-                <td className="size2" value={type.bDescription}>{type.bDescription}</td>
+                <td className="size2" value={type.bDescription}>
+                  {type.bDescription}
+                </td>
                 {user.FkRole === 1 ||
                 user.FkRole === 2 ||
-                user.FkRole === 999 ?(
-                <td>
-                  <IconButton
-                    size="small"
-                    color="primary"
-                    onClick={(e) => {
-                      setShow(true);
-                      setData({
-                        ...data,
-                        bName: type.bName,
-                        bDescription: type.bDescription,
-                        idBusinessType: type.idBusinessType,
-                      });
-                      setflag(true);
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                </td>):(<></>)}
-                
-                {user.FkRole === 1 ||
                 user.FkRole === 999 ? (
+                  <td>
+                    <IconButton
+                      size="small"
+                      color="primary"
+                      onClick={(e) => {
+                        setShow(true);
+                        setData({
+                          ...data,
+                          bName: type.bName,
+                          bDescription: type.bDescription,
+                          idBusinessType: type.idBusinessType,
+                        });
+                        setflag(true);
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </td>
+                ) : (
+                  <></>
+                )}
+
+                {user.FkRole === 1 || user.FkRole === 999 ? (
                   <td>
                     <IconButton
                       size="small"

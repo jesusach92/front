@@ -8,7 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
-import { DDA, DUA } from "../../const/Const";
+import { USERS } from "../../const/Const";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { UserContext } from "../../ContextUser/UserContext";
@@ -21,13 +21,13 @@ const useStyles = makeStyles({
 });
 
 const UsersTable = ({ flag, setFlag, setUser }) => {
-  const [state, dispatch] = useContext(UserContext);
+  const [state] = useContext(UserContext);
   const user = state.user;
   const classes = useStyles();
   const [users, setUsers] = useState([]);
   const deleteUsers = async (idUsers) => {
     try {
-      const { data } = await axios.delete(`${DDA}/${idUsers}`);
+      const { data } = await axios.delete(`${USERS}/${idUsers}`);
       if (data.value === 1) {
         setUser(null);
         setFlag(!flag);
@@ -73,7 +73,7 @@ const UsersTable = ({ flag, setFlag, setUser }) => {
   };
   const getUsers = async () => {
     try {
-      const { data } = await axios.get(DUA);
+      const { data } = await axios.get(`${USERS}/UsersAdmin`);
       const usersfilter = data.filter(
         (use) => use.idUsers !== user.id && use.idRole !== 999
       );

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { ATH, TEC, DTH, UTH } from "../const/Const";
+import { TECHNOLOGY } from "../const/Const";
 
 import { IconButton } from "@material-ui/core";
 
@@ -14,7 +14,7 @@ const initialValues = {
   nameTechnology: "",
 };
 const Technologies = () => {
-  const [state, dispatch] = useContext(UserContext);
+  const [state] = useContext(UserContext);
   const user = state.user;
   const [technologies, setTech] = useState([]);
   const [show, setShow] = useState(false);
@@ -22,12 +22,12 @@ const Technologies = () => {
   const [flag, setFlag] = useState(false);
 
   const getData = async () => {
-    const { data } = await axios.get(TEC);
+    const { data } = await axios.get(TECHNOLOGY);
     setTech(data);
   };
 
   const deleteData = async (e, id) => {
-    const { data } = await axios.delete(`${DTH}/${id}`);
+    await axios.delete(`${TECHNOLOGY}/${id}`);
     setShow(false);
     setData(initialValues);
     getData();
@@ -35,7 +35,7 @@ const Technologies = () => {
 
   const sendData = async () => {
     if (data !== "") {
-      const result = await axios.post(ATH, data);
+      const result = await axios.post(TECHNOLOGY, data);
       if (result.data.value === 1) {
         alert("Tenologia guardada correctamente");
         setShow(false);
@@ -49,7 +49,7 @@ const Technologies = () => {
   const updateData = async () => {
     console.log(data);
     if (data !== "") {
-      const result = await axios.put(UTH, data);
+      const result = await axios.put(TECHNOLOGY, data);
       if (result.data.value === 1) {
         alert("Tecnologia  Actualizada correctamente");
         setShow(false);
@@ -71,15 +71,19 @@ const Technologies = () => {
       <Table responsive hover>
         <thead>
           <tr>
-            <th>Clasificacion de Tecnologias  {user.FkRole === 1 ||
-                user.FkRole === 2 ||
-                user.FkRole ===3 ||
-                user.FkRole === 999 ? (
-              <IconButton color="primary" onClick={(e) => setShow(true)}>
-                <AddBoxIcon fontSize="large" />
-              </IconButton>
-            ):(<></>)}
-            </th>    
+            <th>
+              Clasificacion de Tecnologias{" "}
+              {user.FkRole === 1 ||
+              user.FkRole === 2 ||
+              user.FkRole === 3 ||
+              user.FkRole === 999 ? (
+                <IconButton color="primary" onClick={(e) => setShow(true)}>
+                  <AddBoxIcon fontSize="large" />
+                </IconButton>
+              ) : (
+                <></>
+              )}
+            </th>
           </tr>
         </thead>
         {technologies.length === 0 ? (
@@ -95,26 +99,29 @@ const Technologies = () => {
                 <td value={type.nameTechnology}>{type.nameTechnology}</td>
                 {user.FkRole === 1 ||
                 user.FkRole === 2 ||
-                user.FkRole === 999 ?(<td>
-                  <IconButton
-                    size="small"
-                    color="primary"
-                    onClick={(e) => {
-                      setShow(true);
-                      setData({
-                        ...data,
-                        idTechnology: type.idTechnology,
-                        nameTechnology: type.nameTechnology,
-                      });
-                      setFlag(true);
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                </td>):(<></>)}
-                
-                {user.FkRole === 1 ||
                 user.FkRole === 999 ? (
+                  <td>
+                    <IconButton
+                      size="small"
+                      color="primary"
+                      onClick={(e) => {
+                        setShow(true);
+                        setData({
+                          ...data,
+                          idTechnology: type.idTechnology,
+                          nameTechnology: type.nameTechnology,
+                        });
+                        setFlag(true);
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </td>
+                ) : (
+                  <></>
+                )}
+
+                {user.FkRole === 1 || user.FkRole === 999 ? (
                   <td>
                     <IconButton
                       size="small"

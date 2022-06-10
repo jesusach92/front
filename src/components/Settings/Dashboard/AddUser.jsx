@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { AUA, DRA, UDA } from "../../const/Const";
+import { USERS } from "../../const/Const";
 
 const initialValues = {
   nameRole: "",
@@ -21,14 +21,13 @@ const initialValues = {
   namePerson: "",
 };
 const AddUser = ({ setFlag, flag, user }) => {
-
   const [role, setRole] = useState([]);
   const [dataUser, setDataUser] = useState(initialValues);
   const [flagUse, setFlagUse] = useState(false);
 
   const getRole = async () => {
     try {
-      const { data } = await axios.get(DRA);
+      const { data } = await axios.get(USERS);
       const roleFilter = data.filter((role) => role.idRole !== 999);
       setRole(roleFilter);
     } catch (error) {}
@@ -51,19 +50,20 @@ const AddUser = ({ setFlag, flag, user }) => {
     if (
       dataUser.nameRole !== "" &&
       dataUser.nameUser !== "" &&
-      (dataUser.passwordUser !== null && dataUser.passwordUser !== ""  && dataUser.hasOwnProperty('passwordUser')) &&
+      dataUser.passwordUser !== null &&
+      dataUser.passwordUser !== "" &&
+      dataUser.hasOwnProperty("passwordUser") &&
       dataUser.namePerson !== ""
     ) {
       return true;
+    } else {
+      return false;
     }
-    else{
-    return false;
-  }
   };
   const UpdateData = async () => {
     if (empty()) {
       try {
-        const { data } = await axios.put(UDA, dataUser);
+        const { data } = await axios.put(USERS, dataUser);
         if (data.value === 1) {
           setDataUser(initialValues);
           setFlag(!flag);
@@ -81,14 +81,12 @@ const AddUser = ({ setFlag, flag, user }) => {
   };
 
   const sendData = async () => {
-
     if (empty()) {
       try {
-        const { data } = await axios.post(AUA, dataUser);
+        const { data } = await axios.post(USERS, dataUser);
         alert("" + data.message);
         setDataUser(initialValues);
         setFlag(!flag);
-        
       } catch (error) {
         console.log(error);
       }
@@ -167,7 +165,6 @@ const AddUser = ({ setFlag, flag, user }) => {
               color="primary"
               onClick={(e) => {
                 UpdateData();
-                
               }}
             >
               Actualizar Usuario

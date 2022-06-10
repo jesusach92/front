@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row, Tab, Table, Tabs } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { AAS, TAD } from "../../const/Const";
+import { ADRESS, ADRESS_TYPE } from "../../const/Const";
 import AddContacAdress from "./AddContacAdress";
 
 const initialValuesA = {
@@ -25,7 +25,7 @@ const AddAdressSup = ({ FkSupplieAd, isBlocking, setIsBlocking }) => {
   const [Contacts, setContacts] = useState([]);
 
   const getData = async () => {
-    const addaType = await axios.get(TAD);
+    const addaType = await axios.get(ADRESS_TYPE);
     setTypeAd(addaType.data);
   };
   useEffect(() => {
@@ -48,32 +48,29 @@ const AddAdressSup = ({ FkSupplieAd, isBlocking, setIsBlocking }) => {
       dataA.adressDescription !== "" &&
       dataA.aComments !== ""
     ) {
-      const { data } = await axios.post(AAS, dataA);
+      const { data } = await axios.post(ADRESS, dataA);
       if (data.value === 1) {
-        Swal.fire(
-          {timer:2000,
+        Swal.fire({
+          timer: 2000,
           timerProgressBar: true,
-          title:'Agregado',
-          text:'Domicilio guardado correctamente',
-          icon:'success'
-        } 
-        )
-        if(isBlocking)
-        {
+          title: "Agregado",
+          text: "Domicilio guardado correctamente",
+          icon: "success",
+        });
+        if (isBlocking) {
           setIsBlocking({ ...isBlocking, message: 3 });
         }
         setIDAdrees({ id: data.insertId });
         setContacts([...Contacts, ""]);
       }
     } else {
-      Swal.fire(
-        {timer:2000,
+      Swal.fire({
+        timer: 2000,
         timerProgressBar: true,
-        title:'Advertencia',
-        text:'Todos los campos deben estar llenos',
-        icon: 'warning'
-      } 
-      )
+        title: "Advertencia",
+        text: "Todos los campos deben estar llenos",
+        icon: "warning",
+      });
     }
   };
 
@@ -164,7 +161,6 @@ const AddAdressSup = ({ FkSupplieAd, isBlocking, setIsBlocking }) => {
                 variant="primary"
                 onClick={(e) => {
                   SendData();
-                  
                 }}
               >
                 Guardar

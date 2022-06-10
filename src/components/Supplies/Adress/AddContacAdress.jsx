@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { ACA, UCA } from "../../const/Const";
+import { CONTACTS } from "../../const/Const";
 
 const initialValues = {
   FkAdressCont: 0,
@@ -62,7 +62,7 @@ const AddContacAdress = ({
       data.comments !== ""
     ) {
       try {
-        const result = await axios.post(ACA, data);
+        const result = await axios.post(CONTACTS, data);
         if (result.data.value === 1) {
           Swal.fire({
             timer: 2000,
@@ -98,7 +98,7 @@ const AddContacAdress = ({
       data.comments !== ""
     ) {
       try {
-        const result = await axios.put(UCA, data);
+        const result = await axios.put(CONTACTS, data);
         if (result.data.value === 1) {
           Swal.fire({
             timer: 2000,
@@ -124,8 +124,6 @@ const AddContacAdress = ({
       });
     }
   };
-
-  
 
   useEffect(() => {
     if (contact) setData(contact);

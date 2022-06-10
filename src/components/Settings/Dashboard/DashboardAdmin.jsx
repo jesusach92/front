@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { DTA } from "../../const/Const";
+import { USERS } from "../../const/Const";
 import { UserContext } from "../../ContextUser/UserContext";
 import NavBar from "../../Main/NavBar";
 import SideBar from "../../Main/SideBar";
@@ -11,8 +11,8 @@ import Widget from "./Widget";
 const DashboardAdmin = ({ brand }) => {
   const [flag, setFlag] = useState(false);
   const [dataAdmin, setDataAdmin] = useState({});
-  const [state, dispatch] = useContext(UserContext);
-  const [user, setUser] = useState(null)
+  const [state] = useContext(UserContext);
+  const [user, setUser] = useState(null);
   const session = state.user;
   useEffect(() => {
     getdataAdmin();
@@ -20,7 +20,7 @@ const DashboardAdmin = ({ brand }) => {
 
   const getdataAdmin = async () => {
     try {
-      const result = await axios.get(DTA);
+      const result = await axios.get(`${USERS}/DataAdmin`);
       setDataAdmin(result.data);
     } catch (error) {
       console.log(error);
@@ -38,8 +38,12 @@ const DashboardAdmin = ({ brand }) => {
           <Widget type="contacts" dataAdmin={dataAdmin.Contactos}></Widget>
         </div>
         <div className="container px-3 pt-3 flex">
-          <div className="px-3"><UsersTable flag={flag} setFlag={setFlag} setUser={setUser}/></div>
-          <div className="px-3"><AddUser flag={flag} setFlag={setFlag} user={user}/></div>
+          <div className="px-3">
+            <UsersTable flag={flag} setFlag={setFlag} setUser={setUser} />
+          </div>
+          <div className="px-3">
+            <AddUser flag={flag} setFlag={setFlag} user={user} />
+          </div>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { usePrompt } from "../../assets/blocks";
-import { ADS, BST, SCT } from "../const/Const";
+import { BUSINESS_TYPE, SUPPLIE, S_CLASIFICATION } from "../const/Const";
 import Swal from "sweetalert2";
 
 import NavBar from "../Main/NavBar";
@@ -16,7 +16,7 @@ const initialValuesS = {
   FkBusinessType: 0,
   FkClasification: 0,
   emailSupplie: "",
-  contactPhone: ""
+  contactPhone: "",
 };
 
 const AddSupplie = (props) => {
@@ -32,8 +32,8 @@ const AddSupplie = (props) => {
   });
 
   const getData = async () => {
-    const business = await axios.get(BST);
-    const sclas = await axios.get(SCT);
+    const business = await axios.get(BUSINESS_TYPE);
+    const sclas = await axios.get(S_CLASIFICATION);
     setsclasificacion(sclas.data);
     setBusiness(business.data);
   };
@@ -46,34 +46,33 @@ const AddSupplie = (props) => {
         dataS.emailSupplie !== "" &&
         dataS.contactPhone !== ""
       ) {
-        const { data } = await axios.post(ADS, dataS);
+        const { data } = await axios.post(SUPPLIE, dataS);
         if (data.value) {
           Swal.fire({
-            icon:'success',
-            title: 'Correcto',
-            text: 'Provedor Agregador correctamente',
-            timer:1500,
-            timerProgressBar: true
-          })
+            icon: "success",
+            title: "Correcto",
+            text: "Provedor Agregador correctamente",
+            timer: 1500,
+            timerProgressBar: true,
+          });
           setIdSup(data.insertId);
         } else {
           Swal.fire({
-            title: 'Error',
-            icon: 'error',
-            text: 'El Proveedor ya se encuentra registrado',
-            timer:1500,
-            timerProgressBar: true
-          })
-          
+            title: "Error",
+            icon: "error",
+            text: "El Proveedor ya se encuentra registrado",
+            timer: 1500,
+            timerProgressBar: true,
+          });
         }
       } else {
         Swal.fire({
-          title: 'Advertencia',
-          icon: 'warning',
-          text: 'Todos los campos deben estar llenos',
-          timer:1500,
-          timerProgressBar: true
-        })
+          title: "Advertencia",
+          icon: "warning",
+          text: "Todos los campos deben estar llenos",
+          timer: 1500,
+          timerProgressBar: true,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -150,32 +149,32 @@ const AddSupplie = (props) => {
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="pt-3">
-            <Form.Label column="true" sm={3}>
-              Correo Electronico:
-            </Form.Label>
-            <Col sm={3}>
-              <Form.Control
-                placeholder="Correo Principal"
-                value={dataS.emailSupplie}
-                onChange={(e) =>
-                  setDataS({ ...dataS, emailSupplie: e.target.value })
-                }
-              />
-            </Col>
-            <Form.Label column="true" sm={2}>
-              Telefono:
-            </Form.Label>
-            <Col sm={3}>
-              <Form.Control
-                placeholder="Telefono Principal"
-                maxLength={10}
-                value={dataS.contactPhone}
-                onChange={(e) =>
-                  setDataS({ ...dataS, contactPhone: e.target.value })
-                }
-              />
-            </Col>
-          </Form.Group>
+              <Form.Label column="true" sm={3}>
+                Correo Electronico:
+              </Form.Label>
+              <Col sm={3}>
+                <Form.Control
+                  placeholder="Correo Principal"
+                  value={dataS.emailSupplie}
+                  onChange={(e) =>
+                    setDataS({ ...dataS, emailSupplie: e.target.value })
+                  }
+                />
+              </Col>
+              <Form.Label column="true" sm={2}>
+                Telefono:
+              </Form.Label>
+              <Col sm={3}>
+                <Form.Control
+                  placeholder="Telefono Principal"
+                  maxLength={10}
+                  value={dataS.contactPhone}
+                  onChange={(e) =>
+                    setDataS({ ...dataS, contactPhone: e.target.value })
+                  }
+                />
+              </Col>
+            </Form.Group>
             <Form.Group as={Row} className="mt-4">
               <Form.Label column="true" sm={3}>
                 Clasificacion:
@@ -200,7 +199,6 @@ const AddSupplie = (props) => {
                   ))}
                 </Form.Select>
               </Col>
-
 
               {idSupplie === 0 ? (
                 <Col>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { APS, PBI, PFF, USP } from "../../const/Const";
+import { PRODUCTS, SUPPLYS } from "../../const/Const";
 import AddProduct from "../../Main/AddProduct";
 
 const initialValuesPS = {
@@ -45,8 +45,7 @@ const AsingProductSup = ({
       dataPS.productLine !== ""
     ) {
       try {
-       
-        const { data } = await axios.put(USP, dataPS);
+        const { data } = await axios.put(SUPPLYS, dataPS);
 
         if (data.value === 0) {
           alert("No se realizo la actualizacion");
@@ -75,7 +74,7 @@ const AsingProductSup = ({
       dataPS.productLine !== ""
     ) {
       try {
-        const { data } = await axios.post(APS, dataPS);
+        const { data } = await axios.post(SUPPLYS, dataPS);
         if (data.value === 0) {
           alert("El producto ya se encuentra asignado");
           setDataPS(initialValuesPS);
@@ -92,7 +91,7 @@ const AsingProductSup = ({
   };
 
   const getProducts = async () => {
-    const { data } = await axios.get(PFF);
+    const { data } = await axios.get(PRODUCTS);
     setProducts(data);
   };
 
@@ -104,7 +103,7 @@ const AsingProductSup = ({
 
   const getProduct = async () => {
     if (idProduct > 0) {
-      const { data } = await axios.get(`${PBI}${idProduct}`);
+      const { data } = await axios.get(`${PRODUCTS}/${idProduct}`);
       setProduct(data[0]);
       setDataPS({
         ...dataPS,
@@ -315,7 +314,7 @@ const AsingProductSup = ({
           <Button
             onClick={(e) => {
               sendData();
-              setIsBlocking({band:false, message: 3 });
+              setIsBlocking({ band: false, message: 3 });
             }}
           >
             Asignar

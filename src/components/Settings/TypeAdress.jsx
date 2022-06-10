@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { AAT, DTD, TAD, UAT } from "../const/Const";
+import { ADRESS_TYPE } from "../const/Const";
 
 import { IconButton } from "@material-ui/core";
 
@@ -14,7 +14,7 @@ const initialValues = {
   aType: "",
 };
 const TypeAdress = () => {
-  const [state, dispatch] = useContext(UserContext);
+  const [state] = useContext(UserContext);
   const user = state.user;
   const [typesDom, setTypes] = useState([]);
   const [show, setShow] = useState(false);
@@ -22,7 +22,7 @@ const TypeAdress = () => {
   const [flag, setFlag] = useState(false);
 
   const getData = async () => {
-    const { data } = await axios.get(TAD);
+    const { data } = await axios.get(ADRESS_TYPE);
     setTypes(data);
   };
 
@@ -31,7 +31,7 @@ const TypeAdress = () => {
   }, [show]);
 
   const deleteData = async (e, id) => {
-    const { data } = await axios.delete(`${DTD}/${id}`);
+    await axios.delete(`${ADRESS_TYPE}/${id}`);
     setShow(false);
     setData(initialValues);
     getData();
@@ -39,7 +39,7 @@ const TypeAdress = () => {
 
   const sendData = async () => {
     if (data.aType !== "") {
-      const result = await axios.post(AAT, data);
+      const result = await axios.post(ADRESS_TYPE, data);
       if (result.data.value === 1) {
         alert("Tipo de Domicilio guardado correctamente");
         setShow(false);
@@ -54,7 +54,7 @@ const TypeAdress = () => {
 
   const updateData = async () => {
     if (data.aType !== "") {
-      const result = await axios.put(UAT, data);
+      const result = await axios.put(ADRESS_TYPE, data);
       if (result.data.value === 1) {
         alert("Tipo de Domicilio actualizado correctamente");
         setShow(false);
@@ -72,17 +72,19 @@ const TypeAdress = () => {
       <Table responsive hover>
         <thead>
           <tr>
-            <th>Tipos de Domicilios
-            {user.FkRole === 1 ||
-                user.FkRole === 2 ||
-                user.FkRole ===3 ||
-                user.FkRole === 999 ? (
-              <IconButton color="primary" onClick={(e) => setShow(true)}>
-                <AddBoxIcon fontSize="large" />
-              </IconButton>
-            ):(<></>)}
+            <th>
+              Tipos de Domicilios
+              {user.FkRole === 1 ||
+              user.FkRole === 2 ||
+              user.FkRole === 3 ||
+              user.FkRole === 999 ? (
+                <IconButton color="primary" onClick={(e) => setShow(true)}>
+                  <AddBoxIcon fontSize="large" />
+                </IconButton>
+              ) : (
+                <></>
+              )}
             </th>
-           
           </tr>
         </thead>
         {typesDom.length === 0 ? (
@@ -98,26 +100,29 @@ const TypeAdress = () => {
                 <td value={type.aType}>{type.aType}</td>
                 {user.FkRole === 1 ||
                 user.FkRole === 2 ||
-                user.FkRole === 999 ?(<td>
-                  <IconButton
-                    size="small"
-                    color="primary"
-                    onClick={(e) => {
-                      setShow(true);
-                      setData({
-                        ...data,
-                        idadressType: type.idadressType,
-                        aType: type.aType,
-                      });
-                      setFlag(true);
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                </td>):(<></>)}
-                
-                {user.FkRole === 1 ||
                 user.FkRole === 999 ? (
+                  <td>
+                    <IconButton
+                      size="small"
+                      color="primary"
+                      onClick={(e) => {
+                        setShow(true);
+                        setData({
+                          ...data,
+                          idadressType: type.idadressType,
+                          aType: type.aType,
+                        });
+                        setFlag(true);
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </td>
+                ) : (
+                  <></>
+                )}
+
+                {user.FkRole === 1 || user.FkRole === 999 ? (
                   <td>
                     <IconButton
                       size="small"

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { ACS, DCS, SCT, UCS } from "../const/Const";
+import { S_CLASIFICATION } from "../const/Const";
 
 import { IconButton } from "@material-ui/core";
 
@@ -14,7 +14,7 @@ const initialValues = {
   clasificationName: "",
 };
 const SClasification = () => {
-  const [state, dispatch] = useContext(UserContext);
+  const [state] = useContext(UserContext);
   const user = state.user;
   const [show, setShow] = useState(false);
   const [data, setData] = useState(initialValues);
@@ -22,12 +22,12 @@ const SClasification = () => {
   const [flag, setFlag] = useState(false);
 
   const getData = async () => {
-    const sclass = await axios.get(SCT);
+    const sclass = await axios.get(S_CLASIFICATION);
     setsclasificacion(sclass.data);
   };
 
   const deleteData = async (e, id) => {
-    const { data } = await axios.delete(`${DCS}/${id}`);
+    await axios.delete(`${S_CLASIFICATION}/${id}`);
     setShow(false);
     setData(initialValues);
     getData();
@@ -35,7 +35,7 @@ const SClasification = () => {
 
   const sendData = async () => {
     if (data !== "") {
-      const result = await axios.post(ACS, data);
+      const result = await axios.post(S_CLASIFICATION, data);
 
       if (result.data.value === 1) {
         alert("Clasificacion de Proveedor Guardada Exitosamente");
@@ -51,7 +51,7 @@ const SClasification = () => {
 
   const updateData = async () => {
     if (data !== "") {
-      const result = await axios.put(UCS, data);
+      const result = await axios.put(S_CLASIFICATION, data);
 
       if (result.data.value === 1) {
         alert("Clasificacion de Proveedor Actualizada Exitosamente");
@@ -74,16 +74,19 @@ const SClasification = () => {
       <Table responsive hover className="mt-2">
         <thead>
           <tr>
-            <th>Clasificacion de Proveedor {user.FkRole === 1 ||
-                user.FkRole === 2 ||
-                user.FkRole ===3 ||
-                user.FkRole === 999 ? (
-              <IconButton color="primary" onClick={(e) => setShow(true)}>
-                <AddBoxIcon fontSize="large"></AddBoxIcon>
-              </IconButton>
-            ):(<></>)} </th>
-            
-            
+            <th>
+              Clasificacion de Proveedor{" "}
+              {user.FkRole === 1 ||
+              user.FkRole === 2 ||
+              user.FkRole === 3 ||
+              user.FkRole === 999 ? (
+                <IconButton color="primary" onClick={(e) => setShow(true)}>
+                  <AddBoxIcon fontSize="large"></AddBoxIcon>
+                </IconButton>
+              ) : (
+                <></>
+              )}{" "}
+            </th>
           </tr>
         </thead>
         {sclasificacion.length === 0 ? (
@@ -99,26 +102,29 @@ const SClasification = () => {
                 <td value={type.clasificationName}>{type.clasificationName}</td>
                 {user.FkRole === 1 ||
                 user.FkRole === 2 ||
-                user.FkRole === 999 ?(<td>
-                  <IconButton
-                    size="small"
-                    color="primary"
-                    onClick={(e) => {
-                      setShow(true);
-                      setData({
-                        ...data,
-                        idClasification: type.idClasification,
-                        clasificationName: type.clasificationName,
-                      });
-                      setFlag(true);
-                    }}
-                  >
-                    <EditIcon></EditIcon>
-                  </IconButton>
-                </td>):(<></>)}
-                
-                {user.FkRole === 1 ||
                 user.FkRole === 999 ? (
+                  <td>
+                    <IconButton
+                      size="small"
+                      color="primary"
+                      onClick={(e) => {
+                        setShow(true);
+                        setData({
+                          ...data,
+                          idClasification: type.idClasification,
+                          clasificationName: type.clasificationName,
+                        });
+                        setFlag(true);
+                      }}
+                    >
+                      <EditIcon></EditIcon>
+                    </IconButton>
+                  </td>
+                ) : (
+                  <></>
+                )}
+
+                {user.FkRole === 1 || user.FkRole === 999 ? (
                   <td>
                     <IconButton
                       size="small"

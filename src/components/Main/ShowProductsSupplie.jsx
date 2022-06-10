@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { Table, Form, Row, Col } from "react-bootstrap";
 import NavBar from "./NavBar";
-import { PBS, SBI } from "../const/Const";
+import { PRODUCTS, SUPPLIE } from "../const/Const";
 import ModalAsing from "./ModalAsing";
 import SideBar from "./SideBar";
 import { Button, IconButton } from "@material-ui/core";
@@ -14,8 +14,6 @@ const ShowProductsSupplie = (props) => {
   const [state] = useContext(UserContext);
   const { user } = state;
   const { id } = useParams();
-  const SPS = `${PBS}${id}`;
-  const SSI = `${SBI}${id}`;
   const [products, setProducts] = useState([]);
   const [supplie, setSupplie] = useState([]);
   const [Supply, setSupply] = useState([]);
@@ -33,7 +31,7 @@ const ShowProductsSupplie = (props) => {
   }, [showMoA]);
 
   const getProducts = async () => {
-    const { data } = await axios.get(SPS);
+    const { data } = await axios.get(`${PRODUCTS}/${id}`);
     data.map((dat) => {
       let [pDateInitial] = dat.pDateInitial.split("T");
       dat.pDateInitial = pDateInitial;
@@ -44,7 +42,7 @@ const ShowProductsSupplie = (props) => {
     setProducts(data);
   };
   const getSupplie = async () => {
-    const { data } = await axios.get(SSI);
+    const { data } = await axios.get(`${SUPPLIE}/${id}`);
     data.map((dat) => {
       let [sDateInitial] = dat.sDateInitial.split("T");
       dat.sDateInitial = sDateInitial;
@@ -130,23 +128,29 @@ const ShowProductsSupplie = (props) => {
               </Col>
             </Form.Group>
             <Form.Group>
-            {user.FkRole === 1 ||
-                  user.FkRole === 2 ||
-                  user.FkRole === 3 ||
-                  user.FkRole === 999 ?(<><ModalAsing
-                show={show}
-                handleClose={handleClose}
-                idSupplie={supplie.idSupplie}
-                idProduct={0}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={(e) => setShow(true)}
-              >
-                Agregar Producto
-              </Button></>):(<></>) }
-              
+              {user.FkRole === 1 ||
+              user.FkRole === 2 ||
+              user.FkRole === 3 ||
+              user.FkRole === 999 ? (
+                <>
+                  <ModalAsing
+                    show={show}
+                    handleClose={handleClose}
+                    idSupplie={supplie.idSupplie}
+                    idProduct={0}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={(e) => setShow(true)}
+                  >
+                    Agregar Producto
+                  </Button>
+                </>
+              ) : (
+                <></>
+              )}
+
               <Button
                 variant="contained"
                 style={{ backgroundColor: "#00695f" }}
@@ -221,19 +225,22 @@ const ShowProductsSupplie = (props) => {
                     <td>{product.pSampleLocation}</td>
                     <td>{product.comments}</td>
                     {user.FkRole === 1 ||
-                  user.FkRole === 2 ||
-                  user.FkRole === 999 ? (<td>
-                      <IconButton
-                        color="primary"
-                        onClick={(e) => {
-                          setMoA(true);
-                          setSupply(product);
-                        }}
-                      >
-                        <EditIcon/>
-                      </IconButton>
-                    </td>):(<></>)}
-                    
+                    user.FkRole === 2 ||
+                    user.FkRole === 999 ? (
+                      <td>
+                        <IconButton
+                          color="primary"
+                          onClick={(e) => {
+                            setMoA(true);
+                            setSupply(product);
+                          }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </td>
+                    ) : (
+                      <></>
+                    )}
                   </tr>
                 ))}
               </tbody>
