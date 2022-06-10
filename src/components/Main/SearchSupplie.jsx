@@ -9,7 +9,7 @@ import NavBar from "./NavBar";
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { DSF, SBF } from "../const/Const";
+import { DSF, SBF, SUPPLIE } from "../const/Const";
 import SideBar from "./SideBar";
 import { UserContext } from "../ContextUser/UserContext";
 import { IconButton } from "@material-ui/core";
@@ -63,7 +63,7 @@ const SearchSupplie = (props) => {
     getSupplies();
   }, []);
   const getSupplies = async () => {
-    const result = await axios.get(SBF);
+    const result = await axios.get(SUPPLIE);
     setSupplies(result.data);
     setTabSupplies(result.data);
   };
@@ -99,7 +99,7 @@ const SearchSupplie = (props) => {
           icon: "success",
         });
         try {
-          axios.delete(`${DSF}/${id}`).then(() => {
+          axios.delete(`${SUPPLIE}/${id}`).then(() => {
             setFlag(!flag);
           });
         } catch (error) {

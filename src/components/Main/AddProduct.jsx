@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 import axios from "axios";
-import { ADP, TEC, UPF } from "../const/Const";
+import { PRODUCTS, TECHNOLOGY } from "../const/Const";
 
 const initialValues = {
   FkTechnologyPro: 0,
@@ -13,7 +13,7 @@ const AddProduct = ({ show, handleCloseP, setidProduct, product }) => {
   const [DataP, setDataP] = useState(initialValues);
   const getTech = async () => {
     try {
-      const { data } = await axios.get(TEC);
+      const { data } = await axios.get(TECHNOLOGY);
       setTech(data);
     } catch (e) {}
   };
@@ -34,7 +34,7 @@ const AddProduct = ({ show, handleCloseP, setidProduct, product }) => {
       )
     ) {
       await axios
-        .put(UPF, DataP)
+        .put(PRODUCTS, DataP)
         .then((result) => {
           alert("Producto Actualizado con Exito");
           handleCloseP()
@@ -53,7 +53,7 @@ const AddProduct = ({ show, handleCloseP, setidProduct, product }) => {
         DataP.descriptionProduct === ""
       )
     ) {
-      const result = await axios.post(ADP, DataP);
+      const result = await axios.post(PRODUCTS, DataP);
 
       if (result.data.value === 1) {
         handleCloseP();

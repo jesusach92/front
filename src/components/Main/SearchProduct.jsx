@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AddProduct from "./AddProduct";
-import { PFF } from "../const/Const";
+import { PRODUCTS } from "../const/Const";
 import SideBar from "./SideBar";
 import { UserContext } from "../ContextUser/UserContext";
 import { IconButton } from "@material-ui/core";
@@ -61,7 +61,7 @@ const SearchProduct = ({brand}) => {
   }, []);
 
   const getProducts = async () => {
-    const result = await axios.get(PFF);
+    const result = await axios.get(PRODUCTS);
     setProducts(result.data);
     setoriginProducts(result.data);
   };
