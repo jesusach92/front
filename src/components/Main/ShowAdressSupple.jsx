@@ -46,7 +46,7 @@ const ShowAdressSupplie = (props) => {
 
   const getSupplie = async () => {
     try {
-      const { data } = await axios.get(`${SUPPLIE}${id}`);
+      const { data } = await axios.get(`${SUPPLIE}/${id}`);
       let [dateinital] = data[0].sDateInitial.split("T");
       let [dateUpdate] = data[0].sDateUpdate.split("T");
       data[0].sDateInitial = dateinital;

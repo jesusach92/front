@@ -27,7 +27,7 @@ const AddUser = ({ setFlag, flag, user }) => {
 
   const getRole = async () => {
     try {
-      const { data } = await axios.get(USERS);
+      const { data } = await axios.get(`${USERS}/Roles`);
       const roleFilter = data.filter((role) => role.idRole !== 999);
       setRole(roleFilter);
     } catch (error) {}
