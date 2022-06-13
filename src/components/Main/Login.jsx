@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
-import { AUT, AUTH, USERS } from "../const/Const";
+import { AUTH } from "../const/Const";
 import { UserContext } from "../ContextUser/UserContext";
 import { Types } from "../ContextUser/UserReducer";
 import { Navigate, useNavigate } from "react-router-dom";

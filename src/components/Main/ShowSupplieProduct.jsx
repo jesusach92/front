@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { Table, Form, Row, Col, Button } from "react-bootstrap";
 import NavBar from "./NavBar";
 import ModalAsing from "./ModalAsing";
-import { PRODUCTS, SUPPLIE } from "../const/Const";
+import { PRODUCTS, SUPPLIE, SUPPLYS } from "../const/Const";
 import AddProduct from "./AddProduct";
 import SideBar from "./SideBar";
 import { UserContext } from "../ContextUser/UserContext";
@@ -46,8 +46,8 @@ const ShowSupplieProduct = (props) => {
     setAsing(filterData);
   };
   const getData = async () => {
-    const result = await axios.get(`${SUPPLIE}${id}`);
-    const product = await axios.get(`${PRODUCTS}${id}`);
+    const result = await axios.get(`${SUPPLYS}/${id}`);
+    const product = await axios.get(`${PRODUCTS}/${id}`);
     setSupplies(result.data);
     setProduct(product.data[0]);
   };
@@ -151,7 +151,7 @@ const ShowSupplieProduct = (props) => {
               <></>
             )}
           </Form>
-          {supplies.length !== 0 ? (
+          {supplies?.length !== 0 ? (
             <Table responsive hover>
               <thead>
                 <tr>

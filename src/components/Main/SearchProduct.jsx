@@ -8,9 +8,11 @@ import { PRODUCTS } from "../const/Const";
 import SideBar from "./SideBar";
 import { UserContext } from "../ContextUser/UserContext";
 import { IconButton } from "@material-ui/core";
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import Delete from "@material-ui/icons/Delete";
+import Swal from "sweetalert2";
 
-const SearchProduct = ({brand}) => {
+const SearchProduct = ({ brand }) => {
   const [state] = useContext(UserContext);
   const { user } = state;
   const [products, setProducts] = useState([]);
@@ -65,104 +67,156 @@ const SearchProduct = ({brand}) => {
     setProducts(result.data);
     setoriginProducts(result.data);
   };
+
+  const deleteProduct = async (e, idProduct) => {
+    Swal.fire({
+      title: "Estas seguro que deseas borrar el producto",
+      text: "Esta operacion no se puede deshacer, se borra el producto y todas sus relaciones",
+      icon: "warning",
+      showCancelButton: true,
+
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Borralo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          axios.delete(`${PRODUCTS}/${idProduct}`).then(() => {
+            Swal.fire({
+              timer: 2000,
+              timerProgressBar: true,
+              title: "Borrado",
+              text: "El Domicilio fue borrado con exito",
+              icon: "success",
+            });
+            getProducts();
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
+
+
   //Retorno de Componente condicionado
   return (
     <div className="flex">
-      <SideBar/>
+      <SideBar />
       <div className="container-side p-0">
-      <NavBar brand={brand} />
-      <div className="container px-3 pt-3">
-        <Form>
-          <Form.Group as={Row}>
-            <Form.Label column="true" sm={3} className="mt-3">
-              Busqueda de Producto :
-            </Form.Label>
-            <Col className="pt-3">
-              <Form.Control
-                sm={4}
-                value={search || ""}
-                placeholder="Busqueda por Palabras clave"
-                onChange={HandleChange}
-              ></Form.Control>
-            </Col>
-            <Col sm={1}>
-              <Button
-                className="btn btn-success mt-3"
-                sm={1}
-                onClick={resetSearch}
-              >
-                Limpiar
-              </Button>
-            </Col>
-            <Col>
-            {user.FkRole === 1 ||
-                  user.FkRole === 2 ||
-                  user.FkRole === 3 ||
-                  user.FkRole === 999 ?(<><AddProduct show={showAddP} handleCloseP={handleClose} />
-              <Button
-                variant="success"
-                className="mt-3"
-                sm={2}
-                onClick={handleShow}
-              >
-                Agregar Producto
-              </Button></>):(<></>)}
-              
-            </Col>
-          </Form.Group>
-        </Form>
-        <div className="container pt-3">
-          Mostrando {products.length} Resultados
-          <div className="container">
-            {products.length !== 0 ? (
-              <Table responsive hover>
-                <thead >
-                  <tr align="center">
-                    <th>Nombre de Producto</th>
-                    <th>Descripcion de Producto</th>
-                    <th>Tecnologia</th>
-                    <th align="center">Consultar Proveedores</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.map((product) => (
-                    <tr align="center" key={product.idProduct}>
-                      <td>{product.productName}</td>
-                      <td>{product.descriptionProduct}</td>
-                      <td>{product.nameTechnology}</td>
-                      <td align="center"><Link
-                          to={`/productos/proveedores/${product.idProduct}`}
-                        >
-                          <IconButton color="primary">
-                          <VisibilityIcon> </VisibilityIcon>
-                        </IconButton>
-                        </Link>
-                        
-                       
-                      </td>
+        <NavBar brand={brand} />
+        <div className="container px-3 pt-3">
+          <Form>
+            <Form.Group as={Row}>
+              <Form.Label column="true" sm={3} className="mt-3">
+                Busqueda de Producto :
+              </Form.Label>
+              <Col className="pt-3">
+                <Form.Control
+                  sm={4}
+                  value={search || ""}
+                  placeholder="Busqueda por Palabras clave"
+                  onChange={HandleChange}
+                ></Form.Control>
+              </Col>
+              <Col sm={1}>
+                <Button
+                  className="btn btn-success mt-3"
+                  sm={1}
+                  onClick={resetSearch}
+                >
+                  Limpiar
+                </Button>
+              </Col>
+              <Col>
+                {user.FkRole === 1 ||
+                user.FkRole === 2 ||
+                user.FkRole === 3 ||
+                user.FkRole === 999 ? (
+                  <>
+                    <AddProduct show={showAddP} handleCloseP={handleClose} />
+                    <Button
+                      variant="success"
+                      className="mt-3"
+                      sm={2}
+                      onClick={handleShow}
+                    >
+                      Agregar Producto
+                    </Button>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </Col>
+            </Form.Group>
+          </Form>
+          <div className="container pt-3">
+            Mostrando {products.length} Resultados
+            <div className="container">
+              {products.length !== 0 ? (
+                <Table responsive hover>
+                  <thead>
+                    <tr align="center">
+                      <th>Nombre de Producto</th>
+                      <th>Descripcion de Producto</th>
+                      <th>Tecnologia</th>
+                      <th>Usuario que Registro</th>
+                      <th align="center">Consultar Proveedores</th>
+                      {user.FkRole === 1 || user.FkRole === 999 ? (
+                    <th>Borrar Producto</th>
+                  ) : (
+                    <></>
+                  )}
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
-            ) : (
-              <Table>
-                <thead>
-                  <tr>
-                    <th>Productos</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>No hay Productos Registrados</td>
-                  </tr>
-                </tbody>
-              </Table>
-            )}
+                  </thead>
+                  <tbody>
+                    {products.map((product) => (
+                      <tr align="center" key={product.idProduct}>
+                        <td>{product.productName}</td>
+                        <td>{product.descriptionProduct}</td>
+                        <td>{product.nameTechnology}</td>
+                        <td>{product.userRegister}</td>
+                        <td align="center">
+                          <Link
+                            to={`/productos/proveedores/${product.idProduct}`}
+                          >
+                            <IconButton color="primary">
+                              <VisibilityIcon> </VisibilityIcon>
+                            </IconButton>
+                          </Link>
+                        </td>
+                        {user.FkRole === 1 || user.FkRole === 999 ? (
+                        <td>
+                          <IconButton color="secondary" onClick={e=>deleteProduct(e,product.idProduct)}>
+                            <Delete></Delete>
+                          </IconButton>
+                        </td>
+                         ) : (
+                          <></>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              ) : (
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>Productos</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>No hay Productos Registrados</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div></div>
-    
+    </div>
   );
 };
 export default SearchProduct;

@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { Table, Form, Row, Col } from "react-bootstrap";
 import NavBar from "./NavBar";
-import { PRODUCTS, SUPPLIE } from "../const/Const";
+import { PRODUCTS, SUPPLIE, SUPPLYS } from "../const/Const";
 import ModalAsing from "./ModalAsing";
 import SideBar from "./SideBar";
 import { Button, IconButton } from "@material-ui/core";
@@ -31,7 +31,7 @@ const ShowProductsSupplie = (props) => {
   }, [showMoA]);
 
   const getProducts = async () => {
-    const { data } = await axios.get(`${PRODUCTS}/${id}`);
+    const { data } = await axios.get(`${SUPPLYS}/supplie/${id}`);
     data.map((dat) => {
       let [pDateInitial] = dat.pDateInitial.split("T");
       dat.pDateInitial = pDateInitial;

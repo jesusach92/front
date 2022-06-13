@@ -97,6 +97,9 @@ const ShowSupplie = (props) => {
       sDateUpdate,
       emailSupplie,
       contactPhone,
+      webPage,
+      userRegister,
+      userUpdate
     } = supplie;
     return {
       idSupplie,
@@ -109,7 +112,7 @@ const ShowSupplie = (props) => {
       products,
       edit,
       deleteIcon,
-      history: [{ emailSupplie, contactPhone }],
+      history: [{ emailSupplie, contactPhone,webPage, userRegister, userUpdate }],
     };
   };
 
@@ -168,6 +171,9 @@ const ShowSupplie = (props) => {
                         <TableRow>
                           <TableCell>Correo</TableCell>
                           <TableCell>Telefono</TableCell>
+                          <TableCell>Pagina Web</TableCell>
+                          <TableCell>Usuario que registro</TableCell>
+                          <TableCell>Ultimo usuario que Modifico</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -177,6 +183,9 @@ const ShowSupplie = (props) => {
                               {historyRow.emailSupplie}
                             </TableCell>
                             <TableCell>{historyRow.contactPhone}</TableCell>
+                            <TableCell>{historyRow.webPage}</TableCell>
+                            <TableCell>{historyRow.userRegister}</TableCell>
+                            <TableCell>{historyRow.userUpdate}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>

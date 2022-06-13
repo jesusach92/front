@@ -38,10 +38,12 @@ const ShowAdressSupplie = (props) => {
 
   useEffect(() => {
     getAdrees();
+    return () => null
   }, [show, ModAdress]);
 
   useEffect(() => {
     getSupplie();
+    return () => null
   }, []);
 
   const getSupplie = async () => {
@@ -59,14 +61,14 @@ const ShowAdressSupplie = (props) => {
 
   const getAdrees = async () => {
     try {
-      const tadress = await axios.get(`${ADRESS}${id}`);
+      const tadress = await axios.get(`${ADRESS}/${id}`);
       setAdress(tadress.data);
     } catch (e) {
       console.log(e);
     }
   };
   const getContacts = async (idAdress) => {
-    const { data } = await axios.get(`${CONTACTS}${idAdress}`);
+    const { data } = await axios.get(`${CONTACTS}/${idAdress}`);
     setContacts(data);
   };
   const deleteContact = async (e, Contact) => {
@@ -82,7 +84,7 @@ const ShowAdressSupplie = (props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         try {
-          axios.delete(`${CONTACTS}}/${Contact.idContact}`).then(() => {
+          axios.delete(`${CONTACTS}/${Contact.idContact}`).then(() => {
             Swal.fire({
               timer: 2000,
               timerProgressBar: true,
@@ -112,7 +114,7 @@ const ShowAdressSupplie = (props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         try {
-          axios.delete(`${ADRESS}${idad}`).then(() => {
+          axios.delete(`${ADRESS}/${idad}`).then(() => {
             Swal.fire({
               timer: 2000,
               timerProgressBar: true,

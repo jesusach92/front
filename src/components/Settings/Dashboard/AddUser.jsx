@@ -36,11 +36,13 @@ const AddUser = ({ setFlag, flag, user }) => {
     if (user) {
       setFlagUse(true);
       setDataUser(user);
+      return ()=>null
     }
   }, [user]);
 
   useEffect(() => {
     getRole();
+    return () =>null
   }, []);
   const searchFkRole = (e) => {
     const Role = role.find((element) => element.nameRole === e.target.value);

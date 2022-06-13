@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 import axios from "axios";
 import { PRODUCTS, TECHNOLOGY } from "../const/Const";
+import { UserContext } from "../ContextUser/UserContext";
 
 const initialValues = {
   FkTechnologyPro: 0,
@@ -11,6 +12,8 @@ const initialValues = {
 const AddProduct = ({ show, handleCloseP, setidProduct, product }) => {
   const [tech, setTech] = useState([]);
   const [DataP, setDataP] = useState(initialValues);
+  const [state,] = useContext(UserContext)
+  const {user} = state
   const getTech = async () => {
     try {
       const { data } = await axios.get(TECHNOLOGY);
@@ -119,7 +122,7 @@ const AddProduct = ({ show, handleCloseP, setidProduct, product }) => {
                 as="textarea"
                 rows={2}
                 onChange={(e) => {
-                  setDataP({ ...DataP, descriptionProduct: e.target.value });
+                  setDataP({ ...DataP, descriptionProduct: e.target.value, userRegister: user.idUsers });
                 }}
                 value={DataP.descriptionProduct || ""}
               />

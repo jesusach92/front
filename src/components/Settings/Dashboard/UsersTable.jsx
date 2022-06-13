@@ -13,6 +13,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { UserContext } from "../../ContextUser/UserContext";
 import { IconButton } from "@material-ui/core";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles({
   table: {
@@ -25,19 +26,36 @@ const UsersTable = ({ flag, setFlag, setUser }) => {
   const user = state.user;
   const classes = useStyles();
   const [users, setUsers] = useState([]);
-  const deleteUsers = async (idUsers) => {
-    try {
-      const { data } = await axios.delete(`${USERS}/${idUsers}`);
-      if (data.value === 1) {
-        setUser(null);
-        setFlag(!flag);
-      } else {
-        alert("No se pudo Actualizar el Usuario");
+  const deleteUsers = (idUsers) => {
+    Swal.fire({
+      title: "Estas seguro que deseas borrar al Usuario",
+      text: "Esta Operacion no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Borralo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          axios.delete(`${USERS}/${idUsers}`).then(() => {
+          setFlag(!flag);
+          Swal.fire({
+          timer: 2000,
+          timerProgressBar: true,
+          title: "Borrado",
+          text: "El Usuario fue borrado con exito",
+          icon: "success",
+        });
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
-    } catch (error) {
-      console.log(error);
-    }
+    });
   };
+
 
   const createData = (
     idUsers,
@@ -75,7 +93,7 @@ const UsersTable = ({ flag, setFlag, setUser }) => {
     try {
       const { data } = await axios.get(`${USERS}/UsersAdmin`);
       const usersfilter = data.filter(
-        (use) => use.idUsers !== user.id && use.idRole !== 999
+        (use) => use.idUsers !== user.idUsers && use.idRole !== 999
       );
       //Pendiente Eliminar este Proceso y hacerlo desde el servidor.
       setUsers(usersfilter);
@@ -85,6 +103,7 @@ const UsersTable = ({ flag, setFlag, setUser }) => {
   };
   useEffect(() => {
     getUsers();
+    return () =>null
   }, [flag]);
 
   const rows = users.map((user) =>

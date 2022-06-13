@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { usePrompt } from "../../assets/blocks";
@@ -10,6 +10,7 @@ import NavBar from "../Main/NavBar";
 import SideBar from "../Main/SideBar";
 import AddAdressSup from "./Adress/AddAdressSup";
 import AsingProductSup from "./Products/AsingProductSup";
+import { UserContext } from "../ContextUser/UserContext";
 
 const initialValuesS = {
   nameSupplie: "",
@@ -17,9 +18,12 @@ const initialValuesS = {
   FkClasification: 0,
   emailSupplie: "",
   contactPhone: "",
+  webPage: "",
 };
 
 const AddSupplie = (props) => {
+  const [state,] = useContext(UserContext);
+  const { user } = state;
   const [businessType, setBusiness] = useState([]);
   const [sclasificacion, setsclasificacion] = useState([]);
   const [dataS, setDataS] = useState(initialValuesS);
@@ -44,7 +48,8 @@ const AddSupplie = (props) => {
         dataS.FkBusinessType > 0 &&
         dataS.nameSupplie !== "" &&
         dataS.emailSupplie !== "" &&
-        dataS.contactPhone !== ""
+        dataS.contactPhone !== "" &&
+        dataS.webPage !== ""
       ) {
         const { data } = await axios.post(SUPPLIE, dataS);
         if (data.value) {
@@ -55,7 +60,7 @@ const AddSupplie = (props) => {
             timer: 1500,
             timerProgressBar: true,
           });
-          setIdSup(data.insertId);
+          setIdSup(data.idSupplie);
         } else {
           Swal.fire({
             title: "Error",
@@ -81,6 +86,7 @@ const AddSupplie = (props) => {
 
   useEffect(() => {
     getData();
+    return () => null;
   }, []);
 
   const message = (type) => {
@@ -120,7 +126,10 @@ const AddSupplie = (props) => {
                   plaintext={!(idSupplie === 0)}
                   value={dataS.nameSupplie}
                   onChange={(e) =>
-                    setDataS({ ...dataS, nameSupplie: e.target.value })
+                    setDataS({
+                      ...dataS,
+                      nameSupplie: e.target.value,
+                    })
                   }
                 />
               </Col>
@@ -133,6 +142,8 @@ const AddSupplie = (props) => {
                     setDataS({
                       ...dataS,
                       FkBusinessType: Number(e.target.value),
+                      userRegister: user.idUsers,
+                      userUpdate: user.idUsers
                     })
                   }
                 >
@@ -167,7 +178,7 @@ const AddSupplie = (props) => {
               <Col sm={3}>
                 <Form.Control
                   placeholder="Telefono Principal"
-                  maxLength={10}
+                  maxLength={25}
                   value={dataS.contactPhone}
                   onChange={(e) =>
                     setDataS({ ...dataS, contactPhone: e.target.value })
@@ -199,9 +210,23 @@ const AddSupplie = (props) => {
                   ))}
                 </Form.Select>
               </Col>
-
+              <Form.Label column="true" sm={2}>
+                Pagina Web:
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  placeholder="Pagina Web"
+                  maxLength={45}
+                  value={dataS.webPage}
+                  onChange={(e) =>
+                    setDataS({ ...dataS, webPage: e.target.value })
+                  }
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group>
               {idSupplie === 0 ? (
-                <Col>
+                <Col sm={3} className="py-2">
                   <Button
                     variant="primary"
                     onClick={(e) => {
@@ -213,7 +238,7 @@ const AddSupplie = (props) => {
                   </Button>
                 </Col>
               ) : (
-                <Col>
+                <Col sm={3} className="py-2">
                   <Link to="/">
                     <Button variant="primary">Salir</Button>
                   </Link>

@@ -1,15 +1,20 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { BUSINESS_TYPE, SUPPLIE, S_CLASIFICATION } from "../const/Const";
+import { UserContext } from "../ContextUser/UserContext";
+
 const initialValuesS = {
   nameSupplie: "",
   FkBusinessType: 0,
   FkClasification: 0,
+
 };
 
 const EditSupplie = ({ show, handleClose, supplie, setFlag, flag }) => {
+  const [state,] = useContext(UserContext);
+  const {user}=state;
   const [data, setData] = useState(initialValuesS);
   const [business, setBusiness] = useState([]);
   const [sclasification, setSclasification] = useState([]);
@@ -34,6 +39,7 @@ const EditSupplie = ({ show, handleClose, supplie, setFlag, flag }) => {
 
   const SendData = async () => {
     try {
+		console.log(data)
       if (
         data.FkBusinessType > 0 &&
         data.FkBusinessType > 0 &&
@@ -100,7 +106,7 @@ const EditSupplie = ({ show, handleClose, supplie, setFlag, flag }) => {
                 onChange={(e) =>
                   setData({
                     ...data,
-                    FkBusinessType: Number(e.target.value),
+                    FkBusinessType: Number(e.target.value)
                   })
                 }
               >
@@ -132,7 +138,7 @@ const EditSupplie = ({ show, handleClose, supplie, setFlag, flag }) => {
             <Col sm={3}>
               <Form.Control
                 placeholder="Telefono Principal"
-                maxLength={10}
+                maxLength={25}
                 value={data.contactPhone}
                 onChange={(e) =>
                   setData({ ...data, contactPhone: e.target.value })
@@ -165,7 +171,21 @@ const EditSupplie = ({ show, handleClose, supplie, setFlag, flag }) => {
                 ))}
               </Form.Select>
             </Col>
-
+            <Form.Label column="true" sm={2}>
+                Pagina Web:
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  placeholder="Pagina Web"
+                  maxLength={45}
+                  value={data.webPage}
+                  onChange={(e) =>
+                    setData({ ...data, webPage: e.target.value })
+                  }
+                />
+              </Col>
+          </Form.Group>
+          <Form.Group as={Row} className="mt-4">
             <Col>
               <Button
                 variant="primary"
