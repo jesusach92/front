@@ -9,12 +9,11 @@ const initialValuesS = {
   nameSupplie: "",
   FkBusinessType: 0,
   FkClasification: 0,
-
 };
 
 const EditSupplie = ({ show, handleClose, supplie, setFlag, flag }) => {
-  const [state,] = useContext(UserContext);
-  const {user}=state;
+  const [state] = useContext(UserContext);
+  const { user } = state;
   const [data, setData] = useState(initialValuesS);
   const [business, setBusiness] = useState([]);
   const [sclasification, setSclasification] = useState([]);
@@ -34,12 +33,12 @@ const EditSupplie = ({ show, handleClose, supplie, setFlag, flag }) => {
   }, []);
 
   useEffect(() => {
-    if (supplie !== undefined) setData(supplie);
+    if (supplie !== undefined)
+      setData({ ...supplie, userUpdate: Number(user.idUsers) });
   }, [supplie]);
 
   const SendData = async () => {
     try {
-		console.log(data)
       if (
         data.FkBusinessType > 0 &&
         data.FkBusinessType > 0 &&
@@ -106,7 +105,7 @@ const EditSupplie = ({ show, handleClose, supplie, setFlag, flag }) => {
                 onChange={(e) =>
                   setData({
                     ...data,
-                    FkBusinessType: Number(e.target.value)
+                    FkBusinessType: Number(e.target.value),
                   })
                 }
               >
@@ -172,18 +171,16 @@ const EditSupplie = ({ show, handleClose, supplie, setFlag, flag }) => {
               </Form.Select>
             </Col>
             <Form.Label column="true" sm={2}>
-                Pagina Web:
-              </Form.Label>
-              <Col>
-                <Form.Control
-                  placeholder="Pagina Web"
-                  maxLength={45}
-                  value={data.webPage}
-                  onChange={(e) =>
-                    setData({ ...data, webPage: e.target.value })
-                  }
-                />
-              </Col>
+              Pagina Web:
+            </Form.Label>
+            <Col>
+              <Form.Control
+                placeholder="Pagina Web"
+                maxLength={45}
+                value={data.webPage}
+                onChange={(e) => setData({ ...data, webPage: e.target.value })}
+              />
+            </Col>
           </Form.Group>
           <Form.Group as={Row} className="mt-4">
             <Col>
