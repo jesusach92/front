@@ -16,6 +16,7 @@ import UserProvaider, {
   UserContext,
 } from "./components/ContextUser/UserContext";
 import ShowSupplie from "./components/Main/ShowSupplie";
+import EnhancedTable from "./components/Main/Tableorder";
 
 const RoutesIndex = () => {
   const [state, dispatch] = useContext(UserContext);
@@ -25,6 +26,8 @@ const RoutesIndex = () => {
       {user.tokenUser ? (
         <Router>
           <Routes>
+            <Route path="/NuevaTabla" element={<EnhancedTable/>}>
+            </Route>
             <Route
               path={"/Proveedores"}
               element={<ShowSupplie brand="Busqueda de Proveedores" />}

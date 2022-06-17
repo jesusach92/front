@@ -117,6 +117,7 @@ const ShowSupplie = (props) => {
   };
 
   const rows = supplies.map((supplie) => createData(supplie));
+  
   const Row = (props) => {
     const { row } = props;
     const [open, setOpen] = useState(false);
@@ -201,6 +202,17 @@ const ShowSupplie = (props) => {
       </>
     );
   };
+
+  const headCells = [
+	{
+	  id: "nameSupplie",
+	  label: "Nombre de Proveedor",
+	},
+	{ id: "bName", label: "Tipo de Negocio" },
+	{ id: "clasificationName", label: "Clasificacion" },
+	{ id: "sDateInitial", label: "Fecha de Alta" },
+	{ id: "sDateUpdate", label: "Ultima Actualizacion" },
+  ];
 
   const filtrar = (props) => {
     let resultSearching = tabSupplies.filter((element) => {
@@ -323,11 +335,14 @@ const ShowSupplie = (props) => {
                   <TableHead>
                     <TableRow>
                       <TableCell />
-                      <TableCell>Nombre de Proveedor</TableCell>
-                      <TableCell align="right">Tipo de Negocio</TableCell>
-                      <TableCell align="right">Clasificacion</TableCell>
-                      <TableCell align="right">Fecha de Alta</TableCell>
-                      <TableCell align="right">Ultima Actualizacion</TableCell>
+					  {headCells.map((headCell)=>(
+						<TableCell
+						key={headCell.id}
+						>
+							{headCell.label}
+						</TableCell>
+					  ))}
+                     
                       <TableCell align="right">Domicilios</TableCell>
                       <TableCell align="right">Productos</TableCell>
                       {user.FkRole === 1 ||
