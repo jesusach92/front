@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import "normalize.css";
 import "./index.css";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import SearchSupplie from "./components/Main/SearchSupplie";
 import SearchProduct from "./components/Main/SearchProduct";
 import AddSupplie from "./components/Supplies/AddSupplie";
 import Config from "./components/Settings/Config";
@@ -16,18 +15,16 @@ import UserProvaider, {
   UserContext,
 } from "./components/ContextUser/UserContext";
 import ShowSupplie from "./components/Main/ShowSupplie";
-import EnhancedTable from "./components/Main/Tableorder";
+
 
 const RoutesIndex = () => {
-  const [state, dispatch] = useContext(UserContext);
+  const [state, ] = useContext(UserContext);
   const { user } = state;
   return (
     <>
       {user.tokenUser ? (
         <Router>
           <Routes>
-            <Route path="/NuevaTabla" element={<EnhancedTable/>}>
-            </Route>
             <Route
               path={"/Proveedores"}
               element={<ShowSupplie brand="Busqueda de Proveedores" />}
