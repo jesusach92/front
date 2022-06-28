@@ -28,7 +28,6 @@ import NavBar from "./NavBar";
 import { Button, Col, Form, Row as Fila } from "react-bootstrap";
 import { TableSortLabel } from "@material-ui/core";
 
-
 const ShowSupplie = (props) => {
   const [state] = useContext(UserContext);
   const user = state.user;
@@ -104,7 +103,7 @@ const ShowSupplie = (props) => {
       contactPhone,
       webPage,
       userRegister,
-      userUpdate
+      userUpdate,
     } = supplie;
     return {
       idSupplie,
@@ -117,12 +116,14 @@ const ShowSupplie = (props) => {
       products,
       edit,
       deleteIcon,
-      history: [{ emailSupplie, contactPhone,webPage, userRegister, userUpdate }],
+      history: [
+        { emailSupplie, contactPhone, webPage, userRegister, userUpdate },
+      ],
     };
   };
 
   const rows = supplies.map((supplie) => createData(supplie));
-  
+
   const Row = (props) => {
     const { row } = props;
     const [open, setOpen] = useState(false);
@@ -209,14 +210,14 @@ const ShowSupplie = (props) => {
   };
 
   const headCells = [
-	{
-	  id: "nameSupplie",
-	  label: "Nombre de Proveedor",
-	},
-	{ id: "bName", label: "Tipo de Negocio" },
-	{ id: "clasificationName", label: "Clasificacion" },
-	{ id: "sDateInitial", label: "Fecha de Alta" },
-	{ id: "sDateUpdate", label: "Ultima Actualizacion" },
+    {
+      id: "nameSupplie",
+      label: "Nombre de Proveedor",
+    },
+    { id: "bName", label: "Tipo de Negocio" },
+    { id: "clasificationName", label: "Clasificacion" },
+    { id: "sDateInitial", label: "Fecha de Alta" },
+    { id: "sDateUpdate", label: "Ultima Actualizacion" },
   ];
 
   const filtrar = (props) => {
@@ -289,19 +290,19 @@ const ShowSupplie = (props) => {
   };
 
   function descendingComparator(a, b, orderBy) {
-	if (b[orderBy] < a[orderBy]) {
-	  return -1;
-	}
-	if (b[orderBy] > a[orderBy]) {
-	  return 1;
-	}
-	return 0;
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
   }
-  
+
   function getComparator(order, orderBy) {
-	return order === "desc"
-	  ? (a, b) => descendingComparator(a, b, orderBy)
-	  : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === "desc"
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   const handleRequestSort = (event, property) => {
@@ -309,59 +310,55 @@ const ShowSupplie = (props) => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  
+
   function stableSort(array, comparator) {
-	const stabilizedThis = array.map((el, index) => [el, index]);
-	stabilizedThis.sort((a, b) => {
-	  const order = comparator(a[0], b[0]);
-	  if (order !== 0) return order;
-	  return a[1] - b[1];
-	});
-	return stabilizedThis.map((el) => el[0]);
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
   }
   function EnhancedTableHead(props) {
-	const { order, orderBy, onRequestSort } = props;
-	const createSortHandler = (property) => (event) => {
-	  onRequestSort(event, property);
-	};
-	return (
-	  <TableHead>
-		<TableRow>
-			<TableCell/>
-		  {headCells.map((headCell) => (
-			<TableCell
-			  key={headCell.id}
-			  align={"center"}
-			  sortDirection={orderBy === headCell.id ? order : false}
-			>
-			  <TableSortLabel
-				active={orderBy === headCell.id}
-				direction={orderBy === headCell.id ? order : "asc"}
-				onClick={createSortHandler(headCell.id)}
-			  >
-				{headCell.label}
-			  </TableSortLabel>
-			</TableCell>
-		  ))}
-		   <TableCell align="center">Domicilios</TableCell>
-                      <TableCell align="center">Productos</TableCell>
-                      {user.FkRole === 1 ||
-                      user.FkRole === 2 ||
-                      user.FkRole === 999 ? (
-                        <TableCell align="center">Editar</TableCell>
-                      ) : (
-                        <></>
-                      )}
-                      {user.FkRole === 1 ||
-                      user.FkRole === 2 ||
-                      user.FkRole === 999 ? (
-                        <TableCell align="right">Borrar</TableCell>
-                      ) : (
-                        <></>
-                      )}
-		</TableRow>
-	  </TableHead>
-	);
+    const { order, orderBy, onRequestSort } = props;
+    const createSortHandler = (property) => (event) => {
+      onRequestSort(event, property);
+    };
+    return (
+      <TableHead>
+        <TableRow>
+          <TableCell />
+          {headCells.map((headCell) => (
+            <TableCell
+              key={headCell.id}
+              align={"center"}
+              sortDirection={orderBy === headCell.id ? order : false}
+            >
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+              </TableSortLabel>
+            </TableCell>
+          ))}
+          <TableCell align="center">Domicilios</TableCell>
+          <TableCell align="center">Productos</TableCell>
+          {user.FkRole === 1 || user.FkRole === 2 || user.FkRole === 999 ? (
+            <TableCell align="center">Editar</TableCell>
+          ) : (
+            <></>
+          )}
+          {user.FkRole === 1 || user.FkRole === 2 || user.FkRole === 999 ? (
+            <TableCell align="right">Borrar</TableCell>
+          ) : (
+            <></>
+          )}
+        </TableRow>
+      </TableHead>
+    );
   }
 
   return (
@@ -413,19 +410,18 @@ const ShowSupplie = (props) => {
                   flag={flag}
                 ></EditSupplie>
                 <Table aria-label="collapsible table">
-					<EnhancedTableHead
-					order={order}
-					orderBy={orderBy}
-					onRequestSort={handleRequestSort}
-					rowCount={rows.length}
-					></EnhancedTableHead>
+                  <EnhancedTableHead
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                    rowCount={rows.length}
+                  ></EnhancedTableHead>
                   <TableBody>
-
-				  {stableSort(rows, getComparator(order, orderBy)).map(
-                (row, index) => (
-                      <Row key={row.idSupplie} row={row} />
-                    ))}
-
+                    {stableSort(rows, getComparator(order, orderBy)).map(
+                      (row, index) => (
+                        <Row key={row.idSupplie} row={row} />
+                      )
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>
