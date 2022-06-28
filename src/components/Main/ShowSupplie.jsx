@@ -27,6 +27,7 @@ import SideBar from "./SideBar";
 import NavBar from "./NavBar";
 import { Button, Col, Form, Row as Fila } from "react-bootstrap";
 import { TableSortLabel } from "@material-ui/core";
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 const ShowSupplie = (props) => {
   const [state] = useContext(UserContext);
@@ -74,6 +75,14 @@ const ShowSupplie = (props) => {
         </IconButton>
       </Link>
     );
+
+    const catalog = (
+      <IconButton
+	  disabled={supplie.catalog === "none"}
+	  >
+<GetAppIcon></GetAppIcon>
+      </IconButton>
+    )
     const edit = (
       <IconButton
         onClick={(e) => {
@@ -92,6 +101,7 @@ const ShowSupplie = (props) => {
         <DeleteIcon></DeleteIcon>
       </IconButton>
     );
+    
     const {
       idSupplie,
       nameSupplie,
@@ -114,6 +124,7 @@ const ShowSupplie = (props) => {
       sDateUpdate,
       adress,
       products,
+      catalog,
       edit,
       deleteIcon,
       history: [
@@ -152,6 +163,7 @@ const ShowSupplie = (props) => {
               <TableCell align="center">{row.sDateUpdate}</TableCell>
               <TableCell align="center">{row.adress}</TableCell>
               <TableCell align="center">{row.products}</TableCell>
+              <TableCell align="center">{row.catalog}</TableCell>            
               {user.FkRole === 1 || user.FkRole === 2 || user.FkRole === 999 ? (
                 <TableCell align="center">{row.edit}</TableCell>
               ) : (
@@ -346,6 +358,7 @@ const ShowSupplie = (props) => {
           ))}
           <TableCell align="center">Domicilios</TableCell>
           <TableCell align="center">Productos</TableCell>
+          <TableCell align="center">Catalogo</TableCell>
           {user.FkRole === 1 || user.FkRole === 2 || user.FkRole === 999 ? (
             <TableCell align="center">Editar</TableCell>
           ) : (

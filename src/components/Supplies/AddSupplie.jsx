@@ -11,6 +11,7 @@ import SideBar from "../Main/SideBar";
 import AddAdressSup from "./Adress/AddAdressSup";
 import AsingProductSup from "./Products/AsingProductSup";
 import { UserContext } from "../ContextUser/UserContext";
+import Catalog from "./Products/Catalog";
 
 const initialValuesS = {
   nameSupplie: "",
@@ -264,6 +265,9 @@ const AddSupplie = (props) => {
                     setIsBlocking={setIsBlocking}
                   />
                 </Form>
+              </Tab>
+              <Tab eventKey="Catalogo" title="Catalogo">
+                  <Catalog idSupplie={idSupplie}></Catalog>
               </Tab>
             </Tabs>
           ) : (

@@ -7,6 +7,7 @@ const NavBar = ({brand}) => {
   const navigate = useNavigate();
   const [state, dispatch] = useContext(UserContext);
   const { user } = state;
+  
   return (
     <div className="navbar px-5">
       <div className="flex container">
