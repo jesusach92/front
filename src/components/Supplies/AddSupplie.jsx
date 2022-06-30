@@ -20,10 +20,11 @@ const initialValuesS = {
   emailSupplie: "",
   contactPhone: "",
   webPage: "",
+  catalog: "none",
 };
 
 const AddSupplie = (props) => {
-  const [state,] = useContext(UserContext);
+  const [state] = useContext(UserContext);
   const { user } = state;
   const [businessType, setBusiness] = useState([]);
   const [sclasificacion, setsclasificacion] = useState([]);
@@ -144,7 +145,7 @@ const AddSupplie = (props) => {
                       ...dataS,
                       FkBusinessType: Number(e.target.value),
                       userRegister: user.idUsers,
-                      userUpdate: user.idUsers
+                      userUpdate: user.idUsers,
                     })
                   }
                 >
@@ -267,7 +268,7 @@ const AddSupplie = (props) => {
                 </Form>
               </Tab>
               <Tab eventKey="Catalogo" title="Catalogo">
-                  <Catalog idSupplie={idSupplie}></Catalog>
+                <Catalog idSupplie={idSupplie}></Catalog>
               </Tab>
             </Tabs>
           ) : (

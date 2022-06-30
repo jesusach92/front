@@ -19,7 +19,7 @@ import StorefrontIcon from "@material-ui/icons/Storefront";
 import EditIcon from "@material-ui/icons/Edit";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { SUPPLIE } from "../const/Const";
+import { FILES, SUPPLIE } from "../const/Const";
 import EditSupplie from "../Supplies/EditSupplie";
 import { UserContext } from "../ContextUser/UserContext";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -27,7 +27,8 @@ import SideBar from "./SideBar";
 import NavBar from "./NavBar";
 import { Button, Col, Form, Row as Fila } from "react-bootstrap";
 import { TableSortLabel } from "@material-ui/core";
-import GetAppIcon from '@material-ui/icons/GetApp';
+import GetAppIcon from "@material-ui/icons/GetApp";
+import fileDownload from "js-file-download";
 
 const ShowSupplie = (props) => {
   const [state] = useContext(UserContext);
@@ -60,6 +61,14 @@ const ShowSupplie = (props) => {
     setSupplies(result.data);
     setTabSupplies(result.data);
   };
+
+  const getFile = async (catalog) => {
+    const [,nameFile] = catalog.split("catalogo")
+    console.log(nameFile);
+    const { data } = await axios.get(`${FILES}/`, { responseType: "blob", params: {catalog} });
+    fileDownload(data,`catalogo${nameFile}`);
+  };
+
   const createData = (supplie) => {
     const adress = (
       <Link to={`/Domicilios/Proveedor/${supplie.idSupplie}`}>
@@ -77,12 +86,10 @@ const ShowSupplie = (props) => {
     );
 
     const catalog = (
-      <IconButton
-	  disabled={supplie.catalog === "none"}
-	  >
-<GetAppIcon></GetAppIcon>
+      <IconButton onClick={e=>getFile(supplie.catalog)} disabled={supplie.catalog === "none"}>
+        <GetAppIcon></GetAppIcon>
       </IconButton>
-    )
+    );
     const edit = (
       <IconButton
         onClick={(e) => {
@@ -101,7 +108,7 @@ const ShowSupplie = (props) => {
         <DeleteIcon></DeleteIcon>
       </IconButton>
     );
-    
+
     const {
       idSupplie,
       nameSupplie,
@@ -163,7 +170,7 @@ const ShowSupplie = (props) => {
               <TableCell align="center">{row.sDateUpdate}</TableCell>
               <TableCell align="center">{row.adress}</TableCell>
               <TableCell align="center">{row.products}</TableCell>
-              <TableCell align="center">{row.catalog}</TableCell>            
+              <TableCell align="center">{row.catalog}</TableCell>
               {user.FkRole === 1 || user.FkRole === 2 || user.FkRole === 999 ? (
                 <TableCell align="center">{row.edit}</TableCell>
               ) : (

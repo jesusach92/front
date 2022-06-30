@@ -20,3 +20,4 @@ export const USERS = `${DIR}/users`
 
 export const AUTH = `${DIR}/auth`
 
+export const FILES = `${DIR}/files`
